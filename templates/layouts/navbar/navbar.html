@@ -68,34 +68,7 @@
     }
 </script>
 
-<script>
-    $('document').ready(function () {
-        $('.submenu').hide();
 
-        // 현재 접속 메뉴 설정
-        $('.menu>li').each(function () {
-            if ($(this).children('a').hasClass('active')) {
-                $(this).context.isCurrentMenu = true;
-                $(this).children('.submenu').show();
-            }
-        });
-
-        $('.menu>li').on('mouseover', function () {
-            $(this).children('.submenu').stop().slideDown();
-            $(this).children('a').children('.fa-plus').css('display','none');
-            $(this).children('a').children('i.fa-minus').css('display','block');
-        });
-
-        $('.menu>li').on('mouseleave', function () {
-            // 현재 메뉴는 이벤트 제외
-            if (!$(this).context.isCurrentMenu) {
-                $(this).children('.submenu').stop().slideUp();
-                $(this).children('a').children('.fa-plus').css('display','block');
-                $(this).children('a').children('i.fa-minus').css('display','none');
-            }
-        })
-    })
-</script>
 
 <body id="page-top">
 
