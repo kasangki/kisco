@@ -39,6 +39,13 @@
     <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
 
 
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery.bxslider.min.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/jquery.tmpl.min.js' %}"></script>
+
+
+
 </head>
 
 <script>
@@ -49,7 +56,9 @@
     })
 
     // 로딩바 보이기
+
     function openPreload() {
+
         $("#preloader").show();
     }
 
@@ -97,7 +106,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'index' %}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -109,7 +118,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="{% url 'index' %}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>스마트조업 분석시스템</span></a>
             </li>
