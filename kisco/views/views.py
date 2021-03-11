@@ -19,7 +19,7 @@ import simplejson as json
 class IndexView(TemplateView):
     def get(self, request, *args, **kwargs):
 
-        smart_op_sum_list = TbSmartopSum.objects.order_by('op_num')[:100]
+        smart_op_sum_list = TbSmartopSum.objects.order_by('op_num')
         #smart_op_sum_df = pd.DataFrame(list(smart_op_sum))
         context = {
             'smart_op_sum_list' : smart_op_sum_list

@@ -1,0 +1,40 @@
+{% extends 'layouts/navbar/navbar.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+
+        <!-- Page level plugins -->
+    <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+        <!-- Custom styles for this template -->
+    <link href="{% static 'css/sb-admin-2.min.css" rel="stylesheet' %}">
+
+    <!-- Custom styles for this page -->
+    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+
+
+    <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">주요데이터분석-출강량</h1>
+{#                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.#}
+{#                        For more information about DataTables, please visit the <a target="_blank"#}
+{#                            href="https://datatables.net">official DataTables documentation</a>.</p>#}
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">학습가능한 데이터</h6>
+                        </div>
+
+                    </div>
+
+                </div>
+    <!-- /.container-fluid -->
+
+{% endblock %}
