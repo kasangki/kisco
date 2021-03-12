@@ -11,7 +11,7 @@ import simplejson as json
  * Created by : 강상기
  * Created Date : 2021. 03 .08
  * author 강상기
- * 내용 : 메인화면
+ * 내용 : 주요데이터분석
  */
 '''
 
