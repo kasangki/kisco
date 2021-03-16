@@ -28,3 +28,14 @@ class IndexView(TemplateView):
         #return HttpResponse(json.dumps(context, default=str), content_type="application/json")
         return render(request, 'index.html', context=context)
 
+class Index2View(TemplateView):
+    def get(self, request, *args, **kwargs):
+
+        smart_op_sum_list = TbSmartopSum.objects.order_by('op_num')
+        #smart_op_sum_df = pd.DataFrame(list(smart_op_sum))
+        context = {
+            'smart_op_sum_list' : smart_op_sum_list
+        }
+        #print(smart_op_sum_df)
+        #return HttpResponse(json.dumps(context, default=str), content_type="application/json")
+        return render(request, 'index2.html', context=context)

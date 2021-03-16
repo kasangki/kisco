@@ -21,4 +21,4 @@ class SteelOutVarView(TemplateView):
             'var_map_list': var_map_list,
         }
 
-        return render(request, 'main_data/steel_out_var.html',context=context)
+        return render(request, 'main_data/../../templates/main_data/steel_out_var.html', context=context)

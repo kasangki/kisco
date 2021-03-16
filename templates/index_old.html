@@ -1,0 +1,222 @@
+{% extends 'layouts/navbar/navbar.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+
+        <!-- Page level plugins -->
+    <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+        <!-- Custom styles for this template -->
+    <link href="{% static 'css/sb-admin-2.min.css" rel="stylesheet' %}">
+
+    <!-- Custom styles for this page -->
+    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+
+
+    <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">주요데이터분석</h1>
+{#                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.#}
+{#                        For more information about DataTables, please visit the <a target="_blank"#}
+{#                            href="https://datatables.net">official DataTables documentation</a>.</p>#}
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">학습가능한 데이터</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>조업번호</th>
+                                            <th>장입시간</th>
+                                            <th>용해초장시간</th>
+                                            <th>용해추가시간</th>
+                                            <th>정련시간</th>
+                                            <th>출강시간</th>
+                                            <th>합계시간</th>
+                                            <th>중량A</th>
+                                            <th>중량B</th>
+                                            <th>경량A</th>
+                                            <th>경량B</th>
+                                            <th>GSA</th>
+                                            <th>GSB</th>
+                                            <th>GSS</th>
+                                            <th>MB</th>
+                                            <th>선반설B</th>
+                                            <th>고철사용량</th>
+                                            <th>고철평균톤수</th>
+                                            <th>가사비중</th>
+                                            <th>역률</th>
+                                            <th>전기로22KV</th>
+                                            <th>용해초장전력량</th>
+                                            <th>용해완료전력량</th>
+                                            <th>정련전력량</th>
+                                            <th>합계전력량</th>
+                                            <th>용해전력투입속도</th>
+                                            <th>용락카본C</th>
+                                            <th>조개탄HP</th>
+                                            <th>BRI_HP2</th>
+                                            <th>전기로P</th>
+                                            <th>전기로S</th>
+                                            <th>전기로전압</th>
+                                            <th>전기로전류</th>
+                                            <th>분탄GSK</th>
+                                            <th>분탄STAIN</th>
+                                            <th>산소버너</th>
+                                            <th>산소렌스</th>
+                                            <th>센스유량</th>
+                                            <th>렌스높이</th>
+                                            <th>렌스폭</th>
+                                            <th>렌스틸팅면적</th>
+                                            <th>집진기풍량</th>
+                                            <th>집진기건옥온도</th>
+                                            <th>진진기직인온도</th>
+                                            <th>마스터위치</th>
+                                            <th>마스터이동거리</th>
+                                            <th>용해전력1</th>
+                                            <th>용해전력2</th>
+                                            <th>용해전력3</th>
+                                            <th>전력투입효율</th>
+                                            <th>출강량</th>
+                                            <th>생산량</th>
+                                            <th>회수율</th>
+                                            <th>생산성</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>조업번호</th>
+                                            <th>장입시간</th>
+                                            <th>용해초장시간</th>
+                                            <th>용해추가시간</th>
+                                            <th>정련시간</th>
+                                            <th>출강시간</th>
+                                            <th>합계시간</th>
+                                            <th>중량A</th>
+                                            <th>중량B</th>
+                                            <th>경량A</th>
+                                            <th>경량B</th>
+                                            <th>GSA</th>
+                                            <th>GSB</th>
+                                            <th>GSS</th>
+                                            <th>MB</th>
+                                            <th>선반설B</th>
+                                            <th>고철사용량</th>
+                                            <th>고철평균톤수</th>
+                                            <th>가사비중</th>
+                                            <th>역률</th>
+                                            <th>전기로22KV</th>
+                                            <th>용해초장전력량</th>
+                                            <th>용해완료전력량</th>
+                                            <th>정련전력량</th>
+                                            <th>합계전력량</th>
+                                            <th>용해전력투입속도</th>
+                                            <th>용락카본C</th>
+                                            <th>조개탄HP</th>
+                                            <th>BRI_HP2</th>
+                                            <th>전기로P</th>
+                                            <th>전기로S</th>
+                                            <th>전기로전압</th>
+                                            <th>전기로전류</th>
+                                            <th>분탄GSK</th>
+                                            <th>분탄STAIN</th>
+                                            <th>산소버너</th>
+                                            <th>산소렌스</th>
+                                            <th>센스유량</th>
+                                            <th>렌스높이</th>
+                                            <th>렌스폭</th>
+                                            <th>렌스틸팅면적</th>
+                                            <th>집진기풍량</th>
+                                            <th>집진기건옥온도</th>
+                                            <th>진진기직인온도</th>
+                                            <th>마스터위치</th>
+                                            <th>마스터이동거리</th>
+                                            <th>용해전력1</th>
+                                            <th>용해전력2</th>
+                                            <th>용해전력3</th>
+                                            <th>전력투입효율</th>
+                                            <th>출강량</th>
+                                            <th>생산량</th>
+                                            <th>회수율</th>
+                                            <th>생산성</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                      {% for smart_op in smart_op_sum_list %}
+                                        <tr>
+                                            <td>{{ smart_op.op_num }}</td>
+                                            <td>{{ smart_op.entry_time }}</td>
+                                            <td>{{ smart_op.melt_start_time}}</td>
+                                            <td>{{ smart_op.melt_add_time}}</td>
+                                            <td>{{ smart_op.refine_time }}</td>
+                                            <td>{{ smart_op.steel_out_time }}</td>
+                                            <td>{{ smart_op.total_time }}</td>
+                                            <td>{{ smart_op.heavy_scrap_a }}</td>
+                                            <td>{{ smart_op.heavy_scrap_b  }}</td>
+                                            <td>{{ smart_op.light_scrap_a  }}</td>
+                                            <td>{{ smart_op.light_scrap_b  }}</td>
+                                            <td>{{ smart_op.gsa  }}</td>
+                                            <td>{{ smart_op.gsb  }}</td>
+                                            <td>{{ smart_op.gss }}</td>
+                                            <td>{{ smart_op.mb }}</td>
+                                            <td>{{ smart_op.lathe_b               }}</td>
+                                            <td>{{ smart_op.scrap_metal_usage     }}</td>
+                                            <td>{{ smart_op.scrap_avg_ton         }}</td>
+                                            <td>{{ smart_op.gravity               }}</td>
+                                            <td>{{ smart_op.power_factor          }}</td>
+                                            <td>{{ smart_op.electric_22kv         }}</td>
+                                            <td>{{ smart_op.melt_first_elec_charge }}</td>
+                                            <td>{{ smart_op.melt_finish_elec_charge }}</td>
+                                            <td>{{ smart_op.refine_elec_charge    }}</td>
+                                            <td>{{ smart_op.total_elec_charge     }}</td>
+                                            <td>{{ smart_op.melt_elec_speed       }}</td>
+                                            <td>{{ smart_op.melt_down_carbon_c    }}</td>
+                                            <td>{{ smart_op.briquet_hp            }}</td>
+                                            <td>{{ smart_op.bri_hp2               }}</td>
+                                            <td>{{ smart_op.elec_fumace_p         }}</td>
+                                            <td>{{ smart_op.elec_fumace_s         }}</td>
+                                            <td>{{ smart_op.elec_fumace_volt      }}</td>
+                                            <td>{{ smart_op.elec_fumace_current   }}</td>
+                                            <td>{{ smart_op.gsk                   }}</td>
+                                            <td>{{ smart_op.stain                 }}</td>
+                                            <td>{{ smart_op.oxy_bunner            }}</td>
+                                            <td>{{ smart_op.oxy_lance             }}</td>
+                                            <td>{{ smart_op.lance_flux            }}</td>
+                                            <td>{{ smart_op.lance_height          }}</td>
+                                            <td>{{ smart_op.lance_width           }}</td>
+                                            <td>{{ smart_op.lance_til_area        }}</td>
+                                            <td>{{ smart_op.elec_pre_air_vol      }}</td>
+                                            <td>{{ smart_op.elec_pre_dry_degree   }}</td>
+                                            <td>{{ smart_op.elec_pre_dir_degree   }}</td>
+                                            <td>{{ smart_op.master_pos            }}</td>
+                                            <td>{{ smart_op.master_move_distance  }}</td>
+                                            <td>{{ smart_op.melt_elec_1           }}</td>
+                                            <td>{{ smart_op.melt_elec_2           }}</td>
+                                            <td>{{ smart_op.melt_elec_3           }}</td>
+                                            <td>{{ smart_op.elec_put_efficiency   }}</td>
+                                            <td>{{ smart_op.steel_out_vol         }}</td>
+                                            <td>{{ smart_op.product_vol           }}</td>
+                                            <td>{{ smart_op.steel_out_rate        }}</td>
+                                            <td>{{ smart_op.steel_product         }}</td>
+                                        </tr>
+                                      {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+    <!-- /.container-fluid -->
+
+{% endblock %}
