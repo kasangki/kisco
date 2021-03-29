@@ -52,44 +52,7 @@
                         <div class="card-body">
                             <div id="kt_kanban_2"></div>
                         </div>
-
                     </div>
-                    <div class="card-body">
-                        <div class="mt-4">
-                            <button class="btn font-weight-bold btn-light-danger mr-5" id="btnValueAna">변수분석</button>
-                            <button class="btn font-weight-bold btn-light-danger mr-5" id="btnCreateModel">모델생성</button>
-                        </div>
-                    </div>
-
-                    <!--begin::Card-->
-                    <div class="card card-custom gutter-b">
-                        <div class="card-header">
-                            <div class="card-title">
-                                <h3 class="card-label">Control Dragging Board</h3>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div id="kt_kanban_3"></div>
-                        </div>
-                    </div>
-                    <!--end::Card-->
-                    <!--begin::Card-->
-                    <div class="card card-custom gutter-b">
-                        <div class="card-header">
-                            <div class="card-title">
-                                <h3 class="card-label">Interactivity Example</h3>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div id="kt_kanban_4"></div>
-                            <div class="mt-4">
-                                <button class="btn font-weight-bold btn-light-primary mr-5" id="addDefault">Add "Default" board</button>
-                                <button class="btn font-weight-bold btn-light-danger mr-5" id="addToDo">Add element in "To Do" Board</button>
-                                <button class="btn font-weight-bold btn-light-success" id="removeBoard">Remove "Done" Board</button>
-                            </div>
-                        </div>
-                    </div>
-								<!--end::Card-->
                     <!--end::Card-->
 
                 </div>
@@ -151,12 +114,7 @@ var KTKanbanBoardDemo = function() {
                 }
             ]
         });
-
-
     }
-
-
-
 
     var _demo2 = function() {
         var kanban = new jKanban({
@@ -179,6 +137,253 @@ var KTKanbanBoardDemo = function() {
                             'title': '<span class="font-weight-bold">용해추가시간</span>',
                             'class': 'light-primary',
                         }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">정련시간</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">출강시간</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">합계시간</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">중량A</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">중량B</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">경량A</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">경량B</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">경량B</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">GSA</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">GSB</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">MB</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">선반설B</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">고철사용량</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">고철평균톤수</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">가사비중</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">역률</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">전기로22KV</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">용해초장전력량</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">용해완료전력량</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">정련전력량</span>',
+                            'class': 'light-primary',
+                        },
+                        {
+                            'title': '<span class="font-weight-bold">합계전력량</span>',
+                            'class': 'light-primary',
+                        },
+                        {
+                            'title': '<span class="font-weight-bold">용해전력투입속도</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">용락카본C</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">조개탄HP</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">BRI_HP2</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">전리로P</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">전기로S</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">전기로전압</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">전기로전류</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">분탄GSK</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">분탄STAIN</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">산소버너</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">산소렌스</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">렌스유량</span>',
+                            'class': 'light-primary',
+                        }
+,
+                        {
+                            'title': '<span class="font-weight-bold">렌스높이</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">렌스폭</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">렌스틸팅면적</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">집진기풍량</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">집진기건옥온도</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">집진기직인온도</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">마스터위치</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">마스터이동거리</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">용해전력1</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">용해전력2</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">용해전력3</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">전력투입효율</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">출강량</span>',
+                            'class': 'light-primary',
+                        },
+                        {
+                            'title': '<span class="font-weight-bold">생산량</span>',
+                            'class': 'light-primary',
+                        }
+                        ,
+                        {
+                            'title': '<span class="font-weight-bold">회수율</span>',
+                            'class': 'light-primary',
+                        },
+                        {
+                            'title': '<span class="font-weight-bold">생산성</span>',
+                            'class': 'light-primary',
+                        }
+
                     ]
                 }, {
                     'id': '_working',
@@ -197,19 +402,6 @@ var KTKanbanBoardDemo = function() {
                     ]
                 }
             ]
-        });
-        var toDoButton = document.getElementById('btnValueAna');
-
-        //alert(kanban.findElement('gutter'))
-        toDoButton.addEventListener('click', function() {
-            //var test = kanban["element"].textContent
-            //var test = kanban["element"].
-            alert(kanban["element"]);
-
-            //alert(test);
-
-
-
         });
     }
 
@@ -299,7 +491,7 @@ var KTKanbanBoardDemo = function() {
                             'title': `
                                 <div class="d-flex align-items-center">
                         	        <div class="symbol symbol-success mr-3">
-                        	            <img alt="Pic" src="{% static 'assets/media/users/150-6.jpg' %}" />
+                        	            <img alt="Pic" src="assets/media/users/150-6.jpg" />
                         	        </div>
                         	        <div class="d-flex flex-column align-items-start">
                         	            <span class="text-dark-50 font-weight-bold mb-1">SEO Optimization</span>
@@ -331,7 +523,7 @@ var KTKanbanBoardDemo = function() {
                             'title': `
                                 <div class="d-flex align-items-center">
                         	        <div class="symbol symbol-success mr-3">
-                        	            <img alt="Pic" src="{% static 'assets/media/users/150-11.jpg' %}" />
+                        	            <img alt="Pic" src="assets/media/users/150-11.jpg" />
                         	        </div>
                         	        <div class="d-flex flex-column align-items-start">
                         	            <span class="text-dark-50 font-weight-bold mb-1">Server Setup</span>
@@ -344,7 +536,7 @@ var KTKanbanBoardDemo = function() {
                             'title': `
                                 <div class="d-flex align-items-center">
                         	        <div class="symbol symbol-success mr-3">
-                        	            <img alt="Pic" src="{% static 'assets/media/users/150-14.jpg' %}" />
+                        	            <img alt="Pic" src="assets/media/users/150-14.jpg" />
                         	        </div>
                         	        <div class="d-flex flex-column align-items-start">
                         	            <span class="text-dark-50 font-weight-bold mb-1">Report Generation</span>
@@ -363,7 +555,7 @@ var KTKanbanBoardDemo = function() {
                             'title': `
                                 <div class="d-flex align-items-center">
                         	        <div class="symbol symbol-success mr-3">
-                            	         <img alt="Pic" src="{% static 'assets/media/users/150-6.jpg' %}" />
+                            	         <img alt="Pic" src="assets/media/users/150-6.jpg" />
                         	        </div>
                         	        <div class="d-flex flex-column align-items-start">
                         	            <span class="text-dark-50 font-weight-bold mb-1">Marketing</span>
@@ -395,7 +587,7 @@ var KTKanbanBoardDemo = function() {
                             'title': `
                                 <div class="d-flex align-items-center">
                         	        <div class="symbol symbol-success mr-3">
-                        	            <img alt="Pic" src="{% static 'assets/media/users/150-3.jpg' %}" />
+                        	            <img alt="Pic" src="assets/media/users/150-3.jpg" />
                         	        </div>
                         	        <div class="d-flex flex-column align-items-start">
                         	            <span class="text-dark-50 font-weight-bold mb-1">SEO Optimization</span>
@@ -461,7 +653,7 @@ var KTKanbanBoardDemo = function() {
                     'title': `
                         <div class="d-flex align-items-center">
                             <div class="symbol symbol-light-primary mr-3">
-                                <img alt="Pic" src="{% static 'assets/media/users/150-15.jpg' %}" />
+                                <img alt="Pic" src="assets/media/users/150-15.jpg" />
                             </div>
                             <div class="d-flex flex-column align-items-start">
                                 <span class="text-dark-50 font-weight-bold mb-1">Requirement Study</span>
@@ -484,7 +676,7 @@ var KTKanbanBoardDemo = function() {
                             'title': `
                                 <div class="d-flex align-items-center">
                                     <div class="symbol symbol-success mr-3">
-                                        <img alt="Pic" src="{% static 'assets/media/users/150-1.jpg' %}" />
+                                        <img alt="Pic" src="assets/media/users/150-1.jpg" />
                                     </div>
                                     <div class="d-flex flex-column align-items-start">
                                         <span class="text-dark-50 font-weight-bold mb-1">Payment Modules</span>
@@ -518,7 +710,7 @@ var KTKanbanBoardDemo = function() {
     return {
         init: function() {
 
-           // _demo1();
+            _demo1();
             _demo2();
             _demo3();
             _demo4();
@@ -530,7 +722,6 @@ var KTKanbanBoardDemo = function() {
 $(document).ready(function() {
 
     KTKanbanBoardDemo.init();
-
 });
 
 </script>

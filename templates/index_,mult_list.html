@@ -1,0 +1,184 @@
+{% extends 'layouts/navbar/navbar.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+    <!--begin::Page Scripts(used by this page)-->
+{#		<script src="{% static 'assets/js/pages/features/miscellaneous/dual-listbox.js' %}"></script>#}
+	<!--end::Page Scripts-->
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
+        <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-1">
+                <!--begin::Page Heading-->
+                <div class="d-flex align-items-baseline flex-wrap mr-5">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold my-1 mr-5">주요데이터분석 - 출강량</h5>
+                    <!--end::Page Title-->
+                </div>
+                <!--end::Page Heading-->
+            </div>
+            <!--end::Info-->
+
+        </div>
+    </div>
+    <!--end::Subheader-->
+
+    <!--begin::Entry-->
+	<div class="d-flex flex-column-fluid">
+							<!--begin::Container-->
+							<div class="container">
+								<!--begin::Notice-->
+								<div class="card card-custom gutter-b">
+
+								</div>
+								<!--end::Notice-->
+								<!--begin: Row-->
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="card card-custom card-stretch gutter-b example example-compact">
+											<div class="card-header">
+												<div class="card-title">
+													<h3 class="card-label">변수선택</h3>
+												</div>
+
+											</div>
+											<div class="card-body">
+												<select id="kt_dual_listbox_1" class="dual-listbox" multiple="multiple">
+													<option value="1">One</option>
+													<option value="2">Two</option>
+													<option value="3">Three</option>
+													<option value="4">Four</option>
+													<option value="5">Five</option>
+													<option value="6">Six</option>
+													<option value="7">Seven</option>
+													<option value="8">Eight</option>
+													<option value="9">Nine</option>
+													<option value="10">Ten</option>
+												</select>
+
+											</div>
+										</div>
+									</div>
+
+								</div>
+								<!--end: Row-->
+								<!--begin: Row-->
+
+							</div>
+							<!--end::Container-->
+						</div>
+	<!--end::Entry-->
+</div>
+<script type="text/javascript">
+// Class definition
+var KTDualListbox = function () {
+    // Private functions
+    var demo1 = function () {
+        // Dual Listbox
+        var _this = document.getElementById('kt_dual_listbox_1');
+
+        // init dual listbox
+        var dualListBox = new DualListbox(_this, {
+            addEvent: function (value) {
+                console.log(value);
+            },
+            removeEvent: function (value) {
+                console.log(value);
+            },
+            availableTitle: '모든변수',
+            selectedTitle: '입력변수',
+            addButtonText: 'Add',
+            removeButtonText: 'Remove',
+            addAllButtonText: 'Add All',
+            removeAllButtonText: 'Remove All'
+        });
+    };
+
+    var demo2 = function () {
+        // Dual Listbox
+        var _this = document.getElementById('kt_dual_listbox_2');
+
+        // init dual listbox
+        var dualListBox = new DualListbox(_this, {
+            addEvent: function (value) {
+                console.log(value);
+            },
+            removeEvent: function (value) {
+                console.log(value);
+            },
+            availableTitle: "Source Options",
+            selectedTitle: "Destination Options",
+            addButtonText: "<i class='flaticon2-next'></i>",
+            removeButtonText: "<i class='flaticon2-back'></i>",
+            addAllButtonText: "<i class='flaticon2-fast-next'></i>",
+            removeAllButtonText: "<i class='flaticon2-fast-back'></i>"
+        });
+    };
+
+    var demo3 = function () {
+        // Dual Listbox
+        var _this = document.getElementById('kt_dual_listbox_3');
+
+        // init dual listbox
+        var dualListBox = new DualListbox(_this, {
+            addEvent: function (value) {
+                console.log(value);
+            },
+            removeEvent: function (value) {
+                console.log(value);
+            },
+            availableTitle: 'Available options',
+            selectedTitle: 'Selected options',
+            addButtonText: 'Add',
+            removeButtonText: 'Remove',
+            addAllButtonText: 'Add All',
+            removeAllButtonText: 'Remove All'
+        });
+    };
+
+    var demo4 = function () {
+        // Dual Listbox
+        var _this = document.getElementById('kt_dual_listbox_4');
+
+        // init dual listbox
+        var dualListBox = new DualListbox(_this, {
+            addEvent: function (value) {
+                console.log(value);
+            },
+            removeEvent: function (value) {
+                console.log(value);
+            },
+            availableTitle: 'Available options',
+            selectedTitle: 'Selected options',
+            addButtonText: 'Add',
+            removeButtonText: 'Remove',
+            addAllButtonText: 'Add All',
+            removeAllButtonText: 'Remove All'
+        });
+
+        // hide search
+        dualListBox.search.classList.add('dual-listbox__search--hidden');
+    };
+
+    return {
+        // public functions
+        init: function () {
+            demo1();
+            demo2();
+            demo3();
+            demo4();
+        },
+    };
+}();
+
+window.addEventListener('load', function(){
+    KTDualListbox.init();
+});
+
+</script>
+{% endblock %}

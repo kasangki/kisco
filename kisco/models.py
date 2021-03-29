@@ -179,3 +179,15 @@ class TbSmartopSum(models.Model):
     class Meta:
         managed = False
         db_table = 'tb_smartop_sum'
+
+
+class TbVarMap(models.Model):
+    var_code = models.CharField(primary_key=True, max_length=30)
+    var_name = models.CharField(max_length=50)
+    seq = models.IntegerField()
+    create_dtm = models.DateTimeField()
+    update_dtm = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tb_var_map'

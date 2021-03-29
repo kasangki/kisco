@@ -8,6 +8,9 @@ django = "*"
 psycopg2 = "*"
 pandas = "*"
 simplejson = "*"
+matplotlib = "*"
+statsmodels = "*"
+sklearn = "*"
 
 [dev-packages]
 

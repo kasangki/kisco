@@ -5,6 +5,13 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+
+
+
+
+
+
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -1882,8 +1889,8 @@ pre code {
   .col-xl-6 {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 50%;
-    flex: 0 0 50%;
-    max-width: 50%;
+    flex: 0 0 100%;
+    max-width: 100%;
   }
 
   .col-xl-7 {
