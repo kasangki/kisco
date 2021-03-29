@@ -18,6 +18,8 @@ from sklearn.model_selection import train_test_split
 from django.http import HttpResponse, JsonResponse
 import simplejson as json
 
+from kisco.anaytics.smart_operate_report import SmartOperateReport
+
 class AnalyticSingleVarView(TemplateView):
     def analytic_single_var(request):
         var_name = request.GET.get('var_name')
@@ -293,7 +295,7 @@ class AnalyticSingleVarView(TemplateView):
 
         context = {
            'title_list': title_list,
-            'img_list' : img_list
+           'img_list' : img_list
            # 'y_list': y_list,
            # 'data_list' : data_list,
            # 'result_list': result_list
@@ -318,5 +320,36 @@ class AnalyticSingleVarView(TemplateView):
     #     self.fitted_full_model = model.fit()
 
 
+    # 모델 생성하기
+    def make_model(request):
+        checked_var_list = request.POST.getlist('checkedVarList[]')
+        print(checked_var_list)
+        target_value_name = 'steel_out_vol'
+        #target_value_names = ['steel_out_vol', 'power_factor', 'total_elec_charge', 'steel_out_rate']
+
+        #feature_columns = [var_name, 'steel_out_vol', 'power_factor', 'total_elec_charge', 'steel_out_rate']
+        checked_var_list.append(target_value_name)
+        smart_op_sum = TbSmartopSum.objects.values()
+        smart_op_sum_df = pd.DataFrame(list(smart_op_sum))
+        smart_operate_report = SmartOperateReport()
+        smart_operate_report.kisco_df = smart_op_sum_df[checked_var_list]
+        print(smart_op_sum_df)
+
+        case = '출강량_01'
+        smart_operate_report.set_values(x_values=checked_var_list, target_value_name=target_value_name, case=case)
+
+        rr_model, rr_x_train = smart_operate_report.train_smart_operate()
+        print('변수중요도 =====>>>>>', rr_model.feature_importances_)
+        rr_feat_importances = pd.Series(rr_model.feature_importances_, index=rr_x_train.columns)
+        print(rr_feat_importances)
 
 
+
+
+
+        context = {
+            'checked_var_list' : checked_var_list,
+        }
+
+
+        return HttpResponse(json.dumps(context), content_type="application/json")

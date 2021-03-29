@@ -48,13 +48,13 @@
                             <div class="card-toolbar">
                                 <ul class="nav nav-bold nav-pills">
                                     <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#kt_tab_pane_7_1">단일변수</a>
+                                        <a class="nav-link active" data-toggle="tab" onclick="changePan(1)" id = "single_pan" href="#kt_tab_pane_7_1">단일변수</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#kt_tab_pane_7_2">다중변수</a>
+                                        <a class="nav-link" data-toggle="tab" onclick="changePan(2)" id = "multi_pan" href="#kt_tab_pane_7_2">다중변수</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#kt_tab_pane_7_3">모델생성</a>
+                                        <a class="nav-link" data-toggle="tab" onclick="changePan(3)" id = "model_pan" href="#kt_tab_pane_7_3">모델생성</a>
                                     </li>
                                 </ul>
                             </div>
@@ -77,8 +77,6 @@
                                                             <input type="radio" name="singleVar" value="{{ var.0 }}"/>
                                                             <span></span>{{ var.1 }}</label>
                                                         {% endfor %}
-
-
 
                                                         </div>
                                                         <span class="form-text text-muted">분석대상을 선택하세요</span>
@@ -128,7 +126,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                   <button type="button" class="btn btn-primary" onclick="analyticSingle()" >분석시작</button>
+                                   <button type="button" class="btn btn-primary" onclick="startAnalytics()" >분석시작</button>
                             </div>
                         </div>
 
@@ -301,7 +299,7 @@
 
 <script>
 
-
+  globalPanNum = 1
   $(document).ready(function(){
       openPreload();
       setSingleVarRadio();
@@ -309,6 +307,11 @@
 
   });
 
+  // 탭판넬 변경
+  function changePan(panNum) {
+      globalPanNum = panNum;
+
+  }
   function setSingleVarRadio() {
 
   }
@@ -322,14 +325,58 @@
         $("#preloader").hide();
     }
 
-
+    function startAnalytics() {
+      if (globalPanNum == 1) {
+          analyticSingle();
+      } else if(globalPanNum == 2) {
+          analyticMulti();
+      } else if(globalPanNum == 3) {
+          makeModel()
+      }
+    }
     function analyticSingle() {
 
      var var_name = $("input[name='singleVar']:checked").val();
-     goAnalytics(var_name);
+
+     goSingleAnalytics(var_name);
     }
 
-    function goAnalytics(var_name) {
+    function analyticMulti() {
+      alert("다중변수분석");
+    }
+
+    function makeModel() {
+      var var_name = $("input[name='modelVar']:checked").val();
+      checkNum = $("input:checkbox[name=modelVar]").length
+      checkedNum =   $("input:checkbox[name=modelVar]:checked").length
+      var checkedVarList = [];
+      $("input[name = modelVar]:checked").each(function () {
+          var chk = $(this).val()
+          checkedVarList.push(chk);
+
+      })
+
+      parameterList = {
+          checkedVarList : checkedVarList,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      }
+      openPreload();
+
+      $.ajax({
+
+                type: "post",
+                async: true,
+                url: "{% url 'make_model' %}",
+                dataType: "json",
+                data: parameterList,
+                success: function (response) {
+
+
+                }
+      });
+      closePreload();
+    }
+    function goSingleAnalytics(var_name) {
         openPreload();
         $.ajax({
                 type: "GET",

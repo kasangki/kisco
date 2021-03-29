@@ -13,4 +13,5 @@ urlpatterns = [
     path('steel_out_var', SteelOutVarView.as_view(), name='steel_out_var'),
 
     path('analytic_single_var', AnalyticSingleVarView.analytic_single_var, name='analytic_single_var'),
+    path('make_model', AnalyticSingleVarView.make_model, name='make_model'),
 ]
