@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <title>Handelbar</title>
+</head>
+<body>
+        <ul id="commentUl">
+
+        </ul>
+     <!-- 1. 템플레이팅할 html을 세팅한다. 이때 데이터 바인딩 시킬 부분은 -->
+
+    <script type="template" id="commentTemplate">
+                <li class="list_item">
+                    <div>
+                        <div class="review_area">
+                            <p class="review">{{comment}}</p>
+                        </div>
+                        <div class="info_area">
+                            <div class="review_info">
+                                <span class="name">{{name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+    </script>
+    <script type="text/javascript" charset="utf-8">
+
+            // 데이터
+            var data = {
+                comment : '굿테스트' ,name : "초보"
+            }
+          //2. htmlTemplate을 가져온후 Handlebars로 compile 한다.
+           var commentTemplate = document.querySelector("#commentTemplate").innerHTML;
+           var commentBindTemplate = Handlebars.compile(commentTemplate);
+
+            //3. 컴파일한 템플릿에 데이터를 집어넣는다. 이 때 리턴값은 html로 나온다.
+            var resultHtml = '';
+            resultHtml += commentBindTemplate(data);
+
+            // 4. 리턴받은 html을 target에 innerHTML로 세팅한다.
+            var commentUl = document.querySelector("#commentUl");
+            commentUl.innerHTML = resultHtml;
+
+    </script>
+</body>
+</html>

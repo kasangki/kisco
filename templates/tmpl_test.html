@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<head>
+
+    <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.tmpl.min.js"></script>
+
+
+</head>
+
+<body>
+
+
+
+    <script type="text/javascript">
+
+        var student = [{ Name: "ggmouse", Age: "29" }, { Name: "binggo", Age: "30" }];
+
+        var tmpl = $("#studentTemplate").tmpl(student).appendTo($('#studentList'));
+
+        //tmpl.appendTo('#studentList')
+
+    </script>
+
+<script id="studentTemplate" type="text/x-jquery-tmpl">
+    <p>Name: ${Name}</p>
+    <p>Age: ${Age}</p>
+</script>
+
+<div id="studentList"></div>
+</body>
+
