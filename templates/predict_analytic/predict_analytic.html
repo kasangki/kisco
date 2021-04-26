@@ -1025,6 +1025,7 @@ function selectModel(target_code,target_num,model_name) {
     // 최적 추천탐색을 위한 예측실행
     function searchOptimal() {
        alert("최적추천탐색");
+
        alert(global_target_num);
        heavy_scrap_a = $("#heavy_scrap_a").val();
        heavy_scrap_b = $("#heavy_scrap_b").val();
@@ -1060,15 +1061,16 @@ function selectModel(target_code,target_num,model_name) {
           light_scrap_b : light_scrap_b,
           gsa : gsa ,
           gsb : gsb ,
+          gss : gss ,
           mb : mb  ,
           lathe_b  ,
           scrap_metal_usage : scrap_metal_usage,
           scrap_avg_ton : scrap_avg_ton,
-          melt_start_time : melt_start_time;
-          melt_add_time : melt_add_time;
-          refine_time  : refine_time;
-          steel_out_time : steel_out_time;
-          total_time : total_time;
+          melt_start_time : melt_start_time,
+          melt_add_time : melt_add_time,
+          refine_time  : refine_time,
+          steel_out_time : steel_out_time,
+          total_time : total_time,
 
           csrfmiddlewaretoken: '{{ csrf_token }}'
       }
