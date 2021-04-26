@@ -62,7 +62,7 @@ class IndexView(TemplateView):
 
 
         # 선택변수 목록
-        select_var_name_df = all_var_name_df[all_var_name_df['var_type'] == 'N']
+        select_var_name_df = all_var_name_df[all_var_name_df['var_type'] != 'E']
 
         select_var_name_list = list(select_var_name_df['var_name'])
         select_var_code_list = list(select_var_name_df['var_code'])
@@ -91,7 +91,7 @@ class IndexView(TemplateView):
             data_list.append(temp)
 
 
-
+        print(select_var_list)
         context = {
             'var_list' : var_list,
             'esstial_var_list' : esstial_var_list,
@@ -162,7 +162,7 @@ class IndexMainDataAna(TemplateView) :
 
 
         # 선택변수 목록
-        select_var_name_df = all_var_name_df[all_var_name_df['var_type'] == 'N']
+        select_var_name_df = all_var_name_df[all_var_name_df['var_type'] != 'E']
 
         select_var_name_list = list(select_var_name_df['var_name'])
         select_var_code_list = list(select_var_name_df['var_code'])

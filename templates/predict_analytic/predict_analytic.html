@@ -263,7 +263,7 @@
                                                     </div>
 
 												</div>
-                                                <button type="button" class="btn btn-primary" onclick="searchOptimal()" >최적추천탐색</button>
+                                                <button type="button" class="btn btn-primary" onclick="searchOptimal()">최적추천탐색</button>
 												<!--end::Example-->
 
 											</div>
@@ -1038,6 +1038,19 @@ function selectModel(target_code,target_num,model_name) {
        scrap_metal_usage = $("#scrap_metal_usage").val();
        scrap_avg_ton = $("#scrap_avg_ton").val();
 
+       melt_start_time = $("#melt_start_time").val();
+       melt_add_time = $("#melt_add_time").val();
+       refine_time  = $("#refine_time").val();
+       steel_out_time = $("#steel_out_time").val();
+       total_time = $("#total_time").val();
+
+
+
+
+
+
+
+
         parameterList = {
           target_code  : global_target_code,
           target_num : global_target_num,
@@ -1051,6 +1064,12 @@ function selectModel(target_code,target_num,model_name) {
           lathe_b  ,
           scrap_metal_usage : scrap_metal_usage,
           scrap_avg_ton : scrap_avg_ton,
+          melt_start_time : melt_start_time;
+          melt_add_time : melt_add_time;
+          refine_time  : refine_time;
+          steel_out_time : steel_out_time;
+          total_time : total_time;
+
           csrfmiddlewaretoken: '{{ csrf_token }}'
       }
         openPreload();

@@ -70,16 +70,42 @@ class SearchOptimalPredictView(TemplateView):
     def post(self, request):
         target_code = request.POST.get('target_code')
         target_num = request.POST.get('target_num')
+
+        heavy_scrap_a = request.POST.get('heavy_scrap_a')
+        heavy_scrap_b = request.POST.get('heavy_scrap_b')
+        light_scrap_a = request.POST.get('light_scrap_a')
+        light_scrap_b = request.POST.get('light_scrap_b')
+        gsa = request.POST.get('gsa')
+        gsb = request.POST.get('gsb')
+        mb = request.POST.get('mb')
+        lathe_b = request.POST.get('lathe_b')
+        scrap_metal_usage = request.POST.get('scrap_metal_usage')
+        scrap_avg_ton = request.POST.get('scrap_avg_ton')
+        melt_start_time = request.POST.get('melt_start_time')
+        melt_add_time = request.POST.get('melt_add_time')
+        refine_time = request.POST.get('refine_time')
+        steel_out_time = request.POST.get('steel_out_time')
+        total_time = request.POST.get('total_time')
+
+
+
+
+        # 모델 정보 조회
         model_info = TbModel.objects.get(target_code=target_code,target_num=target_num)
         model_file_name = model_info.model_file_name   ## 모델 파일명
 
+        # 모델 정보에 해당되는 변수 목록 조회
+        var_info = TbVarInfo.objects.filter(target_code=target_code, target_num=target_num).values()
+        var_info_list = list(var_info)
+        var_info_list = pd.DataFrame(list(var_info_list))['var_code'].tolist()
+        var_info_list.append(target_code)
 
 
-        #checked_var_list.append(target_value_code)
+        # 메인데이터에서 예측할 데이터 추출
         smart_op_sum = TbSmartopSum.objects.values()
         smart_op_sum_df = pd.DataFrame(list(smart_op_sum))
         smart_operate_report = SmartOperateReport()
-        smart_operate_report.kisco_df = smart_op_sum_df[checked_var_list]
+        smart_operate_report.kisco_df = smart_op_sum_df[var_info_list]
 
 
         smart_operate_report = SmartOperateReport()
