@@ -1,0 +1,1092 @@
+{% extends 'layouts/navbar/navbar.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+    <!--begin::Page Scripts(used by this page)-->
+{#		<script src="{% static 'assets/js/pages/features/miscellaneous/dual-listbox.js' %}"></script>#}
+	<!--end::Page Scripts-->
+
+
+
+
+
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
+        <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-1">
+                <!--begin::Page Heading-->
+                <div class="d-flex align-items-baseline flex-wrap mr-5">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold my-1 mr-5"> {{ target_value_name }} 예측분석</h5>
+                    <!--end::Page Title-->
+                </div>
+                <!--end::Page Heading-->
+            </div>
+            <!--end::Info-->
+
+        </div>
+    </div>
+    <!--end::Subheader-->
+
+    <!--begin::Entry-->
+`	<div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container">
+            <!--begin::Notice-->
+
+            <!--end::Notice-->
+            <!--begin::Row-->
+            <div class="d-flex flex-column-fluid">
+							<!--begin::Container-->
+							<div class="container">
+
+
+
+                                <!-- 모델목록 시작-->
+                                <div class="card card-custom gutter-b">
+									<div class="card-header flex-wrap border-0 pt-6 pb-0">
+										<div class="card-title">
+											<h3 class="card-label">모델목록( {{ target_value_name }} )
+											<span class="d-block text-muted pt-2 font-size-sm">학습된 모델목록</span></h3>
+										</div>
+										<div class="card-toolbar">
+											<!--begin::Dropdown-->
+											<div class="dropdown dropdown-inline mr-2">
+												<button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<span class="svg-icon svg-icon-md">
+													<!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
+													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24" />
+															<path d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z" fill="#000000" opacity="0.3" />
+															<path d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z" fill="#000000" />
+														</g>
+													</svg>
+													<!--end::Svg Icon-->
+												</span>조업번호조회</button>
+												<!--begin::Dropdown Menu-->
+												<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+													<!--begin::Navigation-->
+													<ul class="navi flex-column navi-hover py-2">
+														<li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">Choose an option:</li>
+														<li class="navi-item">
+															<a href="#" class="navi-link">
+																<span class="navi-icon">
+																	<i class="la la-print"></i>
+																</span>
+																<span class="navi-text">Print</span>
+															</a>
+														</li>
+														<li class="navi-item">
+															<a href="#" class="navi-link">
+																<span class="navi-icon">
+																	<i class="la la-copy"></i>
+																</span>
+																<span class="navi-text">Copy</span>
+															</a>
+														</li>
+														<li class="navi-item">
+															<a href="#" class="navi-link">
+																<span class="navi-icon">
+																	<i class="la la-file-excel-o"></i>
+																</span>
+																<span class="navi-text">Excel</span>
+															</a>
+														</li>
+														<li class="navi-item">
+															<a href="#" class="navi-link">
+																<span class="navi-icon">
+																	<i class="la la-file-text-o"></i>
+																</span>
+																<span class="navi-text">CSV</span>
+															</a>
+														</li>
+														<li class="navi-item">
+															<a href="#" class="navi-link">
+																<span class="navi-icon">
+																	<i class="la la-file-pdf-o"></i>
+																</span>
+																<span class="navi-text">PDF</span>
+															</a>
+														</li>
+													</ul>
+													<!--end::Navigation-->
+												</div>
+												<!--end::Dropdown Menu-->
+											</div>
+											<!--end::Dropdown-->
+											<!--begin::Button-->
+											<a href="#" class="btn btn-primary font-weight-bolder">
+											<span class="svg-icon svg-icon-md">
+												<!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
+												<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+													<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+														<rect x="0" y="0" width="24" height="24" />
+														<circle fill="#000000" cx="9" cy="15" r="6" />
+														<path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3" />
+													</g>
+												</svg>
+												<!--end::Svg Icon-->
+											</span>탐색추천</a>
+											<!--end::Button-->
+										</div>
+									</div>
+									<div class="card-body">
+										<!--begin: Datatable-->
+										<table class="table table-separate table-head-custom table-checkable" id="kt_datatable1">
+											<thead>
+												<tr>
+													<th>No</th>
+													<th>모델ID</th>
+													<th>모델명</th>
+													<th>정확도</th>
+													<th>변수목록</th>
+                                                    <th>변수중요도</th>
+													<th>생성일자</th>
+													<th>수정일자</th>
+                                                    <th>알고리즘</th>
+                                                    <th>삭제여부</th>
+												</tr>
+											</thead>
+											<tbody>
+                                            {% for model in model_list %}
+												<tr>
+													<td>1</td>
+													<td>2021040601</td>
+                                                    <td><a href="javascript:selectModel('{{ model.target_code }}',{{ model.target_num }},'{{ model.model_name }}');">{{ model.model_name }}</a></td>
+													<td>98.5</td>
+													<td>변수목록</td>
+													<td>변수중요도</td>
+													<td>{{ model.create_dtm|slice:" :8" }}</td>
+													<td>{{ model.update_dtm }}</td>
+                                                    <td>{{ model.alg_name}}</td>
+                                                <td nowrap="nowrap"></td>
+												</tr>
+                                            {% endfor %}
+											</tbody>
+										</table>
+										<!--end: Datatable-->
+									</div>
+                                </div>
+                                <!-- 모델목록 끝-->
+
+
+                            <!-- 필수입력변수 시작-->
+                                <div class="row">
+
+									<div class="col-xl-6">
+
+										<!--begin::Card-->
+										<div class="card card-custom gutter-b">
+											<div class="card-header">
+												<div class="card-title" id ='commentUl'>
+                                                         <h3 class="card-label" >모델명 : 역률_01 예측 (64.8)</h3>
+												</div>
+											</div>
+											<div class="card-body">
+												<!--begin::Example-->
+												<div class="example mb-10">
+                                                    필수입력변수
+                                                    <div class="example-preview" id="opDetail_02">
+                                                        <table class="table">
+															<thead>
+																<tr>
+																	<th scope="col">중량A</th>
+																	<th scope="col">중량B</th>
+																	<th scope="col">경량A</th>
+                                                                    <th scope="col">경량B</th>
+																	<th scope="col">GSA</th>
+																	<th scope="col">GSB</th>
+                                                                    <th scope="col">GSS</th>
+																	<th scope="col">MB</th>
+																	<th scope="col">선반설B</th>
+                                                                    <th scope="col">고철사용량</th>
+																	<th scope="col">고철평균톤수</th>
+
+																</tr>
+															</thead>
+															<tbody>
+
+																<tr class="table-success">
+																	<th scope="row"><input class="form-control" style="width:80px;" type="text"  id="heavy_scrap_a"></th>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="heavy_scrap_b"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="light_scrap_a"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="light_scrap_b"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="gsa"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="gsb"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="gss"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="mb"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="lathe_b"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="scrap_metal_usage"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="scrap_avg_ton"></td>
+																</tr>
+															</tbody>
+														</table>
+
+                                                    </div>
+
+												</div>
+                                                <div class="example mb-10">
+                                                    선택입력변수
+                                                    <div class="example-preview" id="ess_input_var">
+
+
+                                                    </div>
+
+												</div>
+                                                <button type="button" class="btn btn-primary" onclick="searchOptimal()" >최적추천탐색</button>
+												<!--end::Example-->
+
+											</div>
+										</div>
+										<!--end::Card-->
+
+
+
+									</div>
+								</div>
+                            <!-- 필수입력변수 끝 -->
+
+
+
+                                <div class="row">
+
+									<div class="col-xl-6">
+
+										<!--begin::Card-->
+										<div class="card card-custom gutter-b">
+											<div class="card-header">
+												<div class="card-title" id ='commentUl'>
+                                                         <h3 class="card-label" >모델명 : 역률_01 예측 (64.8)</h3>
+												</div>
+											</div>
+											<div class="card-body">
+												<!--begin::Example-->
+												<div class="example mb-10">
+                                                     <button type="button" class="btn btn-primary" onclick="searchOperateNumber()" >조업번호검색</button>
+                                                    <label><input type="search" id="txtOpNum" class="form-control form-control-sm" placeholder="" aria-controls="kt_datatable1" ></label>
+
+													<div class="example-preview" id="opDetail_01">
+														<table class="table">
+															<thead>
+																<tr>
+																	<th scope="col">장입시간</th>
+																	<th scope="col">용해초장시간</th>
+                                                                    <th scope="col">용해추가시간</th>
+																	<th scope="col">정련시간</th>
+																	<th scope="col">출강시간</th>
+                                                                    <th scope="col">합계시간</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr class="table-primary">
+																	<th scope="row"><input class="form-control" style="width:80px;" type="text"  id="entry_time"></th>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="melt_start_time"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="melt_add_time"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="refine_time"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="steel_out_time"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="total_time"></td>
+
+																</tr>
+
+															</tbody>
+														</table>
+
+													</div>
+                                                    <div class="example-preview" id="opDetail_02">
+                                                        <table class="table">
+															<thead>
+																<tr>
+																	<th scope="col">중량A</th>
+																	<th scope="col">중량B</th>
+																	<th scope="col">경량A</th>
+                                                                    <th scope="col">경량B</th>
+																	<th scope="col">GSA</th>
+																	<th scope="col">GSB</th>
+                                                                    <th scope="col">GSS</th>
+																	<th scope="col">MB</th>
+																	<th scope="col">선반설B</th>
+                                                                    <th scope="col">고철사용량</th>
+																	<th scope="col">고철평균톤수</th>
+
+																</tr>
+															</thead>
+															<tbody>
+
+																<tr class="table-success">
+																	<th scope="row"><input class="form-control" style="width:80px;" type="text"  id="heavy_scrap_a"></th>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="heavy_scrap_b"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="light_scrap_a"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="light_scrap_b"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="gsa"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="gsb"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="gss"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="mb"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="lathe_b"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="scrap_metal_usage"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="scrap_avg_ton"></td>
+																</tr>
+															</tbody>
+														</table>
+
+                                                    </div>
+                                                    <div class="example-preview" id="opDetail_03">
+                                                        <table class="table">
+															<thead>
+																<tr>
+																	<th scope="col">가사비중</th>
+																	<th scope="col">역률</th>
+																	<th scope="col">전기로22KV</th>
+                                                                    <th scope="col">용해초장전력량</th>
+																	<th scope="col">용해완료전력량</th>
+																	<th scope="col">정련전력량</th>
+                                                                    <th scope="col">합계전력량</th>
+																	<th scope="col">용해전력투입속도</th>
+
+
+																</tr>
+															</thead>
+															<tbody>
+																<tr class="table-primary">
+																	<th scope="row"><input class="form-control" style="width:80px;" type="text"  id="gravity"></th>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="power_factor"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="electric_22kv"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="melt_first_elec_charge"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="melt_finish_elec_charge"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="refine_elec_charge"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="total_elec_charge"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="melt_elec_speed"></td>
+
+
+															</tbody>
+														</table>
+                                                        <table class="table">
+															<thead>
+																<tr>
+
+																	<th scope="col">용락카본C</th>
+                                                                    <th scope="col">조개탄HP</th>
+																	<th scope="col">BRI_HP2</th>
+
+																</tr>
+															</thead>
+															<tbody>
+																<tr class="table-primary">
+
+																	<td><input class="form-control" style="width:80px;" type="text"  id="melt_down_carbon_c"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="briquet_hp"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="bri_hp2"></td>
+																</tr>
+
+															</tbody>
+														</table>
+
+                                                    </div>
+                                                    <div class="example-preview" id="opDetail_04">
+                                                        <table class="table">
+															<thead>
+																<tr>
+																	<th scope="col">전기로P</th>
+                                                                    <th scope="col">전기로S</th>
+																	<th scope="col">전기로전압</th>
+																	<th scope="col">전기로전류</th>
+                                                                    <th scope="col">분탄GSK</th>
+																	<th scope="col">분탄STAIN</th>
+																	<th scope="col">산소버너</th>
+                                                                    <th scope="col">산소렌스</th>
+
+
+																</tr>
+															</thead>
+															<tbody>
+
+																<tr class="table-success">
+																	<th scope="row"><input class="form-control" style="width:80px;" type="text"  id="elec_fumace_p"></th>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="elec_fumace_s"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="elec_fumace_volt"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="elec_fumace_current"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="gsk"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="stain"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="oxy_bunner"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="oxy_lance"></td>
+
+																</tr>
+															</tbody>
+														</table>
+                                                        <table class="table">
+															<thead>
+																<tr>
+
+																	<th scope="col">렌스유량</th>
+																	<th scope="col">렌스높이</th>
+                                                                    <th scope="col">렌스폭</th>
+																	<th scope="col">렌스틸팅면적</th>
+
+																</tr>
+															</thead>
+															<tbody>
+
+																<tr class="table-success">
+
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="lance_flux"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="lance_height"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="lance_width"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="lance_til_area"></td>
+																</tr>
+															</tbody>
+														</table>
+
+                                                    </div>
+                                                    <div class="example-preview" id="opDetail_05">
+                                                        <table class="table">
+															<thead>
+																<tr>
+																	<th scope="col">집진기풍량</th>
+																	<th scope="col">집진기건옥온도</th>
+																	<th scope="col">집진기직인온도</th>
+                                                                    <th scope="col">마스터위치</th>
+																	<th scope="col">마스터이동거리</th>
+																	<th scope="col">용해전력1</th>
+                                                                    <th scope="col">용해전력2</th>
+																	<th scope="col">용해전력3</th>
+																	<th scope="col">전력투입효율</th>
+
+
+																</tr>
+															</thead>
+															<tbody>
+																<tr class="table-primary">
+																	<th scope="row"><input class="form-control" style="width:80px;" type="text"  id="elec_pre_air_vol"></th>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="elec_pre_dry_degree"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="elec_pre_dir_degree"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="master_pos"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="master_move_distance"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="melt_elec_1"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="melt_elec_2"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="melt_elec_3"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="elec_put_efficiency"></td>
+
+																</tr>
+
+															</tbody>
+														</table>
+                                                        <table class="table">
+															<thead>
+																<tr>
+
+                                                                    <th scope="col">출강량</th>
+																	<th scope="col">생산량</th>
+                                                                    <th scope="col">회수율</th>
+																	<th scope="col">생산성</th>
+
+																</tr>
+															</thead>
+															<tbody>
+																<tr class="table-primary">
+
+																	<td><input class="form-control" style="width:80px;" type="text"  id="steel_out_vol"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="product_vol"></td>
+																	<td><input class="form-control" style="width:80px;" type="text"  id="steel_out_rate"></td>
+                                                                    <td><input class="form-control" style="width:80px;" type="text"  id="steel_product"></td>
+																</tr>
+
+															</tbody>
+														</table>
+                                                    </div>
+
+												</div>
+                                                <button type="button" class="btn btn-primary" onclick="searchOptimal()" >최적추천탐색</button>
+												<!--end::Example-->
+
+											</div>
+										</div>
+										<!--end::Card-->
+                                        <!--begin::Card-->
+										<div class="card card-custom gutter-b">
+											<div class="card-header">
+												<div class="card-title">
+													<h3 class="card-label">모델명 : 역률_01 예측값 (65.7)</h3>
+												</div>
+											</div>
+											<div class="card-body">
+												<!--begin::Example-->
+												<div class="example mb-10">
+													<p>조업번호 : 2005119</p>
+													<div class="example-preview">
+														<table class="table table-dark">
+															<thead>
+																<tr>
+																	<th scope="col">장입시간</th>
+																	<th scope="col">용해초장시간</th>
+                                                                    <th scope="col">용해추가시간</th>
+																	<th scope="col">정련시간</th>
+																	<th scope="col">출강시간</th>
+                                                                    <th scope="col">합계시간</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr class="bg-primary">
+																	<th scope="row">2.63</th>
+																	<td>18.08</td>
+																	<td>14.23</td>
+                                                                    <td>8.17</td>
+																	<td>2.15</td>
+                                                                    <td>45.27</td>
+																</tr>
+
+															</tbody>
+														</table>
+
+                                                        <table class="table table-dark">
+															<thead>
+																<tr>
+																	<th scope="col">중량A</th>
+																	<th scope="col">중량B</th>
+																	<th scope="col">경량A</th>
+                                                                    <th scope="col">경량B</th>
+																	<th scope="col">GSA</th>
+																	<th scope="col">GSB</th>
+                                                                    <th scope="col">GSS</th>
+																	<th scope="col">MB</th>
+																	<th scope="col">선반설B</th>
+                                                                    <th scope="col">고철사용량</th>
+																	<th scope="col">고철평균톤수</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr class="bg-success">
+																	<th scope="row">20.81</th>
+																	<td>15.23</td>
+																	<td>66.75</td>
+                                                                    <td>4.23</td>
+																	<td>7.66</td>
+                                                                    <td>0.39</td>
+																	<td>0.31</td>
+                                                                    <td>6.7</td>
+																	<td>0</td>
+                                                                    <td>122.1</td>
+																	<td>4.52</td>
+																</tr>
+
+															</tbody>
+														</table>
+                                                        <table class="table table-dark">
+															<thead>
+																<tr>
+																	<th scope="col">중량A</th>
+																	<th scope="col">중량B</th>
+																	<th scope="col">경량A</th>
+                                                                    <th scope="col">경량B</th>
+																	<th scope="col">GSA</th>
+																	<th scope="col">GSB</th>
+                                                                    <th scope="col">GSS</th>
+																	<th scope="col">MB</th>
+																	<th scope="col">선반설B</th>
+                                                                    <th scope="col">고철사용량</th>
+																	<th scope="col">고철평균톤수</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr class="bg-primary">
+																	<th scope="row">20.81</th>
+																	<td>15.23</td>
+																	<td>66.75</td>
+                                                                    <td>4.23</td>
+																	<td>7.66</td>
+                                                                    <td>0.39</td>
+																	<td>0.31</td>
+                                                                    <td>6.7</td>
+																	<td>0</td>
+                                                                    <td>122.1</td>
+																	<td>4.52</td>
+																</tr>
+
+															</tbody>
+														</table>
+                                                        <table class="table table-dark">
+															<thead>
+																<tr>
+																	<th scope="col">가사비중</th>
+																	<th scope="col">역률</th>
+																	<th scope="col">전기로22KV</th>
+                                                                    <th scope="col">용해초장전력량</th>
+																	<th scope="col">용해완료전력량</th>
+																	<th scope="col">정련전력량</th>
+                                                                    <th scope="col">합계전력량</th>
+																	<th scope="col">용해전력투입속도</th>
+																	<th scope="col">용락카본C</th>
+                                                                    <th scope="col">조개탄HP</th>
+																	<th scope="col">BRI_HP2</th>
+
+																</tr>
+															</thead>
+															<tbody>
+																<tr class="bg-success">
+																	<th scope="row">0.57</th>
+																	<td >65.7</td>
+																	<td>21425.64</td>
+                                                                    <td>21000</td>
+																	<td>16900</td>
+                                                                    <td>5700</td>
+																	<td>43600</td>
+                                                                    <td>1172.77</td>
+																	<td>8.5</td>
+                                                                    <td>0</td>
+																	<td>0</td>
+																</tr>
+
+															</tbody>
+														</table>
+                                                        <table class="table table-dark">
+															<thead>
+																<tr>
+																	<th scope="col">전기로P</th>
+																	<th scope="col">전기로전압</th>
+																	<th scope="col">전기로전류</th>
+                                                                    <th scope="col">분탄GSK</th>
+																	<th scope="col">분탄STAIN</th>
+																	<th scope="col">산소버너</th>
+                                                                    <th scope="col">산소렌스</th>
+																	<th scope="col">렌스유량</th>
+																	<th scope="col">렌스높이</th>
+                                                                    <th scope="col">렌스폭</th>
+																	<th scope="col">렌스틸팅면적</th>
+
+																</tr>
+															</thead>
+															<tbody>
+
+																<tr class="bg-primary">
+																	<th scope="row">17.1</th>
+																	<td>27</td>
+																	<td>539.68</td>
+                                                                    <td>110.79</td>
+																	<td>90</td>
+                                                                    <td>1339.94</td>
+																	<td>1158</td>
+                                                                    <td>1769.1</td>
+																	<td>1195.68</td>
+                                                                    <td>150937</td>
+																	<td>1509737</td>
+																</tr>
+															</tbody>
+														</table>
+                                                        <table class="table table-dark">
+															<thead>
+																<tr>
+																	<th scope="col">집진기풍량</th>
+																	<th scope="col">집진기건옥온도</th>
+																	<th scope="col">집진기직인온도</th>
+                                                                    <th scope="col">마스터위치</th>
+																	<th scope="col">마스터이동거리</th>
+																	<th scope="col">용해전력1</th>
+                                                                    <th scope="col">용해전력2</th>
+																	<th scope="col">용해전력3</th>
+																	<th scope="col">전력투입효율</th>
+                                                                    <th scope="col">출강량</th>
+																	<th scope="col">생산량</th>
+                                                                    <th scope="col">회수율</th>
+																	<th scope="col">생산성</th>
+
+																</tr>
+															</thead>
+															<tbody>
+																<tr class="bg-success">
+																	<th scope="row">65462.69</th>
+																	<td>484.3</td>
+																	<td>210.3</td>
+                                                                    <td>4630.44</td>
+																	<td>1627.93</td>
+                                                                    <td>403.7</td>
+																	<td>357.08</td>
+                                                                    <td>310.4</td>
+																	<td>89.75</td>
+                                                                    <td>108</td>
+																	<td>105638</td>
+                                                                    <td>88.45</td>
+																	<td>143.15</td>
+																</tr>
+
+															</tbody>
+														</table>
+													</div>
+
+												</div>
+												<!--end::Example-->
+											</div>
+										</div>
+										<!--end::Card-->
+										<!--begin::Card-->
+										<div class="card card-custom gutter-b">
+											<div class="card-header">
+												<div class="card-title">
+													<h3 class="card-label">알고리즘적용 후 추천데이터</h3>
+												</div>
+											</div>
+											<div class="card-body">
+												<!--begin::Example-->
+												<div class="example mb-10">
+													<p>탐색적용 후 추천값 목록</p>
+													<div class="example-preview">
+														<table class="table">
+															<caption>List of users</caption>
+															<thead>
+																<tr>
+																	<th scope="col">번호</th>
+																	<th scope="col">산소버너</th>
+																	<th scope="col">렌스유량</th>
+																	<th scope="col">Status</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<th scope="row">1</th>
+																	<td>1,339.9400</td>
+																	<td>2319.1000</td>
+																	<td>
+																		<span class="label label-inline label-light-primary font-weight-bold">추천</span>
+																	</td>
+																</tr>
+
+															</tbody>
+														</table>
+													</div>
+
+												</div>
+												<!--end::Example-->
+											</div>
+										</div>
+										<!--end::Card-->
+
+									</div>
+								</div>
+
+							</div>
+
+							<!--end::Container-->
+						</div>
+
+
+            <!--end::Row-->
+
+        </div>
+
+        <!--end::Container-->
+
+	</div>
+
+	<!--end::Entry-->
+</div>
+
+
+{% verbatim %}
+<script type="template" id="commentTemplate">
+       <h3 class="card-label" >모델명 : {{model_name}} </h3>
+</script>
+{% endverbatim %}
+
+<script>
+
+
+function selectModel(target_code,target_num,model_name) {
+
+
+       // 데이터
+       var data = {
+                target_code : target_code ,
+                target_num : target_num,
+                model_name : model_name
+            }
+       //2. htmlTemplate을 가져온후 Handlebars로 compile 한다.
+       var commentTemplate = document.querySelector("#commentTemplate").innerHTML;
+       var commentBindTemplate = Handlebars.compile(commentTemplate);
+
+       //3. 컴파일한 템플릿에 데이터를 집어넣는다. 이 때 리턴값은 html로 나온다.
+       var resultHtml = '';
+       resultHtml += commentBindTemplate(data);
+
+       // 4. 리턴받은 html을 target에 innerHTML로 세팅한다.
+       var commentUl = document.querySelector("#commentUl");
+       commentUl.innerHTML = resultHtml;
+
+
+
+  }
+</script>
+
+
+<script>
+
+  globalPanNum = 1
+  $(document).ready(function(){
+      $("#opDetail").hide();
+      openPreload();
+      //setSingleVarRadio();
+      closePreload();
+
+  });
+
+
+
+
+
+
+ // 로딩바 보이기
+    function openPreload() {
+        $("#preloader").show();
+    }
+
+    // 로딩바 숨기기
+    function closePreload() {
+        $("#preloader").hide();
+    }
+
+    function searchOperateNumber() {
+        opNum = $("#txtOpNum").val()
+        parameterList = {
+          op_num : opNum,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      }
+        openPreload();
+
+        $.ajax({
+
+                type: "post",
+                async: true,
+                url: "{% url 'search_opeate_number' %}",
+                dataType: "json",
+                data: parameterList,
+                success: function (response) {
+
+                   $("#opDetail").show();
+                   entry_time =  response.smart_op_sum_dict.entry_time
+                   melt_start_time =  response.smart_op_sum_dict.melt_start_time
+                   melt_add_time =  response.smart_op_sum_dict.melt_add_time
+                   refine_time =  response.smart_op_sum_dict.refine_time
+                   steel_out_time =  response.smart_op_sum_dict.steel_out_time
+                   total_time =  response.smart_op_sum_dict.total_time
+
+                   //고철철
+                   heavy_scrap_a =  response.smart_op_sum_dict.heavy_scrap_a
+                   heavy_scrap_b =  response.smart_op_sum_dict.heavy_scrap_b
+                   light_scrap_a =  response.smart_op_sum_dict.light_scrap_a
+                   light_scrap_b =  response.smart_op_sum_dict.light_scrap_b
+                   gsa =  response.smart_op_sum_dict.gsa
+                   gsb =  response.smart_op_sum_dict.gsb
+                   gss =  response.smart_op_sum_dict.gss
+                   mb =  response.smart_op_sum_dict.mb
+                   lathe_b =  response.smart_op_sum_dict.lathe_b
+                   scrap_metal_usage =  response.smart_op_sum_dict.scrap_metal_usage
+                   scrap_avg_ton =  response.smart_op_sum_dict.scrap_avg_ton
+
+                    //
+                   gravity =  response.smart_op_sum_dict.gravity
+                   power_factor =  response.smart_op_sum_dict.power_factor
+                   electric_22kv =  response.smart_op_sum_dict.electric_22kv
+                   melt_first_elec_charge =  response.smart_op_sum_dict.melt_first_elec_charge
+                   melt_finish_elec_charge =  response.smart_op_sum_dict.melt_finish_elec_charge
+                   refine_elec_charge =  response.smart_op_sum_dict.refine_elec_charge
+                   total_elec_charge =  response.smart_op_sum_dict.total_elec_charge
+                   melt_elec_speed =  response.smart_op_sum_dict.melt_elec_speed
+                   melt_down_carbon_c =  response.smart_op_sum_dict.melt_down_carbon_c
+                   briquet_hp =  response.smart_op_sum_dict.briquet_hp
+                   bri_hp2 =  response.smart_op_sum_dict.bri_hp2
+
+
+
+                   elec_fumace_p =  response.smart_op_sum_dict.elec_fumace_p
+                   elec_fumace_s =  response.smart_op_sum_dict.elec_fumace_s
+                   elec_fumace_volt =  response.smart_op_sum_dict.elec_fumace_volt
+                   elec_fumace_current =  response.smart_op_sum_dict.elec_fumace_current
+                   gsk =  response.smart_op_sum_dict.gsk
+                   stain =  response.smart_op_sum_dict.stain
+                   oxy_bunner =  response.smart_op_sum_dict.oxy_bunner
+                   oxy_lance =  response.smart_op_sum_dict.oxy_lance
+                   lance_flux =  response.smart_op_sum_dict.lance_flux
+                   lance_height =  response.smart_op_sum_dict.lance_height
+                   lance_width =  response.smart_op_sum_dict.lance_width
+                   lance_til_area =  response.smart_op_sum_dict.lance_til_area
+
+
+                   elec_pre_air_vol =  response.smart_op_sum_dict.elec_pre_air_vol
+                   elec_pre_dry_degree =  response.smart_op_sum_dict.elec_pre_dry_degree
+                   elec_pre_dir_degree =  response.smart_op_sum_dict.elec_pre_dir_degree
+                   master_pos =  response.smart_op_sum_dict.master_pos
+                   master_move_distance =  response.smart_op_sum_dict.master_move_distance
+                   melt_elec_1 =  response.smart_op_sum_dict.melt_elec_1
+                   melt_elec_2 =  response.smart_op_sum_dict.melt_elec_2
+                   melt_elec_3 =  response.smart_op_sum_dict.melt_elec_3
+                   elec_put_efficiency =  response.smart_op_sum_dict.elec_put_efficiency
+                   steel_out_vol =  response.smart_op_sum_dict.steel_out_vol
+                   elec_put_efficiency =  response.smart_op_sum_dict.elec_put_efficiency
+                   product_vol =  response.smart_op_sum_dict.product_vol
+                   steel_out_rate =  response.smart_op_sum_dict.steel_out_rate
+                   steel_product =  response.smart_op_sum_dict.steel_product
+
+
+
+                   $("#entry_time").val(entry_time);
+                   $("#melt_start_time").val(melt_start_time);
+                   $("#melt_add_time").val(melt_add_time);
+                   $("#refine_time").val(refine_time);
+                   $("#steel_out_time").val(steel_out_time);
+                   $("#total_time").val(total_time);
+
+                   $("#heavy_scrap_a").val(heavy_scrap_a);
+                   $("#heavy_scrap_b").val(heavy_scrap_b);
+                   $("#light_scrap_a").val(light_scrap_a);
+                   $("#light_scrap_b").val(light_scrap_b);
+                   $("#gsa").val(gsa);
+                   $("#gsb").val(gsb);
+                   $("#gss").val(gss);
+                   $("#mb").val(mb);
+                   $("#lathe_b").val(lathe_b);
+                   $("#scrap_metal_usage").val(scrap_metal_usage);
+                   $("#scrap_avg_ton").val(scrap_avg_ton);
+
+
+                   $("#gravity").val(gravity);
+                   $("#power_factor").val(power_factor);
+                   $("#electric_22kv").val(electric_22kv);
+                   $("#melt_first_elec_charge").val(melt_first_elec_charge);
+                   $("#melt_finish_elec_charge").val(melt_finish_elec_charge);
+                   $("#refine_elec_charge").val(refine_elec_charge);
+                   $("#total_elec_charge").val(total_elec_charge);
+                   $("#melt_elec_speed").val(melt_elec_speed);
+                   $("#melt_down_carbon_c").val(melt_down_carbon_c);
+                   $("#briquet_hp").val(briquet_hp);
+                   $("#bri_hp2").val(bri_hp2);
+
+                   $("#elec_fumace_p").val(elec_fumace_p);
+                   $("#elec_fumace_s").val(elec_fumace_s);
+                   $("#elec_fumace_volt").val(elec_fumace_volt);
+                   $("#elec_fumace_current").val(elec_fumace_current);
+                   $("#gsk").val(gsk);
+                   $("#stain").val(stain);
+                   $("#oxy_bunner").val(oxy_bunner);
+                   $("#oxy_lance").val(oxy_lance);
+                   $("#lance_flux").val(lance_flux);
+                   $("#lance_height").val(lance_height);
+                   $("#lance_width").val(lance_width);
+                   $("#lance_til_area").val(lance_til_area)
+
+                   $("#elec_pre_air_vol").val(elec_pre_air_vol);
+                   $("#elec_pre_dry_degree").val(elec_pre_dry_degree);
+                   $("#elec_pre_dir_degree").val(elec_pre_dir_degree);
+                   $("#master_pos").val(master_pos);
+                   $("#master_move_distance").val(master_move_distance);
+                   $("#melt_elec_1").val(melt_elec_1);
+                   $("#melt_elec_2").val(melt_elec_2);
+                   $("#melt_elec_3").val(melt_elec_3);
+                   $("#elec_put_efficiency").val(elec_put_efficiency);
+                   $("#steel_out_vol").val(steel_out_vol);
+                   $("#product_vol").val(product_vol);
+                   $("#steel_out_rate").val(steel_out_rate);
+                   $("#steel_product").val(steel_product);
+
+                }
+        });
+        closePreload();
+
+    }
+    function searchOptimal() {
+        alert("최적추천탐색");
+        alert($("#heavy_scrap_a").val());
+
+
+    }
+
+
+    function makeModel() {
+      var var_name = $("input[name='modelVar']:checked").val();
+      checkNum = $("input:checkbox[name=modelVar]").length
+      checkedNum =   $("input:checkbox[name=modelVar]:checked").length
+      var checkedVarList = [];
+      $("input[name = modelVar]:checked").each(function () {
+          var chk = $(this).val()
+          checkedVarList.push(chk);
+
+      })
+
+      parameterList = {
+          checkedVarList : checkedVarList,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      }
+      openPreload();
+
+      $.ajax({
+
+                type: "post",
+                async: true,
+                url: "{% url 'make_model' %}",
+                dataType: "json",
+                data: parameterList,
+                success: function (response) {
+
+
+                }
+      });
+      closePreload();
+    }
+
+
+    function goSingleAnalytics(var_name) {
+        openPreload();
+        $.ajax({
+                type: "GET",
+                url: "{% url 'analytic_single_var' %}",
+                dataType: "json",
+                data: {
+                    'var_name': var_name,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (response) {
+
+                    //alert(response.data_list)
+                    console.log(response)
+                    KTApexChartsDemo.init(response.data_list,response.result_list);
+                    //$('#berthDataListDiv').html(response);
+
+                    // 로딩바 끝
+                    closePreload();
+                    //location.reload();
+                    $('#row').load(location.href+'#row');
+
+                    title_01 = response.title_list[0][0] + '-' + response.title_list[0][1] + '(상관계수 : '+response.title_list[0][2] + ')'
+                    title_02 = response.title_list[1][0] + '-' + response.title_list[1][1] + '(상관계수 : '+response.title_list[1][2] + ')'
+                    title_03 = response.title_list[2][0] + '-' + response.title_list[2][1] + '(상관계수 : '+response.title_list[2][2] + ')'
+                    title_04 = response.title_list[3][0] + '-' + response.title_list[3][1] + '(상관계수 : '+response.title_list[3][2] + ')'
+
+                    $('#card-label_01').text(title_01);
+                    $('#card-label_02').text(title_02);
+                    $('#card-label_03').text(title_03);
+                    $('#card-label_04').text(title_04);
+
+
+
+                    $("#img_01").attr("src", response.img_list[0]);
+                    $("#img_02").attr("src", response.img_list[1]);
+                    $("#img_03").attr("src", response.img_list[2]);
+                    $("#img_04").attr("src", response.img_list[3]);
+
+
+
+                },
+                error: function (request, status, error) {
+                    // 로딩바 끝
+                    closePreload();
+
+                    alert(error);
+                }
+            });
+    }
+
+</script>
+
+
+{% endblock %}

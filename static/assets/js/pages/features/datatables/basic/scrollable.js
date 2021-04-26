@@ -35,7 +35,7 @@ var KTDatatablesBasicScrollable = function() {
 	                                    <li class="navi-item">\
 	                                        <a href="#" class="navi-link">\
 	                                            <span class="navi-icon"><i class="la la-print"></i></span>\
-	                                            <span class="navi-text">Print</span>\
+	                                            <span class="navi-text">모델선택</span>\
 	                                        </a>\
 	                                    </li>\
 	                                    <li class="navi-item">\
@@ -245,7 +245,7 @@ var KTDatatablesBasicScrollable = function() {
 	                                    <li class="navi-item">\
 	                                        <a href="#" class="navi-link">\
 	                                            <span class="navi-icon"><i class="la la-print"></i></span>\
-	                                            <span class="navi-text">Print</span>\
+	                                            <span class="navi-text">모델선택--</span>\
 	                                        </a>\
 	                                    </li>\
 	                                    <li class="navi-item">\
@@ -373,6 +373,7 @@ var KTDatatablesBasicScrollable = function() {
 
         //main function to initiate the module
         init: function() {
+
             initTable1();
             initTable2();
         },

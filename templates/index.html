@@ -17,7 +17,7 @@
                 <!--begin::Page Heading-->
                 <div class="d-flex align-items-baseline flex-wrap mr-5">
                     <!--begin::Page Title-->
-                    <h5 class="text-dark font-weight-bold my-1 mr-5">주요데이터분석 - 출강량</h5>
+                    <h5 class="text-dark font-weight-bold my-1 mr-5">주요데이터분석 - {{ target_name }}</h5>
                     <!--end::Page Title-->
                 </div>
                 <!--end::Page Heading-->
@@ -70,8 +70,6 @@
                                                     <label class="col-3 col-form-label">전체변수</label>
                                                     <div class="col-9 col-form-label">
                                                         <div class="radio-inline">
-
-
                                                         {% for var in var_list %}
                                                             <label class="radio radio-success">
                                                             <input type="radio" name="singleVar" value="{{ var.0 }}"/>
@@ -82,6 +80,7 @@
                                                         <span class="form-text text-muted">분석대상을 선택하세요</span>
                                                     </div>
                                                 </div>
+
 
                                             </form>
                                             <!--end::Form-->
@@ -99,21 +98,35 @@
                                                                      <input type="checkbox" name="multiVar" value="{{ var.0 }}"/>
                                                                      <span></span>{{ var.1 }}</label>
                                                                 {% endfor %}
-
 															</div>
 															<span class="form-text text-muted">분석대상을 선택하세요.</span>
 														</div>
-													</div>
+										</div>
+
                                 </div>
                                 </div>
                                 <div class="tab-pane fade" id="kt_tab_pane_7_3" role="tabpanel" aria-labelledby="kt_tab_pane_7_3">
                                 <div class="card-body">
                                     <div class="form-group row">
-														<label class="col-3 col-form-label">전체변수</label>
+														<label class="col-3 col-form-label">필수변수</label>
 														<div class="col-9 col-form-label">
 															<div class="checkbox-inline">
-                                                                {% for var in var_list %}
+                                                                {% for var in esstial_var_list %}
                                                                    <label class="checkbox checkbox-success">
+                                                                     <input type="checkbox" name="modelVar" checked='checked' disabled="disabled" value="{{ var.0 }}"/>
+                                                                     <span></span>{{ var.1 }}</label>
+                                                                {% endfor %}
+
+															</div>
+															<span class="form-text text-muted">필수입력변수입니다.</span>
+														</div>
+													</div>
+                                                    <div class="form-group row">
+														<label class="col-3 col-form-label">선택변수</label>
+														<div class="col-9 col-form-label">
+															<div class="checkbox-inline">
+                                                                {% for var in select_var_list %}
+                                                                   <label class="checkbox checkbox-primary">
                                                                      <input type="checkbox" name="modelVar" value="{{ var.0 }}"/>
                                                                      <span></span>{{ var.1 }}</label>
                                                                 {% endfor %}
@@ -126,8 +139,10 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                   <button type="button" class="btn btn-primary" onclick="startAnalytics()" >분석시작</button>
+                                   <button type="button" class="btn btn-primary" id="btn_ana_start" onclick="startAnalytics()" >분석시작</button>
+                                <button type="button" class="btn btn-primary" id="btn_model_start" onclick="startAnalytics()" >모델생성시작</button>
                             </div>
+
                         </div>
 
                     </div>
@@ -215,7 +230,198 @@
 {#										<!--end::Card-->#}
 {#									</div>#}
 {#								</div>#}
-                                <div class="row">
+
+                                <div class="card card-custom gutter-b" id = 'model_list'>
+									<div class="card-header flex-wrap border-0 pt-6 pb-0">
+										<div class="card-title">
+											<h3 class="card-label">학습모델목록(역률)
+											<span class="d-block text-muted pt-2 font-size-sm">학습된 모델목록</span></h3>
+										</div>
+										<div class="card-toolbar">
+											<!--begin::Dropdown-->
+											<div class="dropdown dropdown-inline mr-2">
+												<button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<span class="svg-icon svg-icon-md">
+													<!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
+													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24" />
+															<path d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z" fill="#000000" opacity="0.3" />
+															<path d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z" fill="#000000" />
+														</g>
+													</svg>
+													<!--end::Svg Icon-->
+												</span>Export</button>
+												<!--begin::Dropdown Menu-->
+												<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+													<!--begin::Navigation-->
+													<ul class="navi flex-column navi-hover py-2">
+														<li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">Choose an option:</li>
+														<li class="navi-item">
+															<a href="#" class="navi-link">
+																<span class="navi-icon">
+																	<i class="la la-print"></i>
+																</span>
+																<span class="navi-text">Print</span>
+															</a>
+														</li>
+														<li class="navi-item">
+															<a href="#" class="navi-link">
+																<span class="navi-icon">
+																	<i class="la la-copy"></i>
+																</span>
+																<span class="navi-text">Copy</span>
+															</a>
+														</li>
+														<li class="navi-item">
+															<a href="#" class="navi-link">
+																<span class="navi-icon">
+																	<i class="la la-file-excel-o"></i>
+																</span>
+																<span class="navi-text">Excel</span>
+															</a>
+														</li>
+														<li class="navi-item">
+															<a href="#" class="navi-link">
+																<span class="navi-icon">
+																	<i class="la la-file-text-o"></i>
+																</span>
+																<span class="navi-text">CSV</span>
+															</a>
+														</li>
+														<li class="navi-item">
+															<a href="#" class="navi-link">
+																<span class="navi-icon">
+																	<i class="la la-file-pdf-o"></i>
+																</span>
+																<span class="navi-text">PDF</span>
+															</a>
+														</li>
+													</ul>
+													<!--end::Navigation-->
+												</div>
+												<!--end::Dropdown Menu-->
+											</div>
+											<!--end::Dropdown-->
+											<!--begin::Button-->
+											<a href="#" class="btn btn-primary font-weight-bolder">
+											<span class="svg-icon svg-icon-md">
+												<!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
+												<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+													<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+														<rect x="0" y="0" width="24" height="24" />
+														<circle fill="#000000" cx="9" cy="15" r="6" />
+														<path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3" />
+													</g>
+												</svg>
+												<!--end::Svg Icon-->
+											</span>신규모델생성</a>
+											<!--end::Button-->
+										</div>
+									</div>
+									<div class="card-body">
+										<!--begin: Datatable-->
+										<table class="table table-separate table-head-custom table-checkable" id="kt_datatable1">
+											<thead>
+												<tr>
+													<th>모델명</th>
+													<th>정확도</th>
+													<th>변수목록</th>
+                                                    <th>변수중요도</th>
+													<th>생성일자</th>
+													<th>수정일자</th>
+                                                    <th>알고리즘</th>
+													<th>삭제여부</th>
+												</tr>
+											</thead>
+											<tbody>
+                                               {% for model in model_list %}
+
+                                                   <tr>
+													<td>{{ model.model_name }}</td>
+													<td>98.5</td>
+													<td>변수목록(클릭)</td>
+													<td>변수중요도(클릭)</td>
+													<td>{{ model.create_dtm }}</td>
+													<td>{{ model.update_dtm }}</td>
+                                                    <td>{{ model.alg_name }}</td>
+													<td nowrap="nowrap"></td>
+												</tr>
+                                               {% endfor %}
+											</tbody>
+										</table>
+										<!--end: Datatable-->
+									</div>
+								</div>
+                                <div class="row" id = 'row_03'>
+									<div class="col-lg-6">
+										<!--begin::Card-->
+										<div class="card card-custom gutter-b">
+											<div class="card-header">
+												<div class="card-title">
+													<h3 class="card-label" id = 'card-label_05'>장입시간(25%) - 역률</h3>
+												</div>
+											</div>
+											<div class="card-body">
+												<!--begin::Chart-->
+												<img id = 'img_05' src="{% static 'img/steel_out_vol.png' %}" alt="" />
+												<!--end::Chart-->
+											</div>
+										</div>
+										<!--end::Card-->
+									</div>
+									<div class="col-lg-6">
+										<!--begin::Card-->
+										<div class="card card-custom gutter-b">
+											<div class="card-header">
+												<div class="card-title">
+													<h3 class="card-label" id = 'card-label_06'>장입시간(25%~75%) - 역률</h3>
+												</div>
+											</div>
+											<div class="card-body">
+												<!--begin::Chart-->
+												<img id = 'img_06' src="{% static 'img/power_factor.png' %}" alt="" />
+												<!--end::Chart-->
+											</div>
+										</div>
+										<!--end::Card-->
+									</div>
+								</div>
+                                <div class="row" id = 'row_04'>
+									<div class="col-lg-6">
+										<!--begin::Card-->
+										<div class="card card-custom gutter-b">
+											<div class="card-header">
+												<div class="card-title">
+													<h3 class="card-label" id = 'card-label_07'>장입시간(75%이상) - 합계전력량</h3>
+												</div>
+											</div>
+											<div class="card-body">
+												<!--begin::Chart-->
+												<img id = 'img_07' src="{% static 'img/total_elec_charge.png' %}" alt="" />
+												<!--end::Chart-->
+											</div>
+										</div>
+										<!--end::Card-->
+									</div>
+									<div class="col-lg-6">
+										<!--begin::Card-->
+										<div class="card card-custom gutter-b">
+											<div class="card-header">
+												<div class="card-title">
+													<h3 class="card-label" id = 'card-label_08'>장입시간(전체) - 회수율</h3>
+												</div>
+											</div>
+											<div class="card-body">
+												<!--begin::Chart-->
+												<img id = 'img_08' src="{% static 'img/steel_out_rate.png' %}" alt="" />
+												<!--end::Chart-->
+											</div>
+										</div>
+										<!--end::Card-->
+									</div>
+								</div>
+                                <div class="row" id = 'row_01'>
 									<div class="col-lg-6">
 										<!--begin::Card-->
 										<div class="card card-custom gutter-b">
@@ -226,7 +432,7 @@
 											</div>
 											<div class="card-body">
 												<!--begin::Chart-->
-												<img id = 'img_01' src="{% static 'img/steel_out_vol.png' %}" alt="" />
+												<img id = 'img_01' src="{% static 'img/entry_time_power_factor_25이하.png' %}" alt="" />
 												<!--end::Chart-->
 											</div>
 										</div>
@@ -249,7 +455,7 @@
 										<!--end::Card-->
 									</div>
 								</div>
-                                <div class="row">
+                                <div class="row" id = 'row_02'>
 									<div class="col-lg-6">
 										<!--begin::Card-->
 										<div class="card card-custom gutter-b">
@@ -285,6 +491,9 @@
 								</div>
 
 
+
+
+
 							</div>
 							<!--end::Container-->
 						</div>
@@ -303,13 +512,33 @@
   $(document).ready(function(){
       openPreload();
       setSingleVarRadio();
+      $("#row_01").show();
+      $("#row_02").show();
+      $("#model_list").hide();
+      $("#btn_model_start").hide();   // 모델생성시작 숨기기
       closePreload();
-
   });
 
   // 탭판넬 변경
   function changePan(panNum) {
       globalPanNum = panNum;
+      if(globalPanNum == 1) {
+          $("#row_01").show();
+          $("#row_02").show();
+          //$("#model_list").hide();
+      } else if(globalPanNum == 2) {
+          $("#model_list").show();
+          $("#row_01").hide();
+          $("#row_02").hide();
+          $("#btn_ana_start").show();
+          $("#btn_model_start").hide();
+      } else if(globalPanNum == 3) {
+          $("#model_list").show();
+          $("#row_01").hide();
+          $("#row_02").hide();
+          $("#btn_ana_start").hide();
+          $("#btn_model_start").show();
+      }
 
   }
   function setSingleVarRadio() {
@@ -325,20 +554,30 @@
         $("#preloader").hide();
     }
 
+
     function startAnalytics() {
-      if (globalPanNum == 1) {
-          analyticSingle();
-      } else if(globalPanNum == 2) {
-          analyticMulti();
-      } else if(globalPanNum == 3) {
-          makeModel()
-      }
+           // 단일변수
+          if (globalPanNum == 1) {
+              analyticSingle();
+          // 다중변수
+          } else if(globalPanNum == 2) {
+              analyticMulti();
+          // 모델생성
+          } else if(globalPanNum == 3) {
+              makeModel()
+          }
     }
     function analyticSingle() {
 
-     var var_name = $("input[name='singleVar']:checked").val();
+         var var_name = $("input[name='singleVar']:checked").val();
+         var is_checked = $("input[name='singleVar']:checked").is(':checked')
 
-     goSingleAnalytics(var_name);
+         if(is_checked == false) {
+             alert('변수중 하나를 선택해야 합니다.')
+             return;
+         }
+
+         goSingleAnalytics(var_name);
     }
 
     function analyticMulti() {
@@ -346,18 +585,21 @@
     }
 
     function makeModel() {
-      var var_name = $("input[name='modelVar']:checked").val();
-      checkNum = $("input:checkbox[name=modelVar]").length
-      checkedNum =   $("input:checkbox[name=modelVar]:checked").length
-      var checkedVarList = [];
-      $("input[name = modelVar]:checked").each(function () {
-          var chk = $(this).val()
-          checkedVarList.push(chk);
+          var var_name = $("input[name='modelVar']:checked").val();
+          checkNum = $("input:checkbox[name=modelVar]").length
+          checkedNum =   $("input:checkbox[name=modelVar]:checked").length
+          var checkedVarList = [];
+          $("input[name = modelVar]:checked").each(function () {
+              var chk = $(this).val()
+              checkedVarList.push(chk);
 
-      })
+          })
+
+          target_value_code = '{{ target_value_code }}'
 
       parameterList = {
           checkedVarList : checkedVarList,
+          target_value_code : target_value_code,
           csrfmiddlewaretoken: '{{ csrf_token }}'
       }
       openPreload();
@@ -378,6 +620,7 @@
     }
     function goSingleAnalytics(var_name) {
         openPreload();
+
         $.ajax({
                 type: "GET",
                 url: "{% url 'analytic_single_var' %}",
@@ -395,18 +638,33 @@
 
                     // 로딩바 끝
                     closePreload();
+
                     //location.reload();
                     $('#row').load(location.href+'#row');
+
 
                     title_01 = response.title_list[0][0] + '-' + response.title_list[0][1] + '(상관계수 : '+response.title_list[0][2] + ')'
                     title_02 = response.title_list[1][0] + '-' + response.title_list[1][1] + '(상관계수 : '+response.title_list[1][2] + ')'
                     title_03 = response.title_list[2][0] + '-' + response.title_list[2][1] + '(상관계수 : '+response.title_list[2][2] + ')'
                     title_04 = response.title_list[3][0] + '-' + response.title_list[3][1] + '(상관계수 : '+response.title_list[3][2] + ')'
 
+
+                    title_05 = response.quantile_title_list[0][0] + '-' + response.quantile_title_list[0][1] + '(상관계수 : '+response.quantile_title_list[0][2] + ')_' + response.quantile_title_list[0][4]
+                    title_06 = response.quantile_title_list[1][0] + '-' + response.quantile_title_list[1][1] + '(상관계수 : '+response.quantile_title_list[1][2] + ')_' + response.quantile_title_list[1][4]
+                    title_07 = response.quantile_title_list[2][0] + '-' + response.quantile_title_list[2][1] + '(상관계수 : '+response.quantile_title_list[2][2] + ')_' + response.quantile_title_list[2][4]
+                    title_08 = response.quantile_title_list[3][0] + '-' + response.quantile_title_list[3][1] + '(상관계수 : '+response.quantile_title_list[3][2] + ')_' +response.quantile_title_list[3][4]
+
                     $('#card-label_01').text(title_01);
                     $('#card-label_02').text(title_02);
                     $('#card-label_03').text(title_03);
                     $('#card-label_04').text(title_04);
+
+
+                    $('#card-label_05').text(title_05);
+                    $('#card-label_07').text(title_06);
+                    $('#card-label_06').text(title_07);
+                    $('#card-label_08').text(title_08);
+
 
 
 
@@ -415,6 +673,10 @@
                     $("#img_03").attr("src", response.img_list[2]);
                     $("#img_04").attr("src", response.img_list[3]);
 
+                    $("#img_05").attr("src", response.quantile_img_list[0]);
+                    $("#img_07").attr("src", response.quantile_img_list[1]);
+                    $("#img_06").attr("src", response.quantile_img_list[2]);
+                    $("#img_08").attr("src", response.quantile_img_list[3]);
 
 
                 },

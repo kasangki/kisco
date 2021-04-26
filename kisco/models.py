@@ -118,6 +118,22 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
+class TbModel(models.Model):
+    target_code = models.CharField(primary_key=True, max_length=20)
+    target_num = models.IntegerField()
+    model_file_name = models.CharField(max_length=100, blank=True, null=True)
+    model_name = models.CharField(max_length=100, blank=True, null=True)
+    accuracy = models.FloatField(blank=True, null=True)
+    alg_name = models.CharField(max_length=100, blank=True, null=True)
+    create_dtm = models.DateTimeField()
+    update_dtm = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'tb_model'
+        unique_together = (('target_code', 'target_num'),)
+
+
 class TbSmartopSum(models.Model):
     op_num = models.IntegerField(primary_key=True)
     entry_time = models.FloatField(blank=True, null=True)
@@ -181,11 +197,22 @@ class TbSmartopSum(models.Model):
         db_table = 'tb_smartop_sum'
 
 
+class TbVarInfo(models.Model):
+    target_code = models.CharField(max_length=20, blank=True, null=True)
+    target_num = models.IntegerField(blank=True, null=True)
+    var_code = models.CharField(max_length=30, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tb_var_info'
+
+
 class TbVarMap(models.Model):
     var_code = models.CharField(primary_key=True, max_length=30)
     var_name = models.CharField(max_length=50)
     seq = models.IntegerField()
-    create_dtm = models.DateTimeField()
+    var_type = models.CharField(max_length=1, blank=True, null=True)
+    create_dtm = models.DateTimeField(blank=True, null=True)
     update_dtm = models.DateTimeField(blank=True, null=True)
 
     class Meta:

@@ -16,9 +16,11 @@ import pandas as pd
 
 class SteelOutVarView(TemplateView):
     def get(self, request, *args, **kwargs):
+        type_code = request.GET.get('type_code')
+        print(type_code)
         var_map_list = []
         context = {
             'var_map_list': var_map_list,
         }
 
-        return render(request, 'main_data/../../templates/main_data/steel_out_var.html', context=context)
+        return render(request, 'main_data/steel_out_var.html', context=context)

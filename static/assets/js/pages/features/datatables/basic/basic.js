@@ -71,7 +71,7 @@ var KTDatatablesBasicBasic = function() {
 	                                    <li class="navi-item">\
 	                                        <a href="#" class="navi-link">\
 	                                            <span class="navi-icon"><i class="la la-print"></i></span>\
-	                                            <span class="navi-text">Print</span>\
+	                                            <span class="navi-text">복사</span>\
 	                                        </a>\
 	                                    </li>\
 	                                    <li class="navi-item">\
@@ -255,7 +255,7 @@ var KTDatatablesBasicBasic = function() {
 	                                    <li class="navi-item">\
 	                                        <a href="#" class="navi-link">\
 	                                            <span class="navi-icon"><i class="la la-print"></i></span>\
-	                                            <span class="navi-text">Print</span>\
+	                                            <span class="navi-text">복사</span>\
 	                                        </a>\
 	                                    </li>\
 	                                    <li class="navi-item">\
