@@ -65,24 +65,25 @@ class SearchOperateNumberView(TemplateView):
         }
         return HttpResponse(json.dumps(context), content_type="application/json")
 
-
+# 최적추천탐색
 class SearchOptimalPredictView(TemplateView):
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         target_code = request.POST.get('target_code')
         target_num = request.POST.get('target_num')
+        #checked_global_list = request.POST.getlist('checkedGlobalList[]')
+        var_list = request.POST.getlist('var_list[]')   # 변수목록
+        var_name_list = request.POST.getlist('var_name_list[]')   # 변수명 리스트
 
-        heavy_scrap_a = request.POST.get('heavy_scrap_a')
-        heavy_scrap_b = request.POST.get('heavy_scrap_b')
-        light_scrap_a = request.POST.get('light_scrap_a')
-        light_scrap_b = request.POST.get('light_scrap_b')
-        gsa = request.POST.get('gsa')
-        gsb = request.POST.get('gsb')
-        gss = request.POST.get('gss')
-        mb = request.POST.get('mb')
-        lathe_b = request.POST.get('lathe_b')
-        scrap_metal_usage = request.POST.get('scrap_metal_usage')
-        scrap_avg_ton = request.POST.get('scrap_avg_ton')
+        # test_df = pd.Series(var_list,index=var_name_list).to_frame().T
 
+
+
+        # for i in range(len(var_list)):
+        #     temp = [var_list[i],var_list[i]]
+        #     print(temp)
+
+        print(var_list)
+        print(var_name_list)
 
         # 모델 정보에 해당되는 변수 목록 조회
         var_info = TbVarInfo.objects.filter(target_code=target_code, target_num=target_num).values()
@@ -91,100 +92,9 @@ class SearchOptimalPredictView(TemplateView):
 
 
 
-
-
-
-
-        if(heavy_scrap_a == '') :
-            heavy_scrap_a = 0.0
-        else :
-            heavy_scrap_a = float(heavy_scrap_a)
-            var_info_list.append('heavy_scrap_a')
-
-
-        if (heavy_scrap_b == ''):
-            heavy_scrap_b = 0.0
-        else :
-            heavy_scrap_b = float(heavy_scrap_b)
-            var_info_list.append('heavy_scrap_b')
-
-        if (light_scrap_a == ''):
-            light_scrap_a = 0.0
-        else :
-            light_scrap_a = float(light_scrap_a)
-            var_info_list.append('light_scrap_a')
-
-        if (light_scrap_b == ''):
-            light_scrap_b = 0.0
-        else :
-            light_scrap_b = float(light_scrap_b)
-            var_info_list.append('light_scrap_b')
-
-        if (gsa == ''):
-            gsa = 0.0
-        else :
-            gsa = float(gsa)
-            var_info_list.append('gsa')
-
-
-        if (gsb == ''):
-            gsb = 0.0
-        else:
-            var_info_list.append('gsb')
-
-        if (gss == ''):
-            gss = 0.0
-        else:
-            gss = float(gss)
-            var_info_list.append('gss')
-
-
-        if (mb == ''):
-            mb = 0.0
-        else:
-            mb = float(mb)
-            var_info_list.append('mb')
-
-
-        if (lathe_b == ''):
-            lathe_b = 0.0
-        else:
-            lathe_b = float(lathe_b)
-            var_info_list.append('lathe_b')
-
-
-        if(scrap_metal_usage == '') :
-            scrap_metal_usage = 0.0
-        else:
-            scrap_metal_usage = float(scrap_metal_usage)
-            var_info_list.append('scrap_metal_usage')
-
-
-        if(scrap_avg_ton == '') :
-            scrap_avg_ton = 0.0
-        else:
-            scrap_avg_ton = float(scrap_avg_ton)
-            var_info_list.append('scrap_avg_ton')
-
-
-        melt_start_time = request.POST.get('melt_start_time')
-        melt_add_time = request.POST.get('melt_add_time')
-        refine_time = request.POST.get('refine_time')
-        steel_out_time = request.POST.get('steel_out_time')
-        total_time = request.POST.get('total_time')
-
-        if(melt_start_time != '') :
-            var_info_list.append(float(melt_start_time))
-
-
-
-
-
-        var_info_list.append(target_code)
         # 모델 정보 조회
         model_info = TbModel.objects.get(target_code=target_code,target_num=target_num)
         model_file_name = model_info.model_file_name   ## 모델 파일명
-
 
 
 
@@ -192,26 +102,32 @@ class SearchOptimalPredictView(TemplateView):
         smart_op_sum = TbSmartopSum.objects.values()
         smart_op_sum_df = pd.DataFrame(list(smart_op_sum))
         smart_operate_report = SmartOperateReport()
+
+
+        smart_operate_report.kisco_test_df = pd.Series(var_list,index=var_name_list).to_frame().T.astype(float)
+        var_info_list.append(target_code)
         smart_operate_report.kisco_df = smart_op_sum_df[var_info_list]
 
 
-        smart_operate_report = SmartOperateReport()
 
         clf_from_joblib = joblib.load(model_file_name)
 
-        smart_operate_report.predict_smart_operate(clf_from_joblib)
+        #smart_operate_report.predict_smart_operate(clf_from_joblib)
 
-        smart_operate_report.make_osl_model()
-        smart_operate_report.kisco_test_df = smart_operate_report.kisco_df.loc[0].to_frame().T
+        #smart_operate_report.make_osl_model()
+
+
         # 예측을 하기위해서 사용자가 선택할 데이터들
-        input_x_values = ['heavy_scrap_a', 'heavy_scrap_b', 'light_scrap_a', 'light_scrap_b', 'gsa', 'gsb', 'gss', 'mb',
-                          'lathe_b']
+        # input_x_values = ['heavy_scrap_a', 'heavy_scrap_b', 'light_scrap_a', 'light_scrap_b', 'gsa', 'gsb', 'gss', 'mb',
+        #                   'lathe_b']
+
+        input_x_values = var_name_list
 
         smart_operate_report.copy_experience_data(target_value_name=target_code, input_x_values=input_x_values)
 
         # x_value = 'oxy_bunner'   # 임시로 나중에 영향도높은 순 또는 사용자가 지정한 것 순으로 생성후 탐색
         # smart_operate_report.create_predict_data(model=rr_model,target_value_name=target_value_name,x_value=x_value)
-        smart_operate_report.predict_copy_data(model=rr_model, target_value_name=target_code)
+        smart_operate_report.predict_copy_data(model=clf_from_joblib, target_value_name=target_code)
 
 
 

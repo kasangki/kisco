@@ -1022,11 +1022,75 @@ function selectModel(target_code,target_num,model_name) {
 
     }
 
+    // 필수 입력변수 세팅
+    function getEssVar(varCode,varValue) {
+        if(varValue === '') {
+            varValue = 0.0;
+        } else {
+            varValue = parseFloat(varValue);
+        }
+        var data = new Object() ;
+        data.var_code = varCode;
+        data.var_value = varValue;
+
+
+        return data;
+
+    }
+
+       // 필수 입력변수 세팅
+    function getEssVar_old(varCode,varValue) {
+        if(varValue === '') {
+            varValue = 0.0;
+        } else {
+            varValue = parseFloat(varValue);
+        }
+        var data = {}
+        data[varCode] = varValue;
+        return data;
+
+
+    }
+
+
+    // 선택변수 세팅
+    function getSelectVar(varCode,varValue) {
+
+        varValue = parseFloat(varValue);
+        var data = new Object() ;
+        data.var_code = varCode;
+        data.val_value = varValue;
+
+        return data;
+    }
+
+        // 선택변수 세팅
+    function setSelectVar_OLD(varCode,varValue) {
+
+        varValue = parseFloat(varValue);
+        var data = {}
+        data[varCode] = varValue;
+        return data;
+    }
+
+
+    function isVarEmpty(varCode,varValue) {
+        if(varValue === '') {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+
+
+
     // 최적 추천탐색을 위한 예측실행
     function searchOptimal() {
-       alert("최적추천탐색");
 
-       alert(global_target_num);
+
+       // 필수입력
        heavy_scrap_a = $("#heavy_scrap_a").val();
        heavy_scrap_b = $("#heavy_scrap_b").val();
        light_scrap_a = $("#light_scrap_a").val();
@@ -1039,6 +1103,8 @@ function selectModel(target_code,target_num,model_name) {
        scrap_metal_usage = $("#scrap_metal_usage").val();
        scrap_avg_ton = $("#scrap_avg_ton").val();
 
+
+       entry_time = $("#entry_time").val();
        melt_start_time = $("#melt_start_time").val();
        melt_add_time = $("#melt_add_time").val();
        refine_time  = $("#refine_time").val();
@@ -1046,8 +1112,91 @@ function selectModel(target_code,target_num,model_name) {
        total_time = $("#total_time").val();
 
 
+       // 필수 입력변수
+       var varNameList = [];
+       var varList = [];
+       essVar = getEssVar('heavy_scrap_a',heavy_scrap_a);
+       varNameList.push(essVar.var_code);
+       varList.push(essVar.var_value);
+
+       essVar = getEssVar('heavy_scrap_b',heavy_scrap_b);
+       varNameList.push(essVar.var_code);
+       varList.push(essVar.var_value);
+
+       essVar = getEssVar('light_scrap_a',light_scrap_a);
+       varNameList.push(essVar.var_code);
+       varList.push(essVar.var_value);
+
+       essVar = getEssVar('light_scrap_b',light_scrap_b);
+       varNameList.push(essVar.var_code);
+       varList.push(essVar.var_value);
+
+       essVar = getEssVar('gsa',gsa);
+       varNameList.push(essVar.var_code);
+       varList.push(essVar.var_value);
+
+       essVar = getEssVar('gsb',gsb);
+       varNameList.push(essVar.var_code);
+       varList.push(essVar.var_value);
+
+       essVar = getEssVar('gss',gss);
+       varNameList.push(essVar.var_code);
+       varList.push(essVar.var_value);
+
+       essVar = getEssVar('mb',mb);
+       varNameList.push(essVar.var_code);
+       varList.push(essVar.var_value);
+
+       essVar = getEssVar('lathe_b',lathe_b);
+       varNameList.push(essVar.var_code);
+       varList.push(essVar.var_value);
+
+       essVar = getEssVar('scrap_metal_usage',scrap_metal_usage);
+       //varNameList.push(essVar.var_code);
+       //varList.push(essVar.var_value);
+
+       essVar = getEssVar('scrap_avg_ton',scrap_avg_ton);
+       //varNameList.push(essVar.var_code);
+       //varList.push(essVar.var_value);
 
 
+
+       // 선택입력변수
+       isEmpty = isVarEmpty('entry_time',entry_time);
+       if(!isEmpty) {
+           varNameList.push('entry_time');
+           varList.push(entry_time);
+       }
+       isEmpty = isVarEmpty('melt_start_time',melt_start_time);
+       if(!isEmpty) {
+           varNameList.push('melt_start_time');
+           varList.push(melt_start_time);
+       }
+
+       isEmpty = isVarEmpty('melt_add_time',melt_add_time);
+       if(!isEmpty) {
+           varNameList.push('melt_add_time');
+           varList.push(melt_add_time);
+       }
+
+       isEmpty = isVarEmpty('refine_time',refine_time);
+       if(!isEmpty) {
+           varNameList.push('refine_time');
+           varList.push(refine_time);
+       }
+
+
+       isEmpty = isVarEmpty('steel_out_time',steel_out_time);
+       if(!isEmpty) {
+           varNameList.push('steel_out_time');
+           varList.push(steel_out_time);
+       }
+
+       isEmpty = isVarEmpty('total_time',total_time);
+       if(!isEmpty) {
+           varNameList.push('total_time');
+           varList.push(total_time);
+       }
 
 
 
@@ -1055,25 +1204,10 @@ function selectModel(target_code,target_num,model_name) {
         parameterList = {
           target_code  : global_target_code,
           target_num : global_target_num,
-          heavy_scrap_a : heavy_scrap_a,
-          heavy_scrap_b : heavy_scrap_b,
-          light_scrap_a : light_scrap_a,
-          light_scrap_b : light_scrap_b,
-          gsa : gsa ,
-          gsb : gsb ,
-          gss : gss ,
-          mb : mb  ,
-          lathe_b  ,
-          scrap_metal_usage : scrap_metal_usage,
-          scrap_avg_ton : scrap_avg_ton,
-          melt_start_time : melt_start_time,
-          melt_add_time : melt_add_time,
-          refine_time  : refine_time,
-          steel_out_time : steel_out_time,
-          total_time : total_time,
-
+          var_list : varList,
+          var_name_list : varNameList,
           csrfmiddlewaretoken: '{{ csrf_token }}'
-      }
+        }
         openPreload();
 
         $.ajax({
