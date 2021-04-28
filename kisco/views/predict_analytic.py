@@ -30,6 +30,7 @@ from django.forms.models import model_to_dict
 
 from kisco.anaytics.smart_operate_report import SmartOperateReport
 from kisco.anaytics.quantile_analytics import QuantileAnalytics
+from django.db import connection
 
 class PredictAnalyticView(TemplateView):
     def get(self, request, *args, **kwargs):
@@ -44,6 +45,8 @@ class PredictAnalyticView(TemplateView):
         model = TbModel.objects.filter(target_code=target_value_code).values()
         model_list = list(model)
         print(model_list)
+
+
         
         context = { 'target_value_code' : target_value_code,
                     'target_value_name' : target_value_name,
@@ -133,6 +136,35 @@ class SearchOptimalPredictView(TemplateView):
 
         context = {
             'target_code' : target_code,
+        }
+        return HttpResponse(json.dumps(context), content_type="application/json")
+
+
+
+
+# 모델에 해당되는 변수 목록 조회
+class SearchVarInfoView(TemplateView):
+    def post(self, request, *args, **kwargs):
+        target_code = request.POST.get('target_code')
+        target_num = request.POST.get('target_num')
+        # var_info = TbVarInfo.objects.filter(target_code=target_code, target_num=target_num).values()
+        # var_info_list = list(var_info)
+
+        query = '''select a.target_code as target_code ,
+                   a.target_num as target_num ,                   
+                   a.var_code as var_code  ,
+                   b.var_name as var_name
+            from tb_var_info a, tb_var_map b
+            where a.var_code = b.var_code
+            and a.target_code = 'steel_out_rate'
+            and a.target_num = 1'''
+        cursor = connection.cursor()
+        cursor.execute(query)
+        var_info_list = cursor.fetchall()
+        # var_info_df = pd.DataFrame(datas, columns=['target_code', 'target_num', 'var_code','var_name']).tolist()
+        # print(var_info_df)
+        context = {
+            'var_info_list' : var_info_list,
         }
         return HttpResponse(json.dumps(context), content_type="application/json")
 

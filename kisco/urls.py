@@ -20,6 +20,7 @@ urlpatterns = [
     path(r'^predict_analytic/(?P<target_value_code>[-\w]+)/$', PredictAnalyticView.as_view(), name='predict_analytic'),
     path('search_opeate_number', SearchOperateNumberView.as_view(), name='search_opeate_number'),
     path('search_optimal_predict', SearchOptimalPredictView.as_view(), name='search_optimal_predict'),
+    path('search_var_info', SearchVarInfoView.as_view(), name='search_var_info'),
 
 
     path('make_model', AnalyticSingleVarView.make_model, name='make_model'),
