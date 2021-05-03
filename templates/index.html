@@ -552,6 +552,7 @@
       alert("다중변수분석");
     }
 
+    // 선택된 변수들을 모델 학습 시작
     function makeModel() {
           var var_name = $("input[name='modelVar']:checked").val();
           checkNum = $("input:checkbox[name=modelVar]").length
@@ -580,7 +581,6 @@
                 dataType: "json",
                 data: parameterList,
                 success: function (response) {
-
 
                 }
       });
