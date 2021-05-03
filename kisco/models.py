@@ -212,6 +212,7 @@ class TbVarMap(models.Model):
     var_name = models.CharField(max_length=50)
     seq = models.IntegerField()
     var_type = models.CharField(max_length=1, blank=True, null=True)
+    is_ess = models.CharField(max_length=1, blank=True, null=True)
     create_dtm = models.DateTimeField(blank=True, null=True)
     update_dtm = models.DateTimeField(blank=True, null=True)
 

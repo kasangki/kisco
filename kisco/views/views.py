@@ -42,7 +42,6 @@ class IndexView(TemplateView):
 
 
         # 모든변수
-        #all_var_code_list = list(all_var_name_df['var_code'])
         all_var_name_list = list(all_var_name_df['var_name'])
         all_var_code_list = list(all_var_name_df['var_code'])
         var_list = []
@@ -50,28 +49,12 @@ class IndexView(TemplateView):
             temp = [all_var_code_list[i],all_var_name_list[i]]
             var_list.append(temp)
 
-        # 필수변수 목록
-        esstial_var_name_df = all_var_name_df[all_var_name_df['var_type'] == 'E']
 
-        esstial_var_name_list = list(esstial_var_name_df['var_name'])
-        esstial_var_code_list = list(esstial_var_name_df['var_code'])
-        esstial_var_list = []
-        for i in range(len(esstial_var_code_list)):
-            temp = [esstial_var_code_list[i],esstial_var_name_list[i]]
-            esstial_var_list.append(temp)
-
-
-        # 선택변수 목록
-        select_var_name_df = all_var_name_df[all_var_name_df['var_type'] != 'E']
-
-        select_var_name_list = list(select_var_name_df['var_name'])
-        select_var_code_list = list(select_var_name_df['var_code'])
-        select_var_list = []
-        for i in range(len(select_var_code_list)):
-            temp = [select_var_code_list[i],select_var_name_list[i]]
-            select_var_list.append(temp)
-
-
+        ttt_var_list = self.get_var_name_list('T',all_var_name_df)   ## 시간변수목록
+        steel_var_list = self.get_var_name_list('S', all_var_name_df)  ## 고철종류 변수목록
+        mat_var_list = self.get_var_name_list('M', all_var_name_df)   ## 부자재 변수목록
+        equip_var_list = self.get_var_name_list('Q', all_var_name_df)  ## 설비변수 목록
+        etc_var_list = self.get_var_name_list('E', all_var_name_df)   ## 기타 변수 목록
 
 
 
@@ -91,18 +74,31 @@ class IndexView(TemplateView):
             data_list.append(temp)
 
 
-        print(select_var_list)
         context = {
             'var_list' : var_list,
-            'esstial_var_list' : esstial_var_list,
-            'select_var_list' : select_var_list,
+            'ttt_var_list' : ttt_var_list,
+            'steel_var_list' : steel_var_list,
+            'mat_var_list': mat_var_list,
+            'equip_var_list': equip_var_list,
+            'etc_var_list': etc_var_list,
             'data_list': data_list,
         }
-
-        #print(smart_op_sum_df)
-        #return HttpResponse(json.dumps(context, default=str), content_type="application/json")
+       
         return render(request, 'index.html', context=context)
 
+
+    ## 변수 타입별 변수 목록 조회    
+    def  get_var_name_list(self,var_type,all_var_name_df):
+        # 선택변수 목록
+        select_var_name_df = all_var_name_df[all_var_name_df['var_type'] == var_type]
+
+        select_var_name_list = list(select_var_name_df['var_name'])
+        select_var_code_list = list(select_var_name_df['var_code'])
+        select_var_list = []
+        for i in range(len(select_var_code_list)):
+            temp = [select_var_code_list[i], select_var_name_list[i]]
+            select_var_list.append(temp)
+        return select_var_list
 
 
 class IndexMainDataAna(TemplateView) :
