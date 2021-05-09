@@ -1,4 +1,6 @@
 import os
+
+import numpy
 import pandas as pd
 import numpy as np
 import statsmodels.api as sm
@@ -14,10 +16,12 @@ class SmartOperateReport():
         #file_name = './data/smart_operate.csv'
         #file_name_test = './data/smart_operate_test.csv'
         self.kisco_df = ''
+        self.kisco_source_df = ''
         self.kisco_test_df = ''
         self.experience_search_df = ''
         self.x_value_dict = {}
         self.target_value_name = ''
+        self.y_final_result_sr = '' # 최정결과저장
         #print(self.hanchul_df.columns)
         # self.x_value = ['중량A', '중량B', '경량A', '경량B', 'GSA', 'GSB', 'GSS', 'MB', '선반설B', '출강량']
         # self.target_value_name = '출강량'
@@ -115,8 +119,15 @@ class SmartOperateReport():
         print("예측 결과 predict_ex_test", predict_ex_test)
         print("예측결과 최대값 ", predict_ex_test.max())
         print('경험적 탐색 테스트 = ', predict_ex_test)
+
+        max_index = numpy.argmax(predict_ex_test)
+        #max_index = predict_ex_test.index(max_value)
         print('경험적 탐색 테스트 최대값 = ', max(predict_ex_test))
         print('경험적 탐색 테스트 최소값 = ', min(predict_ex_test))
+        print('경험적 탐색 테스트 최종결과 = ',self.experience_search_df.loc[max_index])
+        print('원천데이터 탐색 테스트 최종결과 = ', self.kisco_df.loc[max_index].to_dict())
+        self.y_final_result_sr = self.kisco_source_df.loc[max_index]
+        print('원천데이터 탐색 테스트 최종결과 = ', self.kisco_source_df.loc[max_index].to_dict())
 
 
 

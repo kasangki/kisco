@@ -6,6 +6,9 @@ from kisco.models import TbSmartopSum
 from kisco.models import TbVarMap
 from kisco.models import TbModel
 
+from django.db import connection
+
+
 
 from datetime import datetime
 from django.http.response import HttpResponse
@@ -24,7 +27,14 @@ class IndexView(TemplateView):
     def get(self, request, *args, **kwargs):
         # 타입코드 
         # steel_out_vol : 출강량
+        # power_factor : 역률
+        # total_elec_charge : 전력량
         # steel_out_rate : 회수율
+        
+        target_value_names = ['steel_out_vol', 'power_factor', 'total_elec_charge', 'steel_out_rate']
+        target_value_kor_names = ['출강량', '역률', '합계전력량', '회수율']        
+        target_value_code = target_value_names[3]
+        target_value_name = target_value_kor_names[3]
 
         #전체변수목록
         all_var_name = TbVarMap.objects.exclude(var_code = 'op_num').values()
@@ -73,6 +83,9 @@ class IndexView(TemplateView):
             temp = [x_list[i],y_list[i]]
             data_list.append(temp)
 
+        ## 모델 목록조회
+        model = TbModel.objects.filter(target_code=target_value_code).values()
+        model_list = list(model)
 
         context = {
             'var_list' : var_list,
@@ -82,12 +95,15 @@ class IndexView(TemplateView):
             'equip_var_list': equip_var_list,
             'etc_var_list': etc_var_list,
             'data_list': data_list,
+            'target_value_code': target_value_code,
+            'target_value_name': target_value_name,
+            'model_list' : model_list,
         }
        
         return render(request, 'index.html', context=context)
 
 
-    ## 변수 타입별 변수 목록 조회    
+    ## 변수 타입별 변수 목록 조회
     def  get_var_name_list(self,var_type,all_var_name_df):
         # 선택변수 목록
         select_var_name_df = all_var_name_df[all_var_name_df['var_type'] == var_type]
@@ -99,6 +115,24 @@ class IndexView(TemplateView):
             temp = [select_var_code_list[i], select_var_name_list[i]]
             select_var_list.append(temp)
         return select_var_list
+
+    ## 변수 타입별 변수 목록 조회
+    def  get_var_name_query_list(self,target_code,target_num, var_type):
+        # 선택변수 목록
+        query = '''select a.target_code ,
+                       a.var_code ,
+                       b.var_name
+                from  tb_var_info a, tb_var_map b
+                where a.target_code = %s
+                and a.target_num = %s
+                and a.var_code = b.var_code
+                and b.var_type = %s '''
+        cursor = connection.cursor()
+        cursor.execute(query, (target_code, target_num,var_type))
+        var_info_list = cursor.fetchall()
+
+
+        return var_info_list
 
 
 class IndexMainDataAna(TemplateView) :
@@ -202,10 +236,9 @@ class IndexMainDataAna(TemplateView) :
             'model_list' : model_list
         }
 
-
-        #print(smart_op_sum_df)
-        #return HttpResponse(json.dumps(context, default=str), content_type="application/json")
         return render(request, 'index.html', context=context)
+
+
 
 class PredictAnalyticView(TemplateView) :
     def get(self, request, *args, **kwargs):

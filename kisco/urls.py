@@ -23,5 +23,5 @@ urlpatterns = [
     path('search_var_info', SearchVarInfoView.as_view(), name='search_var_info'),
 
 
-    path('make_model', AnalyticSingleVarView.make_model, name='make_model'),
+    path('make_model', TrainModelViews.make_model, name='make_model'),
 ]

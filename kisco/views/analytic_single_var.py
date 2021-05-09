@@ -65,7 +65,7 @@ class AnalyticSingleVarView(TemplateView):
 
         }
 
-        return HttpResponse(json.dumps(context), content_type="application/json")
+        #return HttpResponse(json.dumps(context), content_type="application/json")
 
 
 
@@ -372,103 +372,4 @@ class AnalyticSingleVarView(TemplateView):
 
 
 
-    # 모델 생성하기
-    def make_model(request):
-        checked_var_list = request.POST.getlist('checkedVarList[]')
-        # tb_var_info 테이블에 데이터를 넣기 위해서
-        var_info_list = checked_var_list.copy()
-        target_value_code = request.POST.getlist('target_value_code')[0]
-        target_value_names = ['steel_out_vol', 'power_factor', 'total_elec_charge', 'steel_out_rate']
-        target_value_kor_names = ['출강량', '역률', '합계전력량', '회수율']
-        alg_names = ['RandomForrest']
-        print(checked_var_list)
-        ''' 타겟 변수'''
-        #target_value_name = 'steel_out_rate'
-        #target_value_names = ['steel_out_vol', 'power_factor', 'total_elec_charge', 'steel_out_rate']
 
-        #feature_columns = [var_name, 'steel_out_vol', 'power_factor', 'total_elec_charge', 'steel_out_rate']
-        checked_var_list.append(target_value_code)
-        smart_op_sum = TbSmartopSum.objects.values()
-        smart_op_sum_df = pd.DataFrame(list(smart_op_sum))
-        smart_operate_report = SmartOperateReport()
-        smart_operate_report.kisco_df = smart_op_sum_df[checked_var_list]
-        ''' 테스트용 데이터'''
-
-        print(smart_op_sum_df)
-
-
-
-
-
-
-        case = '출강량_01'
-        smart_operate_report.set_values(x_values=checked_var_list, target_value_name=target_value_code, case=case)
-
-        rr_model, rr_x_train = smart_operate_report.train_smart_operate()
-
-
-
-        model = TbModel.objects.filter(target_code=target_value_code).values()
-        model_df = pd.DataFrame(list(model))
-        print("모델 데이터프레임 ===> ",model_df.empty)
-        if( model_df.empty) :
-            target_num = 1
-        else :
-            target_num = model_df['target_num'].max() + 1
-
-        create_dtm = datetime.now()
-        update_dtm = datetime.now()
-        target_value_kor_name = TbVarMap.objects.filter(var_code=target_value_code).first().var_name
-
-        model_name = target_value_kor_name + '_' + str(target_num)
-        model_file_name = './static/model/' + target_value_code + '_' + str(target_num) + '.pkl'
-
-
-
-
-        model_instance = TbModel(target_code=target_value_code, target_num=target_num,model_name=model_name, accuracy='99.99',
-                                 alg_name=alg_names[0],
-                                 create_dtm=create_dtm, update_dtm=create_dtm, model_file_name=model_file_name)
-
-        model_instance.save(force_insert=True)
-
-
-        for var_code in var_info_list :
-            #var_map_instance = TbVarMap.objects.get(var_code=var_code)
-            var_info_model = TbVarInfo(target_code=target_value_code,target_num=model_instance.target_num,var_code=var_code)
-            var_info_model.save(force_insert=True)
-
-
-        joblib.dump(rr_model,model_file_name)
-        print('변수중요도 =====>>>>>', rr_model.feature_importances_)
-
-        rr_feat_importances = pd.Series(rr_model.feature_importances_, index=rr_x_train.columns)
-        print(rr_feat_importances)
-
-        smart_operate_report.kisco_test_df = smart_operate_report.kisco_df.loc[0]
-
-        clf_from_joblib = joblib.load(model_file_name)
-        smart_operate_report.predict_smart_operate(clf_from_joblib)
-
-
-
-
-
-
-        smart_operate_report.make_osl_model()
-        smart_operate_report.kisco_test_df = smart_operate_report.kisco_df.loc[0].to_frame().T
-        # 예측을 하기위해서 사용자가 선택할 데이터들
-        input_x_values = ['heavy_scrap_a','heavy_scrap_b','light_scrap_a','light_scrap_b','gsa','gsb','gss','mb','lathe_b']
-
-        smart_operate_report.copy_experience_data(target_value_name=target_value_code,input_x_values=input_x_values)
-
-        # x_value = 'oxy_bunner'   # 임시로 나중에 영향도높은 순 또는 사용자가 지정한 것 순으로 생성후 탐색
-        # smart_operate_report.create_predict_data(model=rr_model,target_value_name=target_value_name,x_value=x_value)
-        smart_operate_report.predict_copy_data(model=rr_model,target_value_name=target_value_code)
-
-        context = {
-            'checked_var_list' : checked_var_list,
-        }
-
-
-        return HttpResponse(json.dumps(context), content_type="application/json")
