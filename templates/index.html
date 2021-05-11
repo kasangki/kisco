@@ -8,6 +8,7 @@
 {#		<script src="{% static 'assets/js/pages/features/miscellaneous/dual-listbox.js' %}"></script>#}
 	<!--end::Page Scripts-->
 
+
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Subheader-->
     <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
@@ -111,68 +112,63 @@
                                                 <div class="radio-inline">
                                                     {% for var in steel_var_list %}
                                                        <label class="radio radio-success">
-                                                         <input type="radio" name="modelVar"  value="{{ var.0 }}"/>
+                                                         <input type="radio" name="singleVar"  value="{{ var.0 }}"/>
                                                          <span></span>{{ var.1 }}</label>
                                                     {% endfor %}
-
                                                 </div>
-                                                <span class="form-text text-muted">분석대상을 선택하세요.</span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-3 col-form-label">TTT</label>
                                             <div class="col-9 col-form-label">
-                                                <div class="checkbox-inline">
+                                                <div class="radio-inline">
                                                     {% for var in ttt_var_list %}
                                                        <label class="radio radio-success">
-                                                         <input type="radio" name="modelVar"  value="{{ var.0 }}"/>
+                                                         <input type="radio" name="singleVar"  value="{{ var.0 }}"/>
                                                          <span></span>{{ var.1 }}</label>
                                                     {% endfor %}
 
                                                 </div>
-                                                <span class="form-text text-muted">분석대상을 선택하세요.</span>
+
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-3 col-form-label">부원료</label>
                                             <div class="col-9 col-form-label">
-                                                <div class="checkbox-inline">
+                                                <div class="radio-inline">
                                                     {% for var in mat_var_list %}
                                                       <label class="radio radio-success">
-                                                         <input type="radio" name="modelVar"  value="{{ var.0 }}"/>
+                                                         <input type="radio" name="singleVar"  value="{{ var.0 }}"/>
                                                          <span></span>{{ var.1 }}</label>
                                                     {% endfor %}
-
                                                 </div>
-                                                <span class="form-text text-muted">분석대상을 선택하세요.</span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-3 col-form-label">설비</label>
                                             <div class="col-9 col-form-label">
-                                                <div class="checkbox-inline">
+                                                <div class="radio-inline">
                                                     {% for var in equip_var_list %}
                                                        <label class="radio radio-success">
-                                                         <input type="radio" name="modelVar"  value="{{ var.0 }}"/>
+                                                         <input type="radio" name="singleVar"  value="{{ var.0 }}"/>
                                                          <span></span>{{ var.1 }}</label>
                                                     {% endfor %}
 
                                                 </div>
-                                                <span class="form-text text-muted">분석대상을 선택하세요.</span>
+
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-3 col-form-label">기타</label>
                                             <div class="col-9 col-form-label">
-                                                <div class="checkbox-inline">
+                                                <div class="radio-inline">
                                                     {% for var in etc_var_list %}
                                                        <label class="radio radio-success">
-                                                         <input type="radio" name="modelVar"  value="{{ var.0 }}"/>
+                                                         <input type="radio" name="singleVar"  value="{{ var.0 }}"/>
                                                          <span></span>{{ var.1 }}</label>
                                                     {% endfor %}
 
                                                 </div>
-                                                <span class="form-text text-muted">분석대상을 선택하세요.</span>
                                             </div>
                                         </div>
                                     </div>
@@ -321,6 +317,26 @@
 
                                                 </div>
                                                 <span class="form-text text-muted">분석대상을 선택하세요.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="separator separator-dashed my-10"></div>
+                            <div class="modal-body" id="slider_body">
+                                <div class="form-group row mb-6">
+                                    <label class="col-form-label text-left col-lg-3 col-sm-12">범위(%)</label>
+                                    <div class="col-lg-9 col-md-9 col-sm-12" >
+                                        <div class="row align-items-center">
+                                            <div class="col-3">
+                                                <input type="number" min='0' max='80' class="form-control" id="slider_start" placeholder="%" />
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="number" min='20' max='100' class="form-control" id="slider_last" placeholder="%" />
+                                            </div>
+
+                                            <div class="col-6">
+                                                <div id="slider_01" class="nouislider"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -545,8 +561,10 @@
       openPreload();
 
       setSingleVarRadio();
-      $("#row_01").show();
-      $("#row_02").show();
+      $("#row_01").hide();
+      $("#row_02").hide();
+      $("#row_03").hide();
+      $("#row_04").hide();
       $("#model_list").hide();
       $("#btn_model_start").hide();   // 모델생성시작 숨기기
       closePreload();
@@ -560,6 +578,7 @@
           $("#row_02").show();
           $("#row_03").show();
           $("#row_04").show();
+          $("#slider_body").show();
           $("#model_list").hide();
           //$("#model_list").hide();
       } else if(globalPanNum == 2) {
@@ -568,6 +587,7 @@
           $("#row_02").hide();
           $("#row_03").hide();
           $("#row_04").hide();
+          $("#slider_body").hide();
           $("#btn_ana_start").show();
           $("#btn_model_start").hide();
       } else if(globalPanNum == 3) {
@@ -576,6 +596,7 @@
           $("#row_02").hide();
           $("#row_03").hide();
           $("#row_04").hide();
+          $("#slider_body").hide();
           $("#btn_ana_start").hide();
           $("#btn_model_start").show();
       }
@@ -662,6 +683,9 @@
     // 단일 변수 분석
     function goSingleAnalytics(var_name) {
         openPreload();
+        slider_start = $("#slider_start").val();
+        slider_last =  $("#slider_last").val();
+        target_value_code = '{{ target_value_code }}'
 
         $.ajax({
                 type: "GET",
@@ -669,7 +693,9 @@
                 dataType: "json",
                 data: {
                     'var_name': var_name,
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    'slider_start' : slider_start,
+                    'slider_last' : slider_last,
+                    'target_value_code' : target_value_code,
                 },
                 success: function (response) {
 
@@ -683,6 +709,11 @@
 
                     //location.reload();
                     $('#row').load(location.href+'#row');
+                    $("#row_01").show();
+                    $("#row_02").show();
+                    $("#row_03").show();
+                    $("#row_04").show();
+                    $("#slider_body").show();
 
 
                     title_01 = response.title_list[0][0] + '-' + response.title_list[0][1] + '(상관계수 : '+response.title_list[0][2] + ')'
@@ -1825,6 +1856,59 @@ var KTApexChartsDemo = function () {
 //jQuery(document).ready(function () {
 //	KTApexChartsDemo.init();
 //});
+
+
+
+// Class definition
+var KTnoUiSliderDemos = function() {
+
+
+    var slider_01 = function() {
+        var slider = document.getElementById('slider_01');
+
+        noUiSlider.create(slider, {
+            start: [0, 100],
+            connect: true,
+
+            tooltips: [true, wNumb({ decimals: 1 })],
+            range: {
+                'min': [ 0 ],
+                'max': [ 100 ]
+            }
+        });
+
+
+        // init slider input
+        var slider_start = document.getElementById('slider_start');
+        var slider_last = document.getElementById('slider_last');
+        var sliderInputs = [slider_start, slider_last ];
+
+        slider.noUiSlider.on('update', function( values, handle ) {
+            sliderInputs[handle].value = values[handle];
+        });
+    }
+    return {
+        // public functions
+        init: function() {
+            slider_01();
+        }
+    };
+}();
+
+jQuery(document).ready(function() {
+
+    KTnoUiSliderDemos.init();
+});
+
+
+
+
 </script>
+
+
+
+
+
+
 
 {% endblock %}

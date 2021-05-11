@@ -37,9 +37,12 @@ class AnalyticSingleVarView(TemplateView):
 
     def analytic_single_var(request):
         var_name = request.GET.get('var_name')
+        target_value_code = request.GET.get('target_value_code')
+        start_value = request.GET.get('slider_start')
+        last_value = request.GET.get('slider_last')
 
 
-        quantile_feature_columns  = [var_name,'power_factor']
+        quantile_feature_columns  = [var_name,target_value_code]
         quantile_sum = TbSmartopSum.objects.values()
         quantile_sum_df = pd.DataFrame(list(quantile_sum))
         quantile_sum_df = quantile_sum_df[quantile_feature_columns]
@@ -47,7 +50,7 @@ class AnalyticSingleVarView(TemplateView):
 
         # 사분위수 분석을 위한 데이터
         quantile_analytics = QuantileAnalytics()
-        quantile_target_name = 'power_factor'
+        quantile_target_name = target_value_code
         quantile_analytics.get_quantile_analytics(var_name,quantile_target_name,quantile_sum_df)
         quantile_img_list = quantile_analytics.quantile_img_list
         quantile_title_list = quantile_analytics.quantile_title_list

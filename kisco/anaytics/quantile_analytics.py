@@ -21,7 +21,7 @@ class QuantileAnalytics():
 
     def get_quantile_analytics(self,var_name,quantile_target_name,smart_top_sum_df):
         self.var_name = var_name
-        self.quantile_target_name = 'power_factor'
+        self.quantile_target_name = quantile_target_name
         ten = smart_top_sum_df[var_name].quantile(q=0.1,interpolation='nearest')
         nineteen = smart_top_sum_df[var_name].quantile(q=0.9, interpolation='nearest')
 

@@ -197,6 +197,16 @@ class TbSmartopSum(models.Model):
         db_table = 'tb_smartop_sum'
 
 
+class TbTargetValue(models.Model):
+    target_num = models.IntegerField(primary_key=True)
+    target_value_code = models.CharField(max_length=30, blank=True, null=True)
+    target_value_name = models.CharField(max_length=30, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tb_target_value'
+
+
 class TbVarInfo(models.Model):
     target_code = models.CharField(max_length=20, blank=True, null=True)
     target_num = models.IntegerField(blank=True, null=True)
@@ -213,7 +223,7 @@ class TbVarMap(models.Model):
     seq = models.IntegerField()
     var_type = models.CharField(max_length=1, blank=True, null=True)
     is_ess = models.CharField(max_length=1, blank=True, null=True)
-    create_dtm = models.DateTimeField(blank=True, null=True)
+    create_dtm = models.DateTimeField()
     update_dtm = models.DateTimeField(blank=True, null=True)
 
     class Meta:

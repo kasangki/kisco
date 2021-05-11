@@ -305,23 +305,23 @@
        {{#ttt_dic_list}}
         <tr class="table-success">
             <th scope="row" style="vertical-align: middle;">{{var_name}}</th>
-<<<<<<<<< Temporary merge branch 1
+
             <td><input class="form-control" style="width:100px;height:30px;" type="text"  id="{{var_code}}"></td>
-=========
+
             <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
->>>>>>>>> Temporary merge branch 2
+
         </tr>
         {{/ttt_dic_list}}
     </tbody>
 </script>
 {% endverbatim %}
-<<<<<<<<< Temporary merge branch 1
 
 
-=========
 
 
->>>>>>>>> Temporary merge branch 2
+
+
+
 {% verbatim %}
 <script type="template" id="steelVarTableTemplate">
     <tbody>
@@ -543,7 +543,7 @@ function selectModel(target_code,target_num,model_name) {
   }
   // Dictionary 데이타 타입으로 변환
   function chahgeDictList(inputList) {
-<<<<<<<<< Temporary merge branch 1
+
 
       var dic_list = []
 
@@ -553,7 +553,6 @@ function selectModel(target_code,target_num,model_name) {
               var_name: inputList[i][2],
           };
 
-=========
 
       var dic_list = []
 
@@ -592,7 +591,6 @@ function selectModel(target_code,target_num,model_name) {
               style_value: style_value,
           };
 
->>>>>>>>> Temporary merge branch 2
           dic_list.push(temp_dict);
       }
       return dic_list;
@@ -847,7 +845,6 @@ function selectModel(target_code,target_num,model_name) {
        {#alert(ttt_dic_list[0].var_code);#}
        {#alert(ttt_dic_list[0].var_name);#}
        {#ttt_dic_list[0].value = 10;#}
-<<<<<<<<< Temporary merge branch 1
 
        var varNameList = [];
        var varList = [];
@@ -888,7 +885,7 @@ function selectModel(target_code,target_num,model_name) {
        }
 
 
-=========
+
 
        var varNameList = [];
        var varList = [];
@@ -929,7 +926,6 @@ function selectModel(target_code,target_num,model_name) {
        }
 
 
->>>>>>>>> Temporary merge branch 2
        isEmpty = isVarEmpty('steel_out_time',steel_out_time);
        if(!isEmpty) {
            varNameList.push('steel_out_time');
@@ -1083,7 +1079,6 @@ function selectModel(target_code,target_num,model_name) {
        if(!isEmpty) {
            varNameList.push('oxy_lance');
            varList.push(oxy_lance);
-<<<<<<<<< Temporary merge branch 1
        }
 
        isEmpty = isVarEmpty('lance_flux',lance_flux);
@@ -1148,7 +1143,7 @@ function selectModel(target_code,target_num,model_name) {
            varList.push(master_pos);
        }
 
-=========
+
        }
 
        isEmpty = isVarEmpty('lance_flux',lance_flux);
@@ -1213,7 +1208,6 @@ function selectModel(target_code,target_num,model_name) {
            varList.push(master_pos);
        }
 
->>>>>>>>> Temporary merge branch 2
        isEmpty = isVarEmpty('master_move_distance',master_move_distance);
        if(!isEmpty) {
            varNameList.push('master_move_distance');
@@ -1385,9 +1379,7 @@ function selectModel(target_code,target_num,model_name) {
                 success: function (response) {
 
                    alert('성공');
-<<<<<<<<< Temporary merge branch 1
 
-=========
                    ttt_dic_list = chahgeFinalDictList(response.ttt_var_list);
 
                     var tttVarData = {
@@ -1401,7 +1393,6 @@ function selectModel(target_code,target_num,model_name) {
                     resultHtml += essVarTableBindTemplate(tttVarData);
                     var tttVarTableUl = document.querySelector("#tttVarTableUl");
                     tttVarTableUl.innerHTML = resultHtml;
->>>>>>>>> Temporary merge branch 2
 
 
                 }
