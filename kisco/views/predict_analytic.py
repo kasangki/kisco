@@ -44,8 +44,8 @@ class TrainModelViews(TemplateView):
         # tb_var_info 테이블에 데이터를 넣기 위해서
         var_info_list = checked_var_list.copy()
         target_value_code = request.POST.getlist('target_value_code')[0]
-        target_value_names = ['steel_out_vol', 'power_factor', 'total_elec_charge', 'steel_out_rate']
-        target_value_kor_names = ['출강량', '역률', '합계전력량', '회수율']
+        target_value_names = ['steel_out_vol', 'total_elec_charge', 'power_factor', 'steel_out_rate']
+        target_value_kor_names = ['출강량', '합계전력량', '역률', '회수율']
         alg_names = ['RandomForrest']
         print(checked_var_list)
         ''' 타겟 변수'''
@@ -127,8 +127,8 @@ class TrainPredictModelViews(TemplateView):
         # tb_var_info 테이블에 데이터를 넣기 위해서
         var_info_list = checked_var_list.copy()
         target_value_code = request.POST.getlist('target_value_code')[0]
-        target_value_names = ['steel_out_vol', 'power_factor', 'total_elec_charge', 'steel_out_rate']
-        target_value_kor_names = ['출강량', '역률', '합계전력량', '회수율']
+        target_value_names = ['steel_out_vol',  'total_elec_charge', 'power_factor', 'steel_out_rate']
+        target_value_kor_names = ['출강량', '합계전력량', '역률',  '회수율']
         alg_names = ['RandomForrest']
         print(checked_var_list)
         ''' 타겟 변수'''

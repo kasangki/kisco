@@ -344,7 +344,8 @@
                             </div>
                             <div class="card-footer">
                                 <button type="button" class="btn btn-primary" id="btn_ana_start" onclick="startAnalytics()" >분석시작</button>
-                                <button type="button" class="btn btn-primary" id="btn_model_start" onclick="startAnalytics()" >모델생성시작</button>
+                                <button type="button" class="btn btn-primary" id="btn_model_start" onclick="startAnalytics()" >모델생성</button>
+                                <button type="button" class="btn btn-primary" id="btn_model_auto_start" onclick="startAutoAnalytics()" >자동변수</button>
                             </div>
 
                         </div>
@@ -567,6 +568,7 @@
       $("#row_04").hide();
       $("#model_list").hide();
       $("#btn_model_start").hide();   // 모델생성시작 숨기기
+      $("#btn_model_auto_start").hide();
       closePreload();
   });
 
@@ -580,6 +582,8 @@
           $("#row_04").show();
           $("#slider_body").show();
           $("#model_list").hide();
+          $("#btn_model_auto_start").hide();
+
           //$("#model_list").hide();
       } else if(globalPanNum == 2) {
           $("#model_list").hide();
@@ -590,6 +594,7 @@
           $("#slider_body").hide();
           $("#btn_ana_start").show();
           $("#btn_model_start").hide();
+          $("#btn_model_auto_start").show();
       } else if(globalPanNum == 3) {
           $("#model_list").show();
           $("#row_01").hide();
@@ -599,6 +604,7 @@
           $("#slider_body").hide();
           $("#btn_ana_start").hide();
           $("#btn_model_start").show();
+          $("#btn_model_auto_start").hide();
       }
 
   }
@@ -628,6 +634,12 @@
               makeModel()
           }
     }
+    function startAutoAnalytics() {
+           // 단일변수
+
+    }
+
+
     function analyticSingle() {
 
          var var_name = $("input[name='singleVar']:checked").val();

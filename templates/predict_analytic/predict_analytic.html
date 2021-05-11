@@ -305,21 +305,12 @@
        {{#ttt_dic_list}}
         <tr class="table-success">
             <th scope="row" style="vertical-align: middle;">{{var_name}}</th>
-
-            <td><input class="form-control" style="width:100px;height:30px;" type="text"  id="{{var_code}}"></td>
-
             <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
-
         </tr>
         {{/ttt_dic_list}}
     </tbody>
 </script>
 {% endverbatim %}
-
-
-
-
-
 
 
 {% verbatim %}
@@ -328,7 +319,7 @@
        {{#steel_dic_list}}
         <tr class="table-success">
             <th scope="row" style="vertical-align: middle;">{{var_name}}</th>
-            <td><input class="form-control" style="width:100px;height:30px;" type="text"  id="{{var_code}}"></td>
+            <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
         </tr>
         {{/steel_dic_list}}
     </tbody>
@@ -341,7 +332,7 @@
        {{#mat_dic_list}}
         <tr class="table-success">
             <th scope="row" style="vertical-align: middle;">{{var_name}}</th>
-            <td><input class="form-control" style="width:100px;height:30px;" type="text"  id="{{var_code}}"></td>
+            <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
         </tr>
         {{/mat_dic_list}}
     </tbody>
@@ -354,7 +345,7 @@
        {{#equip_dic_list}}
         <tr class="table-success">
             <th scope="row" style="vertical-align: middle;">{{var_name}}</th>
-            <td><input class="form-control" style="width:100px;height:30px;" type="text"  id="{{var_code}}"></td>
+            <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
         </tr>
         {{/equip_dic_list}}
     </tbody>
@@ -367,7 +358,7 @@
        {{#etc_dic_list}}
         <tr class="table-success">
             <th scope="row" style="vertical-align: middle;">{{var_name}}</th>
-            <td><input class="form-control" style="width:100px;height:30px;" type="text"  id="{{var_code}}"></td>
+            <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
         </tr>
         {{/etc_dic_list}}
     </tbody>
@@ -547,42 +538,43 @@ function selectModel(target_code,target_num,model_name) {
 
       var dic_list = []
 
-      for ( i =0 ; i < inputList.length;i++) {
+      for (i = 0; i < inputList.length; i++) {
           temp_dict = {
               var_code: inputList[i][1],
               var_name: inputList[i][2],
           };
 
 
-      var dic_list = []
+          var dic_list = []
 
-      for ( i =0 ; i < inputList.length;i++) {
-          temp_dict = {
-              var_code: inputList[i][1],
-              var_name: inputList[i][2],
-              style_value : 'width:100px;height:30px',
-          };
+          for (i = 0; i < inputList.length; i++) {
+              temp_dict = {
+                  var_code: inputList[i][1],
+                  var_name: inputList[i][2],
+                  style_value: 'width:100px;height:30px',
+              };
 
-          dic_list.push(temp_dict);
+              dic_list.push(temp_dict);
+          }
+          return dic_list;
       }
-      return dic_list;
   }
 
     // Dictionary 데이타 타입으로 변환
   function chahgeFinalDictList(inputList) {
 
       var dic_list = []
-      alert(inputList[0][0]);
-      alert(inputList[0][1]);
-      alert(inputList[0][2]);
-      alert(inputList[0][3]);
+      {#alert(inputList[0][0]);#}
+      {#alert(inputList[0][1]);#}
+      {#alert(inputList[0][2]);#}
+      {#alert(inputList[0][3]);#}
 
       for ( i =0 ; i < inputList.length;i++) {
-          style_value = 'width:100px;height:30px';
+          style_value = 'width:100px;height:30px;text-align:right';
           if (inputList[i][3] === 'Y') {
-              style_value = 'width:100px;height:30px;color:red'
+              style_value = 'width:100px;height:30px;text-align:right;color:red'
           } else {
-              style_value = 'width:100px;height:30px'
+              style_value = 'width:100px;height:30px;text-align:right'
           }
           temp_dict = {
               var_code: inputList[i][0],
@@ -849,46 +841,7 @@ function selectModel(target_code,target_num,model_name) {
        var varNameList = [];
        var varList = [];
 
-       // TTT 입력변수 세팅 시작
-       entry_time = $("#entry_time").val();
-       melt_start_time = $("#melt_start_time").val();
-       melt_add_time = $("#melt_add_time").val();
-       refine_time  = $("#refine_time").val();
-       steel_out_time = $("#steel_out_time").val();
-       total_time = $("#total_time").val();
 
-       // TTT 입력변수 세팅
-
-       isEmpty = isVarEmpty('entry_time',entry_time);
-
-       if(!isEmpty) {
-           varNameList.push('entry_time');
-           varList.push(entry_time);
-       }
-       isEmpty = isVarEmpty('melt_start_time',melt_start_time);
-       if(!isEmpty) {
-           varNameList.push('melt_start_time');
-           varList.push(melt_start_time);
-       }
-
-       isEmpty = isVarEmpty('melt_add_time',melt_add_time);
-       if(!isEmpty) {
-           varNameList.push('melt_add_time');
-           varList.push(melt_add_time);
-       }
-
-       isEmpty = isVarEmpty('refine_time',refine_time);
-
-       if(!isEmpty) {
-           varNameList.push('refine_time');
-           varList.push(refine_time);
-       }
-
-
-
-
-       var varNameList = [];
-       var varList = [];
 
        // TTT 입력변수 세팅 시작
        entry_time = $("#entry_time").val();
@@ -931,9 +884,8 @@ function selectModel(target_code,target_num,model_name) {
            varNameList.push('steel_out_time');
            varList.push(steel_out_time);
        }
-       alert(total_time);
+
        isEmpty = isVarEmpty('total_time',total_time);
-       alert(isEmpty);
        if(!isEmpty) {
            varNameList.push('total_time');
            varList.push(total_time);
@@ -1144,8 +1096,6 @@ function selectModel(target_code,target_num,model_name) {
        }
 
 
-       }
-
        isEmpty = isVarEmpty('lance_flux',lance_flux);
        if(!isEmpty) {
            varNameList.push('lance_flux');
@@ -1163,87 +1113,11 @@ function selectModel(target_code,target_num,model_name) {
            varNameList.push('lance_width');
            varList.push(lance_width);
        }
-       // 부원료 입력변수 세팅완료
+       // 설비 입력변수  세팅완료
 
-       // 설비 입력변수 세팅시작
-       lance_til_area = $("#lance_til_area").val();
-       elec_pre_air_vol = $("#elec_pre_air_vol").val();
-       elec_pre_dry_degree = $("#elec_pre_dry_degree").val();
-       elec_pre_dir_degree = $("#elec_pre_dir_degree").val();
-       master_pos = $("#master_pos").val();
-       master_move_distance = $("#master_move_distance").val();
-       melt_elec_1 = $("#melt_elec_1").val();
-       melt_elec_2 = $("#melt_elec_2").val();
-       melt_elec_3 = $("#melt_elec_3").val();
-       elec_put_efficiency = $("#elec_put_efficiency").val();
-
-
-       isEmpty = isVarEmpty('lance_til_area',lance_til_area);
-       if(!isEmpty) {
-           varNameList.push('lance_til_area');
-           varList.push(lance_til_area);
-       }
-
-       isEmpty = isVarEmpty('elec_pre_air_vol',elec_pre_air_vol);
-
-       if(!isEmpty) {
-           varNameList.push('elec_pre_air_vol');
-           varList.push(elec_pre_air_vol);
-       }
-
-       isEmpty = isVarEmpty('elec_pre_dry_degree',elec_pre_dry_degree);
-       if(!isEmpty) {
-           varNameList.push('elec_pre_dry_degree');
-           varList.push(elec_pre_dry_degree);
-       }
-       isEmpty = isVarEmpty('elec_pre_dir_degree',elec_pre_dir_degree);
-       if(!isEmpty) {
-           varNameList.push('elec_pre_dir_degree');
-           varList.push(elec_pre_dir_degree);
-       }
-
-       isEmpty = isVarEmpty('master_pos',master_pos);
-       if(!isEmpty) {
-           varNameList.push('master_pos');
-           varList.push(master_pos);
-       }
-
-       isEmpty = isVarEmpty('master_move_distance',master_move_distance);
-       if(!isEmpty) {
-           varNameList.push('master_move_distance');
-           varList.push(master_move_distance);
-       }
-
-       isEmpty = isVarEmpty('melt_elec_1',melt_elec_1);
-       if(!isEmpty) {
-           varNameList.push('melt_elec_1');
-           varList.push(melt_elec_1);
-       }
-
-       isEmpty = isVarEmpty('melt_elec_2',melt_elec_2);
-       if(!isEmpty) {
-           varNameList.push('melt_elec_2');
-           varList.push(melt_elec_2);
-       }
-
-       isEmpty = isVarEmpty('melt_elec_3',melt_elec_3);
-       if(!isEmpty) {
-           varNameList.push('melt_elec_3');
-           varList.push(melt_elec_3);
-       }
-
-       isEmpty = isVarEmpty('elec_put_efficiency',elec_put_efficiency);
-       if(!isEmpty) {
-           varNameList.push('elec_put_efficiency');
-           varList.push(elec_put_efficiency);
-       }
-
-
-
-       // 설비 입력변수 세팅완료
 
        // 기타 입력변수 세팅 시작
-       melt_down_carbon_c = $("#melt_down_carbon_c").val();
+       gravity = $("#gravity").val();
        power_factor = $("#power_factor").val();
        electric_22kv = $("#electric_22kv").val();
        melt_first_elec_charge = $("#melt_first_elec_charge").val();
@@ -1260,11 +1134,14 @@ function selectModel(target_code,target_num,model_name) {
        steel_out_rate = $("#steel_out_rate").val();
        steel_product = $("#steel_product").val();
 
-       isEmpty = isVarEmpty('melt_down_carbon_c',melt_down_carbon_c);
+
+
+       isEmpty = isVarEmpty('gravity',gravity);
        if(!isEmpty) {
-           varNameList.push('melt_down_carbon_c');
-           varList.push(melt_down_carbon_c);
+           varNameList.push('gravity');
+           varList.push(gravity);
        }
+
 
        isEmpty = isVarEmpty('power_factor',power_factor);
        if(!isEmpty) {
@@ -1358,6 +1235,7 @@ function selectModel(target_code,target_num,model_name) {
        // 기타 입력변수 세팅 완료
 
 
+       alert(varList);
 
 
         parameterList = {
@@ -1378,8 +1256,8 @@ function selectModel(target_code,target_num,model_name) {
                 data: parameterList,
                 success: function (response) {
 
-                   alert('성공');
 
+                   // 시간(TTT)
                    ttt_dic_list = chahgeFinalDictList(response.ttt_var_list);
 
                     var tttVarData = {
@@ -1393,6 +1271,73 @@ function selectModel(target_code,target_num,model_name) {
                     resultHtml += essVarTableBindTemplate(tttVarData);
                     var tttVarTableUl = document.querySelector("#tttVarTableUl");
                     tttVarTableUl.innerHTML = resultHtml;
+
+
+
+                    // 고철종류
+                    steel_dic_list = chahgeFinalDictList(response.steel_var_list);
+
+                    var steelVarData = {
+                        steel_dic_list: steel_dic_list,
+                    }
+
+                    var steelVarTableTemplate = document.querySelector("#steelVarTableTemplate").innerHTML;
+                    var steelVarTableBindTemplate = Handlebars.compile(steelVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += steelVarTableBindTemplate(steelVarData);
+                    var steelVarTableUl = document.querySelector("#steelVarTableUl");
+                    steelVarTableUl.innerHTML = resultHtml;
+
+
+
+
+                    // 부원료
+                    mat_dic_list = chahgeFinalDictList(response.mat_var_list);
+
+                    var matVarData = {
+                        mat_dic_list: mat_dic_list,
+                    }
+
+                    var matVarTableTemplate = document.querySelector("#matVarTableTemplate").innerHTML;
+                    var matVarTableBindTemplate = Handlebars.compile(matVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += matVarTableBindTemplate(matVarData);
+                    var matVarTableUl = document.querySelector("#matVarTableUl");
+                    matVarTableUl.innerHTML = resultHtml;
+
+
+                    // 설비
+                    equip_dic_list = chahgeFinalDictList(response.equip_var_list);
+
+                    var equipVarData = {
+                        equip_dic_list: equip_dic_list,
+                    }
+
+                    var equipVarTableTemplate = document.querySelector("#equipVarTableTemplate").innerHTML;
+                    var equipVarTableBindTemplate = Handlebars.compile(equipVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += equipVarTableBindTemplate(equipVarData);
+                    var equipVarTableUl = document.querySelector("#equipVarTableUl");
+                    equipVarTableUl.innerHTML = resultHtml;
+
+                    // 기타
+                    etc_dic_list = chahgeFinalDictList(response.etc_var_list);
+
+                    var etcVarData = {
+                        etc_dic_list: etc_dic_list,
+                    }
+
+                    var etcVarTableTemplate = document.querySelector("#etcVarTableTemplate").innerHTML;
+                    var etcVarTableBindTemplate = Handlebars.compile(etcVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += etcVarTableBindTemplate(etcVarData);
+                    var etcVarTableUl = document.querySelector("#etcVarTableUl");
+                    etcVarTableUl.innerHTML = resultHtml;
+
 
 
                 }

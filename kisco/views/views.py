@@ -31,9 +31,9 @@ class IndexView(TemplateView):
         # power_factor : 역률
         # total_elec_charge : 전력량
         # steel_out_rate : 회수율
-        
-        target_value_names = ['steel_out_vol', 'power_factor', 'total_elec_charge', 'steel_out_rate']
-        target_value_kor_names = ['출강량', '역률', '합계전력량', '회수율']
+
+        target_value_names = ['steel_out_vol', 'total_elec_charge', 'power_factor', 'steel_out_rate']
+        target_value_kor_names = ['출강량', '합계전력량', '역률', '회수율']
         target_value_code = target_value_names[3]
         target_value_name = target_value_kor_names[3]
 
@@ -143,8 +143,8 @@ class IndexMainDataAna(TemplateView) :
         #
 
         target_value_code_num = kwargs['target_value_code_num']
-        target_value_names = ['steel_out_vol', 'power_factor', 'total_elec_charge', 'steel_out_rate']
-        target_value_kor_names = ['출강량', '역률', '합계전력량', '회수율']
+        target_value_names = ['steel_out_vol', 'total_elec_charge', 'power_factor', 'steel_out_rate']
+        target_value_kor_names = ['출강량', '합계전력량', '역률', '회수율']
 
 
 
@@ -227,8 +227,8 @@ class IndexMainDataAna_OLD(TemplateView) :
         #
 
         target_value_code_num = kwargs['target_value_code_num']
-        target_value_names = ['steel_out_vol', 'power_factor', 'total_elec_charge', 'steel_out_rate']
-        target_value_kor_names = ['출강량', '역률', '합계전력량', '회수율']
+        target_value_names = ['steel_out_vol', 'total_elec_charge', 'power_factor', 'steel_out_rate']
+        target_value_kor_names = ['출강량', '합계전력량', '역률', '회수율']
 
 
 
