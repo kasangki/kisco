@@ -615,14 +615,16 @@
 
   }
  // 로딩바 보이기
-    function openPreload() {
-        $("#preloader").show();
-    }
+  function openPreload() {
+
+      $("#preloader").show();
+  }
 
     // 로딩바 숨기기
-    function closePreload() {
-        $("#preloader").hide();
-    }
+  function closePreload() {
+
+      $("#preloader").hide();
+  }
 
 
     function startAnalytics() {
@@ -634,6 +636,7 @@
               analyticMulti();
           // 모델생성
           } else if(globalPanNum == 3) {
+              setTimeout(openPreload,10)
               makeModel()
           }
     }
@@ -662,16 +665,20 @@
 
     // 선택된 변수들을 모델 학습 시작
     function makeModel() {
-          var var_name = $("input[name='modelVar']:checked").val();
-          checkNum = $("input:checkbox[name=modelVar]").length
-          checkedNum =   $("input:checkbox[name=modelVar]:checked").length
-          var checkedVarList = [];
-          $("input[name = modelVar]:checked").each(function () {
-              var chk = $(this).val()
-              checkedVarList.push(chk);
-          })
 
-          target_value_code = '{{ target_value_code }}'
+      //openPreload();
+
+
+      var var_name = $("input[name='modelVar']:checked").val();
+      checkNum = $("input:checkbox[name=modelVar]").length
+      checkedNum =   $("input:checkbox[name=modelVar]:checked").length
+      var checkedVarList = [];
+      $("input[name = modelVar]:checked").each(function () {
+          var chk = $(this).val()
+          checkedVarList.push(chk);
+      })
+
+      target_value_code = '{{ target_value_code }}'
 
 
       parameterList = {
@@ -680,7 +687,7 @@
           csrfmiddlewaretoken: '{{ csrf_token }}'
       }
 
-      openPreload();
+
       $.ajax({
 
                 type: "post",
@@ -704,10 +711,11 @@
                     resultHtml += modelVarTableBindTemplate(modelVarData);
                     var modelVarTableUl = document.querySelector("#kt_datatable1");
                     modelVarTableUl.innerHTML = resultHtml;
-
+                    closePreload();
                 }
+
       });
-      closePreload();
+
     }
 
     // 단일 변수 분석
