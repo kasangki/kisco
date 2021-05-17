@@ -9,7 +9,7 @@
 
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from kisco.models import TbSmartopSum, TbVarMap
+from kisco.models import TbSmartopSum, TbVarMap,TbTargetValue
 import pandas as pd
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
@@ -105,15 +105,31 @@ class TrainModelViews(TemplateView):
         print('변수중요도 =====>>>>>', rr_model.feature_importances_)
 
         ## 모델 목록조회( datatime 에러남)
-        model = TbModel.objects.filter(target_code=target_value_code).values()
-        model_list = list(model)
+        # model = TbModel.objects.filter(target_code=target_value_code).values()
+        # model_list = list(model)
 
+        query = '''select target_code ,
+               target_num ,
+               model_file_name,
+               model_name ,
+               accuracy ,
+               alg_name ,
+               to_char(create_dtm, %s) as create_dtm,
+               to_char(update_dtm, %s) as update_dtm
+        from tb_model 
+        where target_code = %s'''
+        cursor = connection.cursor()
+        cursor.execute(query, ('YYYY-MM-DD HH:MI:SS','YYYY-MM-DD HH:MI:SS',target_value_code))
+        model_list = cursor.fetchall()
+
+        target_value = TbTargetValue.objects.get(target_value_code=target_value_code)
+        target_value_code_num = target_value.pk
 
         context = {
             'checked_var_list' : checked_var_list,
             'model_list' : model_list,
+            'target_value_code_num' : target_value_code_num,
         }
-
 
         return HttpResponse(json.dumps(context), content_type="application/json")
     
@@ -166,7 +182,6 @@ class TrainPredictModelViews(TemplateView):
             target_num = model_df['target_num'].max() + 1
 
         create_dtm = datetime.now()
-        update_dtm = datetime.now()
         target_value_kor_name = TbVarMap.objects.filter(var_code=target_value_code).first().var_name
 
         model_name = target_value_kor_name + '_' + str(target_num)

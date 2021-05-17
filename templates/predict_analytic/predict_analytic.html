@@ -98,8 +98,8 @@
 													<td>98.5</td>
 													<td>변수목록</td>
 													<td>변수중요도</td>
-													<td>{{ model.create_dtm|slice:" :8" }}</td>
-													<td>{{ model.update_dtm }}</td>
+													<td>{{ model.create_dtm | date:"Y-m-d h:i"  }}</td>
+													<td>{{ model.update_dtm | date:"Y-m-d h:i" }}</td>
                                                     <td>{{ model.alg_name}}</td>
                                                 <td nowrap="nowrap"></td>
 												</tr>
@@ -629,7 +629,7 @@ function selectModel(target_code,target_num,model_name) {
 
                 type: "post",
                 async: true,
-                url: "{% url 'search_opeate_number' %}",
+                url: "{% url 'search_operate_number' %}",
                 dataType: "json",
                 data: parameterList,
                 success: function (response) {
@@ -1236,7 +1236,7 @@ function selectModel(target_code,target_num,model_name) {
        // 기타 입력변수 세팅 완료
 
 
-       alert(varList);
+
 
 
         parameterList = {
@@ -1435,6 +1435,9 @@ function selectModel(target_code,target_num,model_name) {
     }
 
 </script>
+
+
+
 
 
 {% endblock %}

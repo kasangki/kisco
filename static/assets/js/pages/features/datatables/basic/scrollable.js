@@ -11,7 +11,7 @@ var KTDatatablesBasicScrollable = function() {
             scrollCollapse: true,
             columnDefs: [{
                     targets: -1,
-                    title: 'Actions',
+                    title: '삭제여부',
                     orderable: false,
 					width: '125px',
                     render: function(data, type, full, meta) {
@@ -221,7 +221,7 @@ var KTDatatablesBasicScrollable = function() {
             },
             columnDefs: [{
                     targets: -1,
-                    title: 'Actions',
+                    title: '삭제여부',
                     orderable: false,
 					width: '125px',
                     render: function(data, type, full, meta) {

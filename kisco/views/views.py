@@ -96,7 +96,7 @@ class IndexView(TemplateView):
             'target_value_name': target_value_name,
             'model_list' : model_list,
         }
-       
+
         return render(request, 'index.html', context=context)
 
 

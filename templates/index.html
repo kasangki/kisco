@@ -390,7 +390,7 @@
                                 <tbody>
                                    {% for model in model_list %}
 
-                                       <tr>
+                                       <tr class="table-success">
                                         <td>{{ model.model_name }}</td>
                                         <td>98.5</td>
                                         <td>변수목록(클릭)</td>
@@ -557,10 +557,13 @@
 <script>
 
   globalPanNum = 1
+
+
+
   $(document).ready(function(){
       openPreload();
-
       setSingleVarRadio();
+
       $("#row_01").hide();
       $("#row_02").hide();
       $("#row_03").hide();
@@ -568,6 +571,7 @@
       $("#model_list").hide();
       $("#btn_model_start").hide();   // 모델생성시작 숨기기
       $("#btn_model_auto_start").hide();
+
       closePreload();
   });
 
@@ -686,6 +690,21 @@
                 data: parameterList,
                 success: function (response) {
                     //$('#model_list').load(location.href+'#model_list');
+
+                    model_dic_list = chahgeDictList(response.model_list);
+
+
+                    var modelVarData = {
+                       model_dic_list: model_dic_list,
+                    }
+                    var modelVarTableTemplate = document.querySelector("#modelListTemplate").innerHTML;
+                    var modelVarTableBindTemplate = Handlebars.compile(modelVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += modelVarTableBindTemplate(modelVarData);
+                    var modelVarTableUl = document.querySelector("#kt_datatable1");
+                    modelVarTableUl.innerHTML = resultHtml;
+
                 }
       });
       closePreload();
@@ -772,7 +791,65 @@
             });
     }
 
+
+    function chahgeDictList(modelList) {
+
+
+      var dic_list = []
+
+      for (i = 0; i < modelList.length; i++) {
+          temp_dict = {
+              target_code: modelList[i][0],
+              target_num: modelList[i][1],
+              model_file_name: modelList[i][2],
+              model_name: modelList[i][3],
+              accuracy: modelList[i][4],
+              alg_name: modelList[i][5],
+              create_dtm: modelList[i][6],
+              update_dtm: modelList[i][7],
+          }
+          dic_list.push(temp_dict);
+      }
+      return dic_list;
+  }
+
+
 </script>
+
+    {% verbatim %}
+<script type="template" id="modelListTemplate">
+     <thead>
+        <tr>
+            <th>모델명</th>
+            <th>정확도</th>
+            <th>변수목록</th>
+            <th>변수중요도</th>
+            <th>생성일자</th>
+            <th>수정일자</th>
+            <th>알고리즘</th>
+            <th>삭제여부</th>
+        </tr>
+    </thead>
+
+    <tbody>
+       {{#model_dic_list}}
+        <tr class="table-success">
+            <td>{{model_name  }}</td>
+            <td>{{ accuracy }}</td>
+            <td>변수목록(클릭)</td>
+            <td>변수중요도(클릭)</td>
+            <td><{{ credate_dtm }}/td>
+            <td>{{ update_dtm }}</td>
+            <td>{{ alg_name }}</td>
+            <td nowrap="nowrap"></td>
+        </tr>
+        {{/model_dic_list}}
+    </tbody>
+</script>
+{% endverbatim %}
+
+
+
 
 <script>
 
