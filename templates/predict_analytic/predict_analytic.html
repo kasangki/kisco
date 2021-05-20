@@ -506,32 +506,6 @@ function selectModel(target_code,target_num,model_name) {
 
                 }
         });
-
-
-{#      {% for var in esstial_var_list %}#}
-{#           <label class="checkbox checkbox-success">#}
-{#           <input type="checkbox" name="modelVar" checked='checked' disabled="disabled" value="{{ var.0 }}"/>#}
-{#           <span></span>{{ var.1 }}</label>#}
-{#       {% endfor %}#}
-
-       {#var data = {#}
-       {#         target_code : target_code ,#}
-       {#         target_num : target_num,#}
-       {#         model_name : model_name#}
-       {#     }#}
-       {#//2. htmlTemplate을 가져온후 Handlebars로 compile 한다.#}
-       {#var commentTemplate = document.querySelector("#commentTemplate").innerHTML;#}
-       {#var commentBindTemplate = Handlebars.compile(commentTemplate);#}
-       {##}
-       {#//3. 컴파일한 템플릿에 데이터를 집어넣는다. 이 때 리턴값은 html로 나온다.#}
-       {#var resultHtml = '';#}
-       {#resultHtml += commentBindTemplate(data);#}
-       {##}
-       {#// 4. 리턴받은 html을 target에 innerHTML로 세팅한다.#}
-       {#var commentUl = document.querySelector("#commentUl");#}
-       {#commentUl.innerHTML = resultHtml;#}
-
-
   }
   // Dictionary 데이타 타입으로 변환
   function chahgeDictList(inputList) {
@@ -595,6 +569,7 @@ function selectModel(target_code,target_num,model_name) {
 
   globalPanNum = 1
   $(document).ready(function(){
+      alert('작업지시')
       $("#opDetail").hide();
       openPreload();
       //setSingleVarRadio();

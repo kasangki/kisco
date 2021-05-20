@@ -1,0 +1,554 @@
+{% extends 'layouts/navbar/navbar.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+    <!--begin::Page Scripts(used by this page)-->
+{#		<script src="{% static 'assets/js/pages/features/miscellaneous/dual-listbox.js' %}"></script>#}
+	<!--end::Page Scripts-->
+    <script src="{% static 'assets/js/pages/widgets.js' %}"></script>
+{#    <script src="{% static 'assets/js/pages/features/forms/widgets/bootstrap-touchspin.js' %}"></script>#}
+
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
+        <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-1">
+                <!--begin::Page Heading-->
+                <div class="d-flex align-items-baseline flex-wrap mr-5">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold my-1 mr-5">작업지시(관리자)</h5>
+                    <!--end::Page Title-->
+                </div>
+                <!--end::Page Heading-->
+            </div>
+            <!--end::Info-->
+
+        </div>
+    </div>
+
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container">
+                    <!-- 모델목록 시작-->
+            <div class="card card-custom">
+                <div class="card-header">
+                 <h3 class="card-title">작업지시(관리자)</h3>
+             </div>
+                <div class="card-body">
+                     <div class="form-group row">
+                         <table class="table table-separate table-head-custom">
+                            <thead>
+                                <tr>
+                                    <td>
+                                        <div class="form-group row">
+                                            <label class="col-form-label text-right col-lg-3 col-sm-12">선택하세요</label>
+                                            <div class="col-lg-4 col-md-9 col-sm-12">
+                                             <select id="sel_target_value" class="form-control selectpicker">
+                                                 <option value="steel_out_vol">출강량</option>
+                                                 <option value="total_elec_charge">전력량</option>
+                                                 <option value="power_factor">역률</option>
+                                                 <option value="steel_out_rate">회수율</option>
+                                                 <option value ="steel_out_rate">원가</option>
+                                             </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-lg-4 col-md-9 col-sm-12 validate">
+                                            <input id="target_value" type="text"  class="form-control is-valid" value="75" name="demo0" placeholder="75"/>
+                                         </div>
+                                    </td>
+                                </tr>
+                            </thead>
+                         </table>
+                      </div>
+                     <div class="card-footer">
+                            <div class="row">
+                                 <div class="col-lg-9 ml-lg-auto">
+                                     <button type="button" class="btn btn-primary" data-toggle="popover" id="btn_work_direct_manage" onclick="searchWork();" >불러오기</button>
+                                     <button type="button" class="btn btn-primary" data-toggle="popover" id="btn_work_direct_manage" onclick="makeWorkDirect();" >분석예측</button>
+                                 </div>
+                            </div>
+                      </div>
+                </div>
+
+                <!--begin::Row-->
+                <div class="card card-custom gutter-b">
+                   <div class="card-body">
+                     <div class="row">
+                       <table class="table table-separate table-head-custom">
+                            <tr>
+                                <td>
+                                    <div class="text-center mb-7">
+                                        <h4 class="font-weight-normal my-2">시간(TTT)</h4>
+                                    </div>
+                                    <ul class="navi navi-hover navi-active navi-accent navi-link-rounded font-weight-bold pb-10">
+                                        <li class="navi-item py-1">
+                                            <table class="table-success" id = 'tttVarTableUl'>
+                                            </table>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <div class="text-center mb-7">
+                                        <h4 class="font-weight-bold my-2">고철종류</h4>
+                                    </div>
+
+                                    <ul class="navi navi-hover navi-active navi-accent navi-link-rounded font-weight-bold pb-10">
+                                        <li class="navi-item py-1">
+                                           <table class="table-success" id = 'steelVarTableUl'>
+                                           </table>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <div class="text-center mb-7">
+                                        <h4 class="font-weight-bold my-2">부원료</h4>
+                                    </div>
+
+                                    <ul class="navi navi-hover navi-active navi-accent navi-link-rounded font-weight-bold pb-10">
+                                        <li class="navi-item py-1">
+                                               <table class="table-success" id = 'matVarTableUl'>
+                                                </table>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <div class="text-center mb-7">
+                                        <h4 class="font-weight-bold my-2">설비</h4>
+                                    </div>
+                                    <ul class="navi navi-hover navi-active navi-accent navi-link-rounded font-weight-bold pb-10">
+                                        <li class="navi-item py-1">
+                                             <table class="table-success" id = 'equipVarTableUl'>
+                                             </table>
+                                        </li>
+                                    </ul>
+
+                                </td>
+                                <td>
+                                    <div class="text-center mb-7">
+                                        <h4 class="font-weight-bold my-2">기타</h4>
+                                    </div>
+                                    <!--end::User-->
+                                    <!--begin::Nav-->
+                                    <ul class="navi navi-hover navi-active navi-accent navi-link-rounded font-weight-bold pb-10">
+                                        <li class="navi-item py-1">
+                                             <table class="table-success" id = 'etcVarTableUl'>
+                                             </table>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                       </table>
+                </div>
+
+             </div>
+                </div>
+            </div>
+            <!--end::Container-->
+		</div>
+    </div>
+
+</div>
+
+{% verbatim %}
+<script type="template" id="tttVarTableTemplate">
+    <tbody>
+       {{#ttt_dic_list}}
+        <tr class="table-light-white">
+            <th scope="row" style="vertical-align:middle;text-align: right"> {{var_name}}</th>
+            <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
+        </tr>
+        {{/ttt_dic_list}}
+    </tbody>
+</script>
+{% endverbatim %}
+
+
+    {% verbatim %}
+<script type="template" id="steelVarTableTemplate">
+    <tbody>
+       {{#steel_dic_list}}
+        <tr class="table-light-white">
+            <th scope="row" style="vertical-align: middle;text-align: right">{{var_name}}</th>
+            <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
+        </tr>
+        {{/steel_dic_list}}
+    </tbody>
+</script>
+{% endverbatim %}
+
+    {% verbatim %}
+<script type="template" id="matVarTableTemplate">
+    <tbody>
+       {{#mat_dic_list}}
+        <tr class="table-light-white">
+            <th scope="row" style="vertical-align: middle;text-align: right">{{var_name}}</th>
+            <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
+        </tr>
+        {{/mat_dic_list}}
+    </tbody>
+</script>
+{% endverbatim %}
+
+{% verbatim %}
+<script type="template" id="equipVarTableTemplate">
+    <tbody>
+       {{#equip_dic_list}}
+        <tr class="table-light-white">
+            <th scope="row" style="vertical-align: middle;text-align: right">{{var_name}}</th>
+            <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
+        </tr>
+        {{/equip_dic_list}}
+    </tbody>
+</script>
+{% endverbatim %}
+
+{% verbatim %}
+<script type="template" id="etcVarTableTemplate">
+    <tbody>
+       {{#etc_dic_list}}
+        <tr class="table-light-white">
+            <th scope="row" style="vertical-align:middle;text-align: right">{{var_name}}</th>
+            <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
+        </tr>
+        {{/etc_dic_list}}
+    </tbody>
+</script>
+{% endverbatim %}
+
+
+
+<script>
+
+// 작업지시할 작업 조회
+var global_op_num = "";
+function makeWorkDirect() {
+
+    // 데이터
+      setTimeout(openPreload,10)
+      var target_value = $("#target_value").val();
+      var target_code = $("#sel_target_value").val();
+
+      var parameterList = {
+          target_code : target_code,
+          target_value : target_value,
+          op_num : global_op_num,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      }
+      $.ajax({
+
+                type: "post",
+                async: true,
+                url: "{% url 'make_work_direct' %}",
+                dataType: "json",
+                data: parameterList,
+                success: function (response) {
+                       // 시간(TTT)
+                   var ttt_dic_list = chahgeFinalDictList(response.ttt_var_list);
+
+                    var tttVarData = {
+                        ttt_dic_list: ttt_dic_list,
+                    }
+
+                    var tttVarTableTemplate = document.querySelector("#tttVarTableTemplate").innerHTML;
+                    var essVarTableBindTemplate = Handlebars.compile(tttVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += essVarTableBindTemplate(tttVarData);
+                    var tttVarTableUl = document.querySelector("#tttVarTableUl");
+                    tttVarTableUl.innerHTML = resultHtml;
+
+
+
+                    // 고철종류
+                    var steel_dic_list = chahgeFinalDictList(response.steel_var_list);
+
+                    var steelVarData = {
+                        steel_dic_list: steel_dic_list,
+                    }
+
+                    var steelVarTableTemplate = document.querySelector("#steelVarTableTemplate").innerHTML;
+                    var steelVarTableBindTemplate = Handlebars.compile(steelVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += steelVarTableBindTemplate(steelVarData);
+                    var steelVarTableUl = document.querySelector("#steelVarTableUl");
+                    steelVarTableUl.innerHTML = resultHtml;
+
+
+
+
+                    // 부원료
+                    var mat_dic_list = chahgeFinalDictList(response.mat_var_list);
+
+                    var matVarData = {
+                        mat_dic_list: mat_dic_list,
+                    }
+
+                    var matVarTableTemplate = document.querySelector("#matVarTableTemplate").innerHTML;
+                    var matVarTableBindTemplate = Handlebars.compile(matVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += matVarTableBindTemplate(matVarData);
+                    var matVarTableUl = document.querySelector("#matVarTableUl");
+                    matVarTableUl.innerHTML = resultHtml;
+
+
+                    // 설비
+                    var equip_dic_list = chahgeFinalDictList(response.equip_var_list);
+
+                    var equipVarData = {
+                        equip_dic_list: equip_dic_list,
+                    }
+
+                    var equipVarTableTemplate = document.querySelector("#equipVarTableTemplate").innerHTML;
+                    var equipVarTableBindTemplate = Handlebars.compile(equipVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += equipVarTableBindTemplate(equipVarData);
+                    var equipVarTableUl = document.querySelector("#equipVarTableUl");
+                    equipVarTableUl.innerHTML = resultHtml;
+
+                    // 기타
+                    var etc_dic_list = chahgeFinalDictList(response.etc_var_list);
+
+                    var etcVarData = {
+                        etc_dic_list: etc_dic_list,
+                    }
+
+                    var etcVarTableTemplate = document.querySelector("#etcVarTableTemplate").innerHTML;
+                    var etcVarTableBindTemplate = Handlebars.compile(etcVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += etcVarTableBindTemplate(etcVarData);
+                    var etcVarTableUl = document.querySelector("#etcVarTableUl");
+                    etcVarTableUl.innerHTML = resultHtml;
+                    closePreload();
+                }
+
+        });
+
+}
+
+
+
+// 작업지시할 작업 조회
+function searchWork() {
+
+    // 데이터
+      setTimeout(openPreload,10)
+      var target_value = $("#target_value").val();
+      var target_code = $("#sel_target_value").val();
+
+      var parameterList = {
+          target_code : target_code,
+          target_value : target_value,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      }
+      $.ajax({
+
+                type: "post",
+                async: true,
+                url: "{% url 'search_work' %}",
+                dataType: "json",
+                data: parameterList,
+                success: function (response) {
+                       // 시간(TTT)
+                    global_op_num = response.op_num;
+                   var ttt_dic_list = chahgeFinalDictList(response.ttt_var_list);
+
+                    var tttVarData = {
+                        ttt_dic_list: ttt_dic_list,
+                    }
+
+                    var tttVarTableTemplate = document.querySelector("#tttVarTableTemplate").innerHTML;
+                    var essVarTableBindTemplate = Handlebars.compile(tttVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += essVarTableBindTemplate(tttVarData);
+                    var tttVarTableUl = document.querySelector("#tttVarTableUl");
+                    tttVarTableUl.innerHTML = resultHtml;
+
+
+
+                    // 고철종류
+                    var steel_dic_list = chahgeFinalDictList(response.steel_var_list);
+
+                    var steelVarData = {
+                        steel_dic_list: steel_dic_list,
+                    }
+
+                    var steelVarTableTemplate = document.querySelector("#steelVarTableTemplate").innerHTML;
+                    var steelVarTableBindTemplate = Handlebars.compile(steelVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += steelVarTableBindTemplate(steelVarData);
+                    var steelVarTableUl = document.querySelector("#steelVarTableUl");
+                    steelVarTableUl.innerHTML = resultHtml;
+
+
+
+
+                    // 부원료
+                    var mat_dic_list = chahgeFinalDictList(response.mat_var_list);
+
+                    var matVarData = {
+                        mat_dic_list: mat_dic_list,
+                    }
+
+                    var matVarTableTemplate = document.querySelector("#matVarTableTemplate").innerHTML;
+                    var matVarTableBindTemplate = Handlebars.compile(matVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += matVarTableBindTemplate(matVarData);
+                    var matVarTableUl = document.querySelector("#matVarTableUl");
+                    matVarTableUl.innerHTML = resultHtml;
+
+
+                    // 설비
+                    var equip_dic_list = chahgeFinalDictList(response.equip_var_list);
+
+                    var equipVarData = {
+                        equip_dic_list: equip_dic_list,
+                    }
+
+                    var equipVarTableTemplate = document.querySelector("#equipVarTableTemplate").innerHTML;
+                    var equipVarTableBindTemplate = Handlebars.compile(equipVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += equipVarTableBindTemplate(equipVarData);
+                    var equipVarTableUl = document.querySelector("#equipVarTableUl");
+                    equipVarTableUl.innerHTML = resultHtml;
+
+                    // 기타
+                    var etc_dic_list = chahgeFinalDictList(response.etc_var_list);
+
+                    var etcVarData = {
+                        etc_dic_list: etc_dic_list,
+                    }
+
+                    var etcVarTableTemplate = document.querySelector("#etcVarTableTemplate").innerHTML;
+                    var etcVarTableBindTemplate = Handlebars.compile(etcVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += etcVarTableBindTemplate(etcVarData);
+                    var etcVarTableUl = document.querySelector("#etcVarTableUl");
+                    etcVarTableUl.innerHTML = resultHtml;
+                    closePreload();
+                }
+
+        });
+
+}
+
+    // Dictionary 데이타 타입으로 변환
+  function chahgeFinalDictList(inputList) {
+
+      var dic_list = []
+      {#alert(inputList[0][0]);#}
+      {#alert(inputList[0][1]);#}
+      {#alert(inputList[0][2]);#}
+      {#alert(inputList[0][3]);#}
+      var style_value = '';
+      for ( i =0 ; i < inputList.length;i++) {
+          style_value = 'width:85px;height:25px;text-align:right';
+          if (inputList[i][3] === 'Y') {
+              style_value = 'width:85px;height:25px;text-align:right;color:red'
+          } else {
+              style_value = 'width:85px;height:25px;text-align:right'
+          }
+          var temp_dict = {
+              var_code: inputList[i][0],
+              var_name: inputList[i][1],
+              var_value: inputList[i][2],
+              style_value: style_value,
+          };
+
+          dic_list.push(temp_dict);
+      }
+      return dic_list;
+  }
+
+// 로딩바 보이기
+function openPreload() {
+    $("#preloader").show();
+}
+
+// 로딩바 숨기기
+function closePreload() {
+    $("#preloader").hide();
+}
+
+
+
+$(document).ready(function(){
+  KTKBootstrapTouchspin.init();
+  KTBootstrapSelect.init();
+  openPreload();
+
+  //setSingleVarRadio();
+  closePreload();
+
+});
+
+
+
+
+
+ "use strict";
+// Class definition
+var KTKBootstrapTouchspin = function() {
+
+    //var validationStateDemos = function() {
+    function  validationStateDemos(min,max) {
+        // validation state demos
+         var defaluts = {
+            buttondown_class: 'btn btn-secondary',
+            buttonup_class: 'btn btn-secondary',
+            min: min,
+            max: max,
+            stepinterval: 1,
+            maxboostedstep: 100,
+            prefix: ''
+        }
+        $('#target_value').TouchSpin(defaluts);
+
+    }
+
+    return {
+        // public functions
+        init: function() {
+            min = 0;
+            max = 100;
+            validationStateDemos(min,max);
+        }
+    };
+}();
+
+
+
+var KTBootstrapSelect = function () {
+
+ // Private functions
+ var demos = function () {
+  // minimum setup
+  $('.kt-selectpicker').selectpicker();
+ }
+
+ return {
+  // public functions
+      init: function() {
+       demos();
+      }
+ };
+}();
+
+
+</script>
+
+{% endblock %}

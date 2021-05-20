@@ -161,11 +161,6 @@ class TrainPredictModelViews(TemplateView):
 
         print(smart_op_sum_df)
 
-
-
-
-
-
         case = '출강량_01'
         smart_operate_report.set_values(x_values=checked_var_list, target_value_name=target_value_code, case=case)
 

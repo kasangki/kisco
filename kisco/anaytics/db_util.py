@@ -38,4 +38,18 @@ class DBUtil():
         return select_var_list
 
 
+    def set_y_final_all_value_list(self, var_type, all_var_name_df,y_final_result_dict,var_name_list):
+        # 선택변수 목록
+        select_var_name_df = all_var_name_df[all_var_name_df['var_type'] == var_type]
+
+        select_var_name_list = list(select_var_name_df['var_name'])
+        select_var_code_list = list(select_var_name_df['var_code'])
+        select_var_list = []
+        for i in range(len(select_var_code_list)):
+            var_code = select_var_code_list[i]
+            var_name = select_var_name_list[i]
+
+            temp = [var_code, var_name,y_final_result_dict[var_code],'N']
+            select_var_list.append(temp)
+        return select_var_list
 
