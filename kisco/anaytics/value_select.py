@@ -62,3 +62,19 @@ class ValueSelect() :
         print("Total elapsed time:", (toc - tic), "seconds.")
 
         return(Fmodels['model'][len(Fmodels['model'])])
+
+    # getBest: 가장 낮은 AIC를 가지는 모델 선택 및 저장
+    def get_best(self,X, y, k):
+        tic = time.time()  # 시작시간
+        results = []  # 결과 저장공간
+        for combo in itertools.combinations(X.columns.difference(['const']), k):  # 각 변수조합을 고려한 경우의 수
+            combo = (list(combo) + ['const'])
+
+            results.append(self.process_subset(X, y, feature_set=combo))  # 모델링된 것들을 저장
+        models = pd.DataFrame(results)  # 데이터 프레임으로 변환
+        # 가장 낮은 AIC를 가지는 모델 선택 및 저장
+        best_model = models.loc[models['AIC'].argmin()]  # index
+        toc = time.time()  # 종료시간
+        print("Processed ", models.shape[0], "models on", k, "predictors in", (toc - tic),
+              "seconds.")
+        return best_model
