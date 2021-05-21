@@ -248,86 +248,8 @@ function makeWorkDirect() {
                 dataType: "json",
                 data: parameterList,
                 success: function (response) {
-                       // 시간(TTT)
-                   var ttt_dic_list = chahgeFinalDictList(response.ttt_var_list);
+                    alert('최종 예측값 == '+response.predict_y_value);
 
-                    var tttVarData = {
-                        ttt_dic_list: ttt_dic_list,
-                    }
-
-                    var tttVarTableTemplate = document.querySelector("#tttVarTableTemplate").innerHTML;
-                    var essVarTableBindTemplate = Handlebars.compile(tttVarTableTemplate);
-
-                    var resultHtml = '';
-                    resultHtml += essVarTableBindTemplate(tttVarData);
-                    var tttVarTableUl = document.querySelector("#tttVarTableUl");
-                    tttVarTableUl.innerHTML = resultHtml;
-
-
-
-                    // 고철종류
-                    var steel_dic_list = chahgeFinalDictList(response.steel_var_list);
-
-                    var steelVarData = {
-                        steel_dic_list: steel_dic_list,
-                    }
-
-                    var steelVarTableTemplate = document.querySelector("#steelVarTableTemplate").innerHTML;
-                    var steelVarTableBindTemplate = Handlebars.compile(steelVarTableTemplate);
-
-                    var resultHtml = '';
-                    resultHtml += steelVarTableBindTemplate(steelVarData);
-                    var steelVarTableUl = document.querySelector("#steelVarTableUl");
-                    steelVarTableUl.innerHTML = resultHtml;
-
-
-
-
-                    // 부원료
-                    var mat_dic_list = chahgeFinalDictList(response.mat_var_list);
-
-                    var matVarData = {
-                        mat_dic_list: mat_dic_list,
-                    }
-
-                    var matVarTableTemplate = document.querySelector("#matVarTableTemplate").innerHTML;
-                    var matVarTableBindTemplate = Handlebars.compile(matVarTableTemplate);
-
-                    var resultHtml = '';
-                    resultHtml += matVarTableBindTemplate(matVarData);
-                    var matVarTableUl = document.querySelector("#matVarTableUl");
-                    matVarTableUl.innerHTML = resultHtml;
-
-
-                    // 설비
-                    var equip_dic_list = chahgeFinalDictList(response.equip_var_list);
-
-                    var equipVarData = {
-                        equip_dic_list: equip_dic_list,
-                    }
-
-                    var equipVarTableTemplate = document.querySelector("#equipVarTableTemplate").innerHTML;
-                    var equipVarTableBindTemplate = Handlebars.compile(equipVarTableTemplate);
-
-                    var resultHtml = '';
-                    resultHtml += equipVarTableBindTemplate(equipVarData);
-                    var equipVarTableUl = document.querySelector("#equipVarTableUl");
-                    equipVarTableUl.innerHTML = resultHtml;
-
-                    // 기타
-                    var etc_dic_list = chahgeFinalDictList(response.etc_var_list);
-
-                    var etcVarData = {
-                        etc_dic_list: etc_dic_list,
-                    }
-
-                    var etcVarTableTemplate = document.querySelector("#etcVarTableTemplate").innerHTML;
-                    var etcVarTableBindTemplate = Handlebars.compile(etcVarTableTemplate);
-
-                    var resultHtml = '';
-                    resultHtml += etcVarTableBindTemplate(etcVarData);
-                    var etcVarTableUl = document.querySelector("#etcVarTableUl");
-                    etcVarTableUl.innerHTML = resultHtml;
                     closePreload();
                 }
 
@@ -468,6 +390,7 @@ function searchWork() {
               var_value: inputList[i][2],
               style_value: style_value,
           };
+
 
           dic_list.push(temp_dict);
       }

@@ -382,15 +382,16 @@ function selectModel(target_code,target_num,model_name) {
 
 
        // 데이터
-      global_target_code = target_code;
-      global_target_num = target_num;
+       setTimeout(openPreload,30)
+       global_target_code = target_code;
+       global_target_num = target_num;
 
-      parameterList = {
+       parameterList = {
           target_code : target_code,
           target_num : target_num,
           csrfmiddlewaretoken: '{{ csrf_token }}'
-      }
-      $.ajax({
+       }
+       $.ajax({
 
                 type: "post",
                 async: true,
@@ -406,8 +407,9 @@ function selectModel(target_code,target_num,model_name) {
 
 
                        // TTT 입력변수 테이블
-                     if(response.ttt_var_list != '') {
-                            ttt_dic_list = chahgeDictList(response.ttt_var_list);
+                     if(response.ttt_var_list !== '') {
+
+                            var ttt_dic_list = chahgeDictList(response.ttt_var_list);
 
                             var tttVarData = {
                                 ttt_dic_list: ttt_dic_list,
@@ -426,8 +428,8 @@ function selectModel(target_code,target_num,model_name) {
                        }
 
                        // 고철 입력변수 테이블
-                      if(response.steel_var_list != '') {
-                              steel_dic_list = chahgeDictList(response.steel_var_list);
+                      if(response.steel_var_list !== '') {
+                              var steel_dic_list = chahgeDictList(response.steel_var_list);
 
                               var steelVarData = {
                                   steel_dic_list: steel_dic_list,
@@ -447,8 +449,8 @@ function selectModel(target_code,target_num,model_name) {
 
 
                        // 부자재 입력변수 테이블
-                       if(response.mat_var_list != '') {
-                               mat_dic_list = chahgeDictList(response.mat_var_list);
+                       if(response.mat_var_list !== '') {
+                               var mat_dic_list = chahgeDictList(response.mat_var_list);
 
                                var matVarData = {
                                    mat_dic_list: mat_dic_list,
@@ -467,8 +469,8 @@ function selectModel(target_code,target_num,model_name) {
 
 
                        // 설비 입력변수 테이블
-                       if(response.equip_var_list != '') {
-                               equip_dic_list = chahgeDictList(response.equip_var_list);
+                       if(response.equip_var_list !== '') {
+                               var equip_dic_list = chahgeDictList(response.equip_var_list);
 
                                var equipVarData = {
                                    equip_dic_list: equip_dic_list,
@@ -485,8 +487,8 @@ function selectModel(target_code,target_num,model_name) {
                                equipVarTableUl.innerHTML = "";
                        }
                        // 기타 입력변수 테이블
-                       if(response.etc_var_list != '') {
-                               etc_dic_list = chahgeDictList(response.etc_var_list);
+                       if(response.etc_var_list !== '') {
+                               var etc_dic_list = chahgeDictList(response.etc_var_list);
 
                                var etcVarData = {
                                    etc_dic_list: etc_dic_list,
@@ -503,7 +505,7 @@ function selectModel(target_code,target_num,model_name) {
                                etcVarTableUl.innerHTML = "";
                        }
 
-
+                     closePreload();
                 }
         });
   }
@@ -569,7 +571,7 @@ function selectModel(target_code,target_num,model_name) {
 
   globalPanNum = 1
   $(document).ready(function(){
-      alert('작업지시')
+
       $("#opDetail").hide();
       openPreload();
       //setSingleVarRadio();
@@ -1212,7 +1214,7 @@ function selectModel(target_code,target_num,model_name) {
 
 
 
-
+        setTimeout(openPreload,30)
 
         parameterList = {
           target_code  : global_target_code,
@@ -1221,7 +1223,7 @@ function selectModel(target_code,target_num,model_name) {
           var_name_list : varNameList,
           csrfmiddlewaretoken: '{{ csrf_token }}'
         }
-        openPreload();
+
 
         $.ajax({
 
@@ -1315,10 +1317,10 @@ function selectModel(target_code,target_num,model_name) {
                     etcVarTableUl.innerHTML = resultHtml;
 
 
-
+                closePreload();
                 }
         });
-        closePreload();
+
 
 
 
