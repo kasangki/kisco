@@ -1,0 +1,510 @@
+{% extends 'layouts/navbar/navbar.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+    <!--begin::Page Scripts(used by this page)-->
+{#		<script src="{% static 'assets/js/pages/features/miscellaneous/dual-listbox.js' %}"></script>#}
+	<!--end::Page Scripts-->
+    <script src="{% static 'assets/js/pages/widgets.js' %}"></script>
+{#    <script src="{% static 'assets/js/pages/features/forms/widgets/bootstrap-touchspin.js' %}"></script>#}
+
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
+        <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-1">
+                <!--begin::Page Heading-->
+                <div class="d-flex align-items-baseline flex-wrap mr-5">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold my-1 mr-5">작업지시(관리자)</h5>
+                    <!--end::Page Title-->
+                </div>
+                <!--end::Page Heading-->
+            </div>
+            <!--end::Info-->
+
+        </div>
+    </div>
+
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container">
+                    <!-- 모델목록 시작-->
+            <div class="card card-custom">
+                <div class="card-header">
+                 <h3 class="card-title">작업지시(관리자)</h3>
+             </div>
+                <div class="card-body">
+                     <div class="form-group row">
+                         <table class="table table-separate table-head-custom">
+                            <thead>
+                                <tr>
+                                     <td width="30%">
+                                         <div class="col-lg-4 col-md-9 col-sm-12 validate">
+                                             <label  style="font-size: 15px;" >조업번호</label>
+                                         </div>
+
+                                    </td>
+                                    <td width="35%">
+                                        <div class="col-lg-4 col-md-9 col-sm-12 validate">
+                                            <input class="form-control" id="op_num" type="text" value="{{ smartop_sum_dict.0.op_num }}" />
+                                         </div>
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td width="35%">
+                                        <div class="form-group row">
+                                            <label style="font-size: 15px;" class="col-form-label text-center col-lg-3 col-sm-12">선택하세요</label>
+                                            <div class="col-lg-4 col-md-9 col-sm-12">
+                                             <select id="sel_target_value" class="form-control selectpicker">
+                                                 <option value="steel_out_vol">출강량</option>
+                                                 <option value="total_elec_charge">전력량</option>
+                                                 <option value="power_factor">역률</option>
+                                                 <option value="steel_out_rate">회수율</option>
+                                                 <option value ="steel_out_rate">원가</option>
+                                             </select>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            </thead>
+                         </table>
+                      </div>
+
+                        <div class="row">
+                             <div class="col-lg-9 ml-lg-auto">
+                                 <button type="button" class="btn btn-primary" data-toggle="popover" id="btn_work_direct_manage" onclick="searchWork();" >불러오기</button>
+                                 <button type="button" class="btn btn-primary" data-toggle="popover" id="btn_work_direct_manage" onclick="makeWorkDirect();" >분석예측</button>
+                             </div>
+                        </div>
+
+                </div>
+
+                <!--begin::Row-->
+                <div class="card card-custom gutter-b">
+                   <div class="card-body">
+                       <div class="row">
+                       <table class="table table-separate table-head-custom">
+                            <tr>
+
+                                <td>
+                                    <div class="text-center mb-7">
+                                        <h4 class="font-weight-bold my-2">고철종류</h4>
+                                    </div>
+
+                                    <ul class="navi navi-hover navi-active navi-accent navi-link-rounded font-weight-bold pb-10">
+                                        <li class="navi-item py-1">
+                                           <table class="table table-separate table-head-custom">
+                                               <tr>
+                                                   <td></td>
+                                                   <td style="text-align:center;">중량A</td>
+                                                   <td style="text-align:center;">중량B</td>
+                                                   <td style="text-align:center;">경량A</td>
+                                                   <td style="text-align:center;">경량B</td>
+                                                   <td style="text-align:center;">GSA</td>
+                                                   <td style="text-align:center;">GSB</td>
+                                                   <td style="text-align:center;">GSS</td>
+                                                   <td style="text-align:center;">MB</td>
+                                                   <td style="text-align:center;">선반설B</td>
+                                                   <td style="text-align:center;">고철사용량</td>
+                                                   <td style="text-align:center;">고철평균</td>
+                                               </tr>
+
+                                               <tr>
+                                                   <td>초장</td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "first_heavy_scrap_a" value="{{ smartop_sum_dict.0.first_heavy_scrap_a | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "first_heavy_scrap_b" value="{{ smartop_sum_dict.0.first_heavy_scrap_b | floatformat:'-3'}}"> </td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "first_light_scrap_a" value="{{ smartop_sum_dict.0.first_light_scrap_a | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "first_light_scrap_b" value="{{ smartop_sum_dict.0.first_light_scrap_b | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "first_gsa" value="{{ smartop_sum_dict.0.first_gsa | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "first_gsb" value="{{ smartop_sum_dict.0.first_gsb | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "first_gss" value="{{ smartop_sum_dict.0.first_gss | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "first_mb" value="{{ smartop_sum_dict.0.first_mb | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "first_lathe_b" value="{{ smartop_sum_dict.0.first_lathe_b | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text"  value=""></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text"  value=""></td>
+                                               </tr>
+
+                                               <tr>
+                                                   <td>추장</td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "second_heavy_scrap_a" value="{{ smartop_sum_dict.0.second_heavy_scrap_a | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "second_heavy_scrap_b" value="{{ smartop_sum_dict.0.second_heavy_scrap_b | floatformat:'-3'}}"> </td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "second_light_scrap_a" value="{{ smartop_sum_dict.0.second_light_scrap_a | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "second_light_scrap_b" value="{{ smartop_sum_dict.0.second_light_scrap_b | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "second_gsa" value="{{ smartop_sum_dict.0.second_gsa | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "second_gsb" value="{{ smartop_sum_dict.0.second_gsb | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "second_gss" value="{{ smartop_sum_dict.0.second_gss | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "second_mb" value="{{ smartop_sum_dict.0.second_mb | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "second_lathe_b" value="{{ smartop_sum_dict.0.second_lathe_b | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" value=""></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" value=""></td>
+                                               </tr>
+                                               <tr>
+                                                   <td style="text-align:center;color:red">합계</td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "heavy_scrap_a" value="{{ smartop_sum_dict.0.heavy_scrap_a | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "heavy_scrap_b" value="{{ smartop_sum_dict.0.heavy_scrap_b | floatformat:'-3'}}"> </td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "light_scrap_a" value="{{ smartop_sum_dict.0.light_scrap_a | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "light_scrap_b" value="{{ smartop_sum_dict.0.light_scrap_b | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "gsa" value="{{ smartop_sum_dict.0.gsa | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "gsb" value="{{ smartop_sum_dict.0.gsb | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "gss" value="{{ smartop_sum_dict.0.gss | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "mb" value="{{ smartop_sum_dict.0.mb | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "lathe_b" value="{{ smartop_sum_dict.0.lathe_b | floatformat:'-3'}}"></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" value=""></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" value=""></td>
+                                               </tr>
+                                           </table>
+                                        </li>
+                                    </ul>
+                                </td>
+
+                            </tr>
+                       </table>
+                     </div>
+                     <div class="row">
+                       <table class="table table-separate table-head-custom">
+                            <tr>
+                                <td>
+                                    <div class="text-center mb-7">
+                                        <h4 class="font-weight-normal my-2">시간(TTT)</h4>
+                                    </div>
+                                    <ul class="navi navi-hover navi-active navi-accent navi-link-rounded font-weight-bold pb-10">
+                                        <li class="navi-item py-1">
+                                            <table class="table-success" id = 'tttVarTableUl'>
+                                            </table>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <div class="text-center mb-7">
+                                        <h4 class="font-weight-bold my-2">부원료</h4>
+                                    </div>
+
+                                    <ul class="navi navi-hover navi-active navi-accent navi-link-rounded font-weight-bold pb-10">
+                                        <li class="navi-item py-1">
+                                               <table class="table-success" id = 'matVarTableUl'>
+                                                </table>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <div class="text-center mb-7">
+                                        <h4 class="font-weight-bold my-2">설비</h4>
+                                    </div>
+                                    <ul class="navi navi-hover navi-active navi-accent navi-link-rounded font-weight-bold pb-10">
+                                        <li class="navi-item py-1">
+                                             <table class="table-success" id = 'equipVarTableUl'>
+                                             </table>
+                                        </li>
+                                    </ul>
+
+                                </td>
+                                <td>
+                                    <div class="text-center mb-7">
+                                        <h4 class="font-weight-bold my-2">기타</h4>
+                                    </div>
+                                    <!--end::User-->
+                                    <!--begin::Nav-->
+                                    <ul class="navi navi-hover navi-active navi-accent navi-link-rounded font-weight-bold pb-10">
+                                        <li class="navi-item py-1">
+                                             <table class="table-success" id = 'etcVarTableUl'>
+                                             </table>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                       </table>
+                     </div>
+
+             </div>
+                </div>
+            </div>
+            <!--end::Container-->
+		</div>
+    </div>
+
+</div>
+
+{% verbatim %}
+<script type="template" id="tttVarTableTemplate">
+    <tbody>
+       {{#ttt_dic_list}}
+        <tr class="table-light-white">
+            <th scope="row" style="vertical-align:middle;text-align: right"> {{var_name}}</th>
+            <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
+        </tr>
+        {{/ttt_dic_list}}
+    </tbody>
+</script>
+{% endverbatim %}
+
+
+    {% verbatim %}
+<script type="template" id="steelVarTableTemplate">
+    <tbody>
+       {{#steel_dic_list}}
+        <tr class="table-light-white">
+            <th scope="row" style="vertical-align: middle;text-align: right">{{var_name}}</th>
+            <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
+        </tr>
+        {{/steel_dic_list}}
+    </tbody>
+</script>
+{% endverbatim %}
+
+    {% verbatim %}
+<script type="template" id="matVarTableTemplate">
+    <tbody>
+       {{#mat_dic_list}}
+        <tr class="table-light-white">
+            <th scope="row" style="vertical-align: middle;text-align: right">{{var_name}}</th>
+            <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
+        </tr>
+        {{/mat_dic_list}}
+    </tbody>
+</script>
+{% endverbatim %}
+
+{% verbatim %}
+<script type="template" id="equipVarTableTemplate">
+    <tbody>
+       {{#equip_dic_list}}
+        <tr class="table-light-white">
+            <th scope="row" style="vertical-align: middle;text-align: right">{{var_name}}</th>
+            <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
+        </tr>
+        {{/equip_dic_list}}
+    </tbody>
+</script>
+{% endverbatim %}
+
+{% verbatim %}
+<script type="template" id="etcVarTableTemplate">
+    <tbody>
+       {{#etc_dic_list}}
+        <tr class="table-light-white">
+            <th scope="row" style="vertical-align:middle;text-align: right">{{var_name}}</th>
+            <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
+        </tr>
+        {{/etc_dic_list}}
+    </tbody>
+</script>
+{% endverbatim %}
+
+
+
+<script>
+
+// 작업지시할 작업 조회
+var global_op_num = "";
+function makeWorkDirect() {
+
+    // 데이터
+      setTimeout(openPreload,10)
+      var target_value = $("#target_value").val();
+      var global_op_num = $("#op_num").val();
+      //var target_code = $("#sel_target_value").val();
+
+      var parameterList = {
+          target_code : target_code,
+          target_value : target_value,
+          op_num : global_op_num,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      }
+      $.ajax({
+
+                type: "post",
+                async: true,
+                url: "{% url 'make_work_direct_history' %}",
+                dataType: "json",
+                data: parameterList,
+                success: function (response) {
+                    //alert('최종 예측값 == '+response.predict_y_value);
+
+
+                    closePreload();
+                }
+
+        });
+
+}
+
+
+
+// 작업불러오기
+function searchWork() {
+
+    // 데이터
+      //setTimeout(openPreload,10)
+      var op_num = $("#op_num").val();
+      //var target_value = $("#target_value").val();
+      var target_code = $("#sel_target_value").val();
+
+      var parameterList = {
+          target_code : target_code,
+          op_num : op_num,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      }
+
+      $.ajax({
+
+                type: "post",
+                async: true,
+                url: "{% url 'search_work_history' %}",
+                dataType: "json",
+                data: parameterList,
+                success: function (response) {
+                     $("#first_heavy_scrap_a").val(response.smartop_sum_dict[0].first_heavy_scrap_a.toFixed(3));
+                     $("#first_heavy_scrap_b").val(response.smartop_sum_dict[0].first_heavy_scrap_b.toFixed(3));
+                     $("#first_light_scrap_a").val(response.smartop_sum_dict[0].first_light_scrap_a.toFixed(3));
+                     $("#first_light_scrap_b").val(response.smartop_sum_dict[0].first_light_scrap_b.toFixed(3));
+                     $("#first_gsa").val(response.smartop_sum_dict[0].first_gsa.toFixed(3));
+                     $("#first_gsb").val(response.smartop_sum_dict[0].first_gsb.toFixed(3));
+                     $("#first_gss").val(response.smartop_sum_dict[0].first_gss.toFixed(3));
+                     $("#first_mb").val(response.smartop_sum_dict[0].first_mb.toFixed(3));
+                     $("#first_lathe_b").val(response.smartop_sum_dict[0].first_lathe_b.toFixed(3));
+
+
+                     $("#second_heavy_scrap_a").val(response.smartop_sum_dict[0].second_heavy_scrap_a.toFixed(3));
+                     $("#second_heavy_scrap_b").val(response.smartop_sum_dict[0].second_heavy_scrap_b.toFixed(3));
+                     $("#second_light_scrap_a").val(response.smartop_sum_dict[0].second_light_scrap_a.toFixed(3));
+                     $("#second_light_scrap_b").val(response.smartop_sum_dict[0].second_light_scrap_b.toFixed(3));
+                     $("#second_gsa").val(response.smartop_sum_dict[0].second_gsa.toFixed(3));
+                     $("#second_gsb").val(response.smartop_sum_dict[0].second_gsb.toFixed(3));
+                     $("#second_gss").val(response.smartop_sum_dict[0].second_gss.toFixed(3));
+                     $("#second_mb").val(response.smartop_sum_dict[0].second_mb.toFixed(3));
+                     $("#second_lathe_b").val(response.smartop_sum_dict[0].second_lathe_b.toFixed(3));
+
+                     alert((response.smartop_sum_dict[0].heavy_scrap_b.toFixed(3)));
+                     $("#heavy_scrap_a").val(response.smartop_sum_dict[0].heavy_scrap_a.toFixed(3));
+                     $("#heavy_scrap_b").val(response.smartop_sum_dict[0].heavy_scrap_b.toFixed(3));
+                     $("#light_scrap_a").val(response.smartop_sum_dict[0].light_scrap_a.toFixed(3));
+                     $("#light_scrap_b").val(response.smartop_sum_dict[0].light_scrap_b.toFixed(3));
+                     $("#gsa").val(response.smartop_sum_dict[0].gsa.toFixed(3));
+                     $("#gsb").val(response.smartop_sum_dict[0].gsb.toFixed(3));
+                     $("#gss").val(response.smartop_sum_dict[0].gss.toFixed(3));
+                     $("#mb").val(response.smartop_sum_dict[0].mb.toFixed(3));
+                     $("#lathe_b").val(response.smartop_sum_dict[0].lathe_b.toFixed(3));
+
+
+                }
+
+        });
+
+}
+
+    // Dictionary 데이타 타입으로 변환
+  function chahgeFinalDictList(inputList) {
+
+      var dic_list = []
+      {#alert(inputList[0][0]);#}
+      {#alert(inputList[0][1]);#}
+      {#alert(inputList[0][2]);#}
+      {#alert(inputList[0][3]);#}
+      var style_value = '';
+      for ( i =0 ; i < inputList.length;i++) {
+          style_value = 'width:85px;height:25px;text-align:right';
+          if (inputList[i][3] === 'Y') {
+              style_value = 'width:85px;height:25px;text-align:right;color:red'
+          } else {
+              style_value = 'width:85px;height:25px;text-align:right'
+          }
+          var temp_dict = {
+              var_code: inputList[i][0],
+              var_name: inputList[i][1],
+              var_value: inputList[i][2],
+              style_value: style_value,
+          };
+
+
+          dic_list.push(temp_dict);
+      }
+      return dic_list;
+  }
+
+// 로딩바 보이기
+function openPreload() {
+    $("#preloader").show();
+}
+
+// 로딩바 숨기기
+function closePreload() {
+    $("#preloader").hide();
+}
+
+
+
+$(document).ready(function(){
+    KTKBootstrapTouchspin.init();
+    KTBootstrapSelect.init();
+    global_op_num = {{ smartop_sum_dict.0.op_num }}
+
+    //openPreload();
+    //setTimeout(openPreload,10)
+    //setSingleVarRadio();
+    //closePreload();
+
+});
+
+
+
+
+
+ "use strict";
+// Class definition
+var KTKBootstrapTouchspin = function() {
+
+    //var validationStateDemos = function() {
+    function  validationStateDemos(min,max) {
+        // validation state demos
+         var defaluts = {
+            buttondown_class: 'btn btn-secondary',
+            buttonup_class: 'btn btn-secondary',
+            min: min,
+            max: max,
+            stepinterval: 1,
+            maxboostedstep: 100,
+            prefix: ''
+        }
+        $('#target_value').TouchSpin(defaluts);
+
+    }
+
+    return {
+        // public functions
+        init: function() {
+            min = 0;
+            max = 100;
+            validationStateDemos(min,max);
+        }
+    };
+}();
+
+
+
+var KTBootstrapSelect = function () {
+
+ // Private functions
+ var demos = function () {
+  // minimum setup
+  $('.kt-selectpicker').selectpicker();
+ }
+
+ return {
+  // public functions
+      init: function() {
+       demos();
+      }
+ };
+}();
+
+
+</script>
+
+{% endblock %}

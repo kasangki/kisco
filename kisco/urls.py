@@ -5,6 +5,7 @@ from kisco.views.steel_out_var import *
 from kisco.views.analytic_single_var import *
 from kisco.views.predict_analytic import *
 from kisco.views.work_direct import *
+from kisco.views.work_direct_history import *
 
 urlpatterns = [
     # 메인화면
@@ -22,9 +23,17 @@ urlpatterns = [
     path('search_operate_number', SearchOperateNumberView.as_view(), name='search_operate_number'),
     path('search_optimal_predict', SearchOptimalPredictView.as_view(), name='search_optimal_predict'),
     path('search_var_info', SearchVarInfoView.as_view(), name='search_var_info'),
+
+    # 작업지시_1
     path('work_direct_manager',WorkDirectManagerView.as_view(), name='work_direct_manager'),
     path('search_work',WorkDirectManagerView.search_work, name='search_work'),
     path('make_work_direct',WorkDirectManagerView.make_work_direct, name='make_work_direct'),
+    
+    # 작업지시_2
+    path('work_direct_manager_history',WorkDirectManagerHistoryView.as_view(), name='work_direct_manager_history'),
+    path('search_work_history',WorkDirectManagerHistoryView.search_work_history, name='search_work_history'),
+    path('make_work_direct_history',WorkDirectManagerHistoryView.make_work_direct_history, name='make_work_direct_history'),
 
+    # 모델생성
     path('make_model', TrainModelViews.make_model, name='make_model'),
 ]

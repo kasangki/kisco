@@ -135,7 +135,7 @@ class TbModel(models.Model):
 
 
 class TbSmartopSum(models.Model):
-    op_num = models.IntegerField(primary_key=True)
+    op_num = models.CharField(primary_key=True,max_length=20)
     entry_time = models.FloatField(blank=True, null=True)
     melt_start_time = models.FloatField(blank=True, null=True)
     melt_add_time = models.FloatField(blank=True, null=True)
