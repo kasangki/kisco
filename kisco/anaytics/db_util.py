@@ -3,7 +3,8 @@ from django.db import connection
 
 class DBUtil():
     def __init__(self):
-        pass
+        self.cursor = connection.cursor()
+
 
     ## 변수 타입별 변수 목록 조회
     def get_var_name_list(self, var_type, all_var_name_df):
@@ -56,7 +57,7 @@ class DBUtil():
             select_var_list.append(temp)
         return select_var_list
 
-    def convert_to_dict(self,columns, results):
+    def convert_to_dict(self, results):
         """
         This method converts the resultset from postgres to dictionary
         interates the data and maps the columns to the values in result set and converts to dictionary
@@ -64,7 +65,9 @@ class DBUtil():
         :param results: List / Tupple - result set from when query is executed
         :return: list of dictionary- mapped with table column name and to its values
         """
+        columns = self.cursor.description
         allResults = []
+
         columns = [col.name for col in columns]
         if type(results) is list:
             for value in results:
@@ -74,7 +77,9 @@ class DBUtil():
             allResults.append(dict(zip(columns, results)))
             return allResults
 
-    def get_smartop_sum_dict(self,op_num):
+    # smartop_sum 데이터 조회 flag : all 전체, single : 한건
+    def get_smartop_sum_list(self,op_num,flag):
+
         query = '''select 
                         A.* ,
                         B.first_heavy_scrap_a ,
@@ -87,6 +92,10 @@ class DBUtil():
                         B.first_mb ,
                         B.first_lathe_a ,
                         B.first_lathe_b ,
+                        B.first_heavy_scrap_a + B.first_heavy_scrap_b + 
+	                    B.first_light_scrap_a + B.first_light_scrap_b + 
+	                    B.first_gsa + B.first_gsb + B.first_gss +
+	                    B.first_mb + B.first_lathe_b  as first_scrap_metal_usage,
 
                         B.second_heavy_scrap_a ,
                         B.second_heavy_scrap_b ,
@@ -97,7 +106,11 @@ class DBUtil():
                         B.second_gss ,
                         B.second_mb ,
                         B.second_lathe_a ,
-                        B.second_lathe_b 
+                        B.second_lathe_b ,
+                        B.second_heavy_scrap_a + B.second_heavy_scrap_b + 
+	                    B.second_light_scrap_a + B.second_light_scrap_b + 
+	                    B.second_gsa + B.second_gsb + B.second_gss +
+	                    B.second_mb + B.second_lathe_b  as second_scrap_metal_usage
                     from tb_smartop_sum  A ,
                     (SELECT DISTINCT op_num, 
                         sum(first_heavy_scrap_a) as first_heavy_scrap_a,
@@ -121,6 +134,7 @@ class DBUtil():
                         sum(second_mb) as second_mb,
                         sum(second_lathe_a) as second_lathe_a,
                         sum(second_lathe_b) as second_lathe_b
+                        
 
                         FROM (
                             SELECT DISTINCT op_num,
@@ -150,12 +164,18 @@ class DBUtil():
                         GROUP BY op_num
                         order by op_num
                     ) B			
-                    where A.op_num = B.op_num
-                    and  A.op_num =%s '''
-        cursor = connection.cursor()
-        cursor.execute(query,[op_num])
-        smartop_sum_list = cursor.fetchall()
+                    where A.op_num = B.op_num '''
+        if flag == 'single' :
+            query = query + ''' and  A.op_num =%s '''
+            self.cursor.execute(query, [op_num])
+            smartop_sum_list = self.cursor.fetchall()
+            return smartop_sum_list
+        else :
+            self.cursor.execute(query)
+            smartop_sum_list = self.cursor.fetchall()
+            return smartop_sum_list
+
+        #cursor = connection.cursor()
 
 
-        smartop_sum_dict = self.convert_to_dict(cursor.description, smartop_sum_list)
-        return smartop_sum_dict
+

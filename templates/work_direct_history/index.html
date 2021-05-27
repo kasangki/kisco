@@ -127,7 +127,7 @@
                                                    <td> <input class="form-control"  style="text-align: right;" type="text" id = "first_gss" value="{{ smartop_sum_dict.0.first_gss | floatformat:'-3'}}"></td>
                                                    <td> <input class="form-control"  style="text-align: right;" type="text" id = "first_mb" value="{{ smartop_sum_dict.0.first_mb | floatformat:'-3'}}"></td>
                                                    <td> <input class="form-control"  style="text-align: right;" type="text" id = "first_lathe_b" value="{{ smartop_sum_dict.0.first_lathe_b | floatformat:'-3'}}"></td>
-                                                   <td> <input class="form-control"  style="text-align: right;" type="text"  value=""></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "first_scrap_metal_usage" value="{{ smartop_sum_dict.0.first_scrap_metal_usage | floatformat:'-3'}}"></td>
                                                    <td> <input class="form-control"  style="text-align: right;" type="text"  value=""></td>
                                                </tr>
 
@@ -142,7 +142,7 @@
                                                    <td> <input class="form-control"  style="text-align: right;" type="text" id = "second_gss" value="{{ smartop_sum_dict.0.second_gss | floatformat:'-3'}}"></td>
                                                    <td> <input class="form-control"  style="text-align: right;" type="text" id = "second_mb" value="{{ smartop_sum_dict.0.second_mb | floatformat:'-3'}}"></td>
                                                    <td> <input class="form-control"  style="text-align: right;" type="text" id = "second_lathe_b" value="{{ smartop_sum_dict.0.second_lathe_b | floatformat:'-3'}}"></td>
-                                                   <td> <input class="form-control"  style="text-align: right;" type="text" value=""></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "second_scrap_metal_usage" value="{{ smartop_sum_dict.0.second_scrap_metal_usage | floatformat:'-3'}}"></td>
                                                    <td> <input class="form-control"  style="text-align: right;" type="text" value=""></td>
                                                </tr>
                                                <tr>
@@ -156,7 +156,7 @@
                                                    <td> <input class="form-control"  style="text-align: right;" type="text" id = "gss" value="{{ smartop_sum_dict.0.gss | floatformat:'-3'}}"></td>
                                                    <td> <input class="form-control"  style="text-align: right;" type="text" id = "mb" value="{{ smartop_sum_dict.0.mb | floatformat:'-3'}}"></td>
                                                    <td> <input class="form-control"  style="text-align: right;" type="text" id = "lathe_b" value="{{ smartop_sum_dict.0.lathe_b | floatformat:'-3'}}"></td>
-                                                   <td> <input class="form-control"  style="text-align: right;" type="text" value=""></td>
+                                                   <td> <input class="form-control"  style="text-align: right;" type="text" id = "scrap_metal_usage" value="{{ smartop_sum_dict.0.scrap_metal_usage | floatformat:'-3'}}"></td>
                                                    <td> <input class="form-control"  style="text-align: right;" type="text" value=""></td>
                                                </tr>
                                            </table>
@@ -251,7 +251,7 @@
        {{#steel_dic_list}}
         <tr class="table-light-white">
             <th scope="row" style="vertical-align: middle;text-align: right">{{var_name}}</th>
-            <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value }}" id="{{var_code}}"></td>
+            <td><input class="form-control" style= "{{style_value}}" type="text"  value = "{{ var_value,0 }}" id="{{var_code}}"></td>
         </tr>
         {{/steel_dic_list}}
     </tbody>
@@ -301,6 +301,17 @@
 
 <script>
 
+
+function isVarEmpty(varCode,varValue) {
+
+        if(varValue === '' || varValue === undefined) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 // 작업지시할 작업 조회
 var global_op_num = "";
 function makeWorkDirect() {
@@ -308,12 +319,100 @@ function makeWorkDirect() {
     // 데이터
       setTimeout(openPreload,10)
       var target_value = $("#target_value").val();
+      var target_code = $("#sel_target_value").val();
       var global_op_num = $("#op_num").val();
       //var target_code = $("#sel_target_value").val();
+    // 고철종류 입력변수 세팅
+       var first_heavy_scrap_a = $("#first_heavy_scrap_a").val();
+       var first_heavy_scrap_b = $("#first_heavy_scrap_b").val();
+       var first_light_scrap_a = $("#first_light_scrap_a").val();
+       var first_light_scrap_b = $("#first_light_scrap_b").val();
+       var first_gsa = $("#first_gsa").val();
+       var first_gsb = $("#first_gsb").val();
+       var first_gss = $("#first_gss").val();
+       var first_mb = $("#first_mb").val();
+       var first_lathe_b = $("#first_lathe_b").val();
+       var first_scrap_metal_usage = $("#first_scrap_metal_usage").val();
+       var first_scrap_avg_ton = $("#first_scrap_avg_ton").val();
+
+       var varNameList = [];
+       var varList = [];
+
+       var isEmpty = isVarEmpty('first_heavy_scrap_a',first_heavy_scrap_a);
+
+       if(!isEmpty) {
+           varNameList.push('first_heavy_scrap_a');
+           varList.push(first_heavy_scrap_a);
+       }
+
+       isEmpty = isVarEmpty('first_heavy_scrap_b',first_heavy_scrap_b);
+       if(!isEmpty) {
+           varNameList.push('first_heavy_scrap_b');
+           varList.push(first_heavy_scrap_b);
+       }
+
+       isEmpty = isVarEmpty('first_light_scrap_a',first_light_scrap_a);
+       if(!isEmpty) {
+           varNameList.push('first_light_scrap_a');
+           varList.push(first_light_scrap_a);
+       }
+
+       isEmpty = isVarEmpty('first_light_scrap_b',first_light_scrap_b);
+       if(!isEmpty) {
+           varNameList.push('first_light_scrap_b');
+           varList.push(first_light_scrap_b);
+       }
+
+       isEmpty = isVarEmpty('first_gsa',first_gsa);
+       if(!isEmpty) {
+           varNameList.push('first_gsa');
+           varList.push(first_gsa);
+       }
+
+       isEmpty = isVarEmpty('first_gsb',first_gsb);
+       if(!isEmpty) {
+           varNameList.push('first_gsb');
+           varList.push(first_gsb);
+       }
+
+       isEmpty = isVarEmpty('first_gss',first_gss);
+       if(!isEmpty) {
+           varNameList.push('first_gss');
+           varList.push(first_gss);
+       }
+
+       isEmpty = isVarEmpty('first_mb',first_mb);
+       if(!isEmpty) {
+           varNameList.push('first_mb');
+           varList.push(first_mb);
+       }
+
+       isEmpty = isVarEmpty('first_lathe_b',first_lathe_b);
+       if(!isEmpty) {
+           varNameList.push('first_lathe_b');
+           varList.push(first_lathe_b);
+       }
+
+       isEmpty = isVarEmpty('first_scrap_metal_usage',first_scrap_metal_usage);
+       if(!isEmpty) {
+           varNameList.push('first_scrap_metal_usage');
+           varList.push(first_scrap_metal_usage);
+       }
+
+       isEmpty = isVarEmpty('first_scrap_avg_ton',first_scrap_avg_ton);
+       if(!isEmpty) {
+           varNameList.push('first_scrap_avg_ton');
+           varList.push(first_scrap_avg_ton);
+       }
+       // 고철종류 입력변수 세팅 완료
+
+
 
       var parameterList = {
           target_code : target_code,
           target_value : target_value,
+          var_list : varList,
+          var_name_list : varNameList,
           op_num : global_op_num,
           csrfmiddlewaretoken: '{{ csrf_token }}'
       }
@@ -325,10 +424,90 @@ function makeWorkDirect() {
                 dataType: "json",
                 data: parameterList,
                 success: function (response) {
-                    //alert('최종 예측값 == '+response.predict_y_value);
+
+                    // 시간(TTT)
+                    global_op_num = response.op_num;
+                    var ttt_dic_list = changeFinalDictList(response.ttt_var_list);
+                    alert(ttt_dic_list[0].var_name);
+                    var tttVarData = {
+                        ttt_dic_list: ttt_dic_list,
+                    }
+
+                    var tttVarTableTemplate = document.querySelector("#tttVarTableTemplate").innerHTML;
+                    var essVarTableBindTemplate = Handlebars.compile(tttVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += essVarTableBindTemplate(tttVarData);
+                    var tttVarTableUl = document.querySelector("#tttVarTableUl");
+                    tttVarTableUl.innerHTML = resultHtml;
 
 
+
+                    {#// 고철종류#}
+                    {#var steel_dic_list = chahgeFinalDictList(response.steel_var_list);#}
+                    {##}
+                    {#var steelVarData = {#}
+                    {#    steel_dic_list: steel_dic_list,#}
+
+                    {##}
+                    {#var steelVarTableTemplate = document.querySelector("#steelVarTableTemplate").innerHTML;#}
+                    {#var steelVarTableBindTemplate = Handlebars.compile(steelVarTableTemplate);#}
+                    {##}
+                    {#var resultHtml = '';#}
+                    {#resultHtml += steelVarTableBindTemplate(steelVarData);#}
+                    {#var steelVarTableUl = document.querySelector("#steelVarTableUl");#}
+                    {#steelVarTableUl.innerHTML = resultHtml;#}
+
+
+
+
+                    // 부원료
+                    var mat_dic_list = changeFinalDictList(response.mat_var_list);
+
+                    var matVarData = {
+                        mat_dic_list: mat_dic_list,
+                    }
+
+                    var matVarTableTemplate = document.querySelector("#matVarTableTemplate").innerHTML;
+                    var matVarTableBindTemplate = Handlebars.compile(matVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += matVarTableBindTemplate(matVarData);
+                    var matVarTableUl = document.querySelector("#matVarTableUl");
+                    matVarTableUl.innerHTML = resultHtml;
+
+
+                    // 설비
+                    var equip_dic_list = changeFinalDictList(response.equip_var_list);
+
+                    var equipVarData = {
+                        equip_dic_list: equip_dic_list,
+                    }
+
+                    var equipVarTableTemplate = document.querySelector("#equipVarTableTemplate").innerHTML;
+                    var equipVarTableBindTemplate = Handlebars.compile(equipVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += equipVarTableBindTemplate(equipVarData);
+                    var equipVarTableUl = document.querySelector("#equipVarTableUl");
+                    equipVarTableUl.innerHTML = resultHtml;
+
+                    // 기타
+                    var etc_dic_list = changeFinalDictList(response.etc_var_list);
+
+                    var etcVarData = {
+                        etc_dic_list: etc_dic_list,
+                    }
+
+                    var etcVarTableTemplate = document.querySelector("#etcVarTableTemplate").innerHTML;
+                    var etcVarTableBindTemplate = Handlebars.compile(etcVarTableTemplate);
+
+                    var resultHtml = '';
+                    resultHtml += etcVarTableBindTemplate(etcVarData);
+                    var etcVarTableUl = document.querySelector("#etcVarTableUl");
+                    etcVarTableUl.innerHTML = resultHtml;
                     closePreload();
+
                 }
 
         });
@@ -369,6 +548,7 @@ function searchWork() {
                      $("#first_gss").val(response.smartop_sum_dict[0].first_gss.toFixed(3));
                      $("#first_mb").val(response.smartop_sum_dict[0].first_mb.toFixed(3));
                      $("#first_lathe_b").val(response.smartop_sum_dict[0].first_lathe_b.toFixed(3));
+                     $("#first_scrap_metal_usage").val(response.smartop_sum_dict[0].first_scrap_metal_usage.toFixed(3));
 
 
                      $("#second_heavy_scrap_a").val(response.smartop_sum_dict[0].second_heavy_scrap_a.toFixed(3));
@@ -380,8 +560,9 @@ function searchWork() {
                      $("#second_gss").val(response.smartop_sum_dict[0].second_gss.toFixed(3));
                      $("#second_mb").val(response.smartop_sum_dict[0].second_mb.toFixed(3));
                      $("#second_lathe_b").val(response.smartop_sum_dict[0].second_lathe_b.toFixed(3));
+                     $("#second_scrap_metal_usage").val(response.smartop_sum_dict[0].second_scrap_metal_usage.toFixed(3));
 
-                     alert((response.smartop_sum_dict[0].heavy_scrap_b.toFixed(3)));
+
                      $("#heavy_scrap_a").val(response.smartop_sum_dict[0].heavy_scrap_a.toFixed(3));
                      $("#heavy_scrap_b").val(response.smartop_sum_dict[0].heavy_scrap_b.toFixed(3));
                      $("#light_scrap_a").val(response.smartop_sum_dict[0].light_scrap_a.toFixed(3));
@@ -391,6 +572,7 @@ function searchWork() {
                      $("#gss").val(response.smartop_sum_dict[0].gss.toFixed(3));
                      $("#mb").val(response.smartop_sum_dict[0].mb.toFixed(3));
                      $("#lathe_b").val(response.smartop_sum_dict[0].lathe_b.toFixed(3));
+                     $("#scrap_metal_usage").val(response.smartop_sum_dict[0].scrap_metal_usage.toFixed(3));
 
 
                 }
@@ -400,7 +582,7 @@ function searchWork() {
 }
 
     // Dictionary 데이타 타입으로 변환
-  function chahgeFinalDictList(inputList) {
+  function changeFinalDictList(inputList) {
 
       var dic_list = []
       {#alert(inputList[0][0]);#}

@@ -282,7 +282,7 @@ function searchWork() {
                 success: function (response) {
                        // 시간(TTT)
                     global_op_num = response.op_num;
-                   var ttt_dic_list = chahgeFinalDictList(response.ttt_var_list);
+                   var ttt_dic_list = changeFinalDictList(response.ttt_var_list);
 
                     var tttVarData = {
                         ttt_dic_list: ttt_dic_list,
@@ -299,7 +299,7 @@ function searchWork() {
 
 
                     // 고철종류
-                    var steel_dic_list = chahgeFinalDictList(response.steel_var_list);
+                    var steel_dic_list = changeFinalDictList(response.steel_var_list);
 
                     var steelVarData = {
                         steel_dic_list: steel_dic_list,
@@ -317,7 +317,7 @@ function searchWork() {
 
 
                     // 부원료
-                    var mat_dic_list = chahgeFinalDictList(response.mat_var_list);
+                    var mat_dic_list = changeFinalDictList(response.mat_var_list);
 
                     var matVarData = {
                         mat_dic_list: mat_dic_list,
@@ -333,7 +333,7 @@ function searchWork() {
 
 
                     // 설비
-                    var equip_dic_list = chahgeFinalDictList(response.equip_var_list);
+                    var equip_dic_list = changeFinalDictList(response.equip_var_list);
 
                     var equipVarData = {
                         equip_dic_list: equip_dic_list,
@@ -348,7 +348,7 @@ function searchWork() {
                     equipVarTableUl.innerHTML = resultHtml;
 
                     // 기타
-                    var etc_dic_list = chahgeFinalDictList(response.etc_var_list);
+                    var etc_dic_list = changeFinalDictList(response.etc_var_list);
 
                     var etcVarData = {
                         etc_dic_list: etc_dic_list,
@@ -369,7 +369,7 @@ function searchWork() {
 }
 
     // Dictionary 데이타 타입으로 변환
-  function chahgeFinalDictList(inputList) {
+  function changeFinalDictList(inputList) {
 
       var dic_list = []
       {#alert(inputList[0][0]);#}

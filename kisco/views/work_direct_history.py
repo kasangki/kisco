@@ -48,7 +48,9 @@ class WorkDirectManagerHistoryView(TemplateView):
         smartop_sum = TbSmartopSum.objects.aggregate(op_num=Max('op_num'))
         op_num  = str(smartop_sum['op_num'])
         db_util = DBUtil()
-        smartop_sum_dict = db_util.get_smartop_sum_dict(op_num)
+        flag = 'single'
+        smartop_sum_list = db_util.get_smartop_sum_list(op_num,flag)
+        smartop_sum_dict = db_util.convert_to_dict(smartop_sum_list)
 
 
         #return var_info_list
@@ -65,8 +67,11 @@ class WorkDirectManagerHistoryView(TemplateView):
         # smartop_sum = TbSmartopSum.objects.aggregate(op_num=Max('op_num'))
         # op_num = smartop_sum['op_num']
         op_num = request.POST.get('op_num')
+        flag = 'single'
         db_util = DBUtil()
-        smartop_sum_dict = db_util.get_smartop_sum_dict(op_num)
+        smartop_sum_list = db_util.get_smartop_sum_list(op_num,flag)
+        smartop_sum_dict = db_util.convert_to_dict(smartop_sum_list)
+
 
         # return var_info_list
         print(smartop_sum_dict)
@@ -80,67 +85,48 @@ class WorkDirectManagerHistoryView(TemplateView):
     # 작업지시할 작업 생성
     def make_work_direct_history(request):
         target_code = request.POST.get('target_code')
-        target_value = request.POST.get('target_value')
+        #target_value = request.POST.get('target_value')
         op_num = request.POST.get('op_num')
-        
+
+        var_list = request.POST.getlist('var_list[]')   # 변수목록
+        var_name_list = request.POST.getlist('var_name_list[]')   # 변수명 리스트
+      
+        db_util = DBUtil()
+
         # 예측할 데이터
-        smartTopSum = TbSmartopSum.objects.filter(op_num=op_num).values()
-        smart_top_sum_df = pd.DataFrame(list(smartTopSum))
+        flag = 'single'
+        smartop_sum_list = db_util.get_smartop_sum_list(op_num,flag)
+        smartop_sum_dict = db_util.convert_to_dict(smartop_sum_list)
+        smart_top_sum_df = pd.DataFrame(smartop_sum_dict)
         smart_top_sum_df.drop(['op_num','create_dtm','update_dtm'],axis=1,inplace=True)
-
-
-
-        smart_op_sum_all = TbSmartopSum.objects.all().values()
-        smart_op_sum_all_df = pd.DataFrame(list(smart_op_sum_all))
-
+        
+        
+        # 학습대상 전체 데이터
+        smartop_sum_all_list = db_util.get_smartop_sum_list(op_num, 'all')
+        smart_op_sum_all_dict = db_util.convert_to_dict(smartop_sum_all_list)
+        smart_op_sum_all_df = pd.DataFrame(smart_op_sum_all_dict)
         # 변수선택용 dataframe 가져온다. 조회된 dataframe은 그대로 가져온다.
         smart_op_sum_all_value_df = smart_op_sum_all_df.drop(['op_num','create_dtm','update_dtm'], axis=1, inplace=False)
 
-        smart_op_sum_all_value_df = sm.add_constant(smart_op_sum_all_value_df,has_constant='add')
+
+
+        # 학습데이터, 테스트 데이터 분리
+        #smart_op_sum_all_value_df = sm.add_constant(smart_op_sum_all_value_df,has_constant='add')
         feature_columns = list(smart_op_sum_all_value_df.columns.difference([target_code]))
         X = smart_op_sum_all_value_df[feature_columns]
         y = smart_op_sum_all_value_df[target_code]
         train_x, test_x, train_y, test_y = train_test_split(X, y, train_size=0.7, test_size=0.3)
+        
+        
 
-        vif = pd.DataFrame()
-        vif["VIF Factor"] = [variance_inflation_factor(smart_op_sum_all_value_df.values, i) for i in range(smart_op_sum_all_value_df.shape[1])]
-        vif["features"] = smart_op_sum_all_value_df.columns
-        print(vif)
-
-        value_select = ValueSelect()
-        model_info_aic = value_select.process_subset(X=train_x,y=train_y,feature_set=feature_columns)
-        print(model_info_aic)
-
-        # getBest: 가장 낮은 AIC를 가지는 모델 선택 및 저장
-        best_model = value_select.get_best(X=train_x, y=train_y, k=2)
-        print(best_model)
-
-        # 변수 선택에 따른 학습시간과 저장
-        models = pd.DataFrame(columns=["AIC", "model"])
-        tic = time.time()
-        for i in range(1, 4):
-            models.loc[i] = value_select.get_best(X=train_x, y=train_y, k=i)
-        toc = time.time()
-        print("Total elapsed time:", (toc - tic), "seconds.")
-
-        Forward_best_model = value_select.forward_model(X=train_x, y=train_y)
-        print(Forward_best_model.summary())
-
-        coef_values_dict = Forward_best_model.params.to_dict()
-        print(coef_values_dict)
-        coef_values_list = list(coef_values_dict.keys())
-
-        del coef_values_list[coef_values_list.index('const')]
-        #coef_values_list.append(target_code)   # target_code 추가
 
         ## RandomForestRegressor 알고리즘 적용
         model = RandomForestRegressor(n_estimators=100, max_depth=100)
-        train_x = train_x[coef_values_list]
         # RandomForestRegressor 학습시작
         model.fit(train_x, train_y)
 
 
-        X_ex_test = smart_top_sum_df[coef_values_list]
+        X_ex_test = smart_top_sum_df[feature_columns]
         y_ex_test = smart_top_sum_df[target_code]
 
         ttt = np.array(X_ex_test.values.tolist())
@@ -163,7 +149,16 @@ class WorkDirectManagerHistoryView(TemplateView):
             temp = [all_var_code_list[i], all_var_name_list[i]]
             var_list.append(temp)
 
-        value_dict = smart_top_sum_df.to_dict()
+        #value_dict = smart_top_sum_df.to_dict()
+        # smartop_sum_dict.pop('op_num')
+        # smartop_sum_dict.pop('create_dtm')
+        # smartop_sum_dict.pop('update_dtm')
+        #value_dict = smartop_sum_dict
+        del smartop_sum_dict[0]['op_num']
+        del smartop_sum_dict[0]['create_dtm']
+        del smartop_sum_dict[0]['update_dtm']
+        value_dict = smartop_sum_dict[0]
+        print(value_dict)
         db_util = DBUtil()
         ttt_var_list = db_util.set_y_final_all_value_list('T', all_var_name_df, value_dict,
                                                           all_var_code_list)  ## 시간변수목록
@@ -175,7 +170,6 @@ class WorkDirectManagerHistoryView(TemplateView):
                                                             all_var_code_list)  ## 설비변수 목록
         etc_var_list = db_util.set_y_final_all_value_list('E', all_var_name_df, value_dict,
                                                           all_var_code_list)  ## 기타 변수 목록
-
         ##data_list = smart_top_sum_df[feature_columns]
         ## 상위 몇 퍼센터 가져오기 끝
 
