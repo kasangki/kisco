@@ -11,6 +11,7 @@ simplejson = "*"
 matplotlib = "*"
 statsmodels = "*"
 sklearn = "*"
+sip = "*"
 
 [dev-packages]
 
