@@ -1,0 +1,88 @@
+{% extends 'layouts/navbar/navbar.html' %}
+
+{% block content %}
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
+        <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-1">
+                <!--begin::Page Heading-->
+                <div class="d-flex align-items-baseline flex-wrap mr-5">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold my-1 mr-5">사용자목록</h5>
+                    <!--end::Page Title-->
+                </div>
+                <!--end::Page Heading-->
+            </div>
+            <!--end::Info-->
+
+        </div>
+    </div>
+
+    <div class="d-flex flex-column-fluid">
+        <div class="container">
+            <div class="row mt-5">
+              <div class="col-12">
+                <table class="table table-light">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>사용자아이디</th>
+                      <th>사용자명</th>
+                      <th>이메일</th>
+                      <th>전화번호</th>
+                      <th>사용자레벨</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-dark">
+                    {% for user in users_list %}
+                    <tr>
+                      <th>{{ user.user_id }}</th>
+                      <td>{{ user.user_name }}</td>
+                      <td>{{ user.email_addr }}</td>
+                      <td>{{ user.phone_number }}</td>
+                      <td>{{ user.user_level }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row mt-2">
+                  <div class="col-12">
+                    <nav>
+                      <ul class="pagination justify-content-center">
+                        {% if user_list.has_previous %}
+                        <li class="page-item">
+                          <a class="page-link" href="?p={{ user_list.previous_page_number }}">이전으로</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                          <a class="page-link" href="#">이전으로</a>
+                        </li>
+                        {% endif %}
+                        <li class="page-item active">
+                          <a class="page-link" href="#">{{ user_list.number }} / {{ user_list.paginator.num_pages }}</a>
+                        </li>
+                        {% if user_list.has_next %}
+                        <li class="page-item">
+                          <a class="page-link" href="?p={{ user_list.next_page_number }}">다음으로</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                          <a class="page-link disabled" href="#">다음으로</a>
+                        </li>
+                        {% endif %}
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+            <div class="row">
+              <div class="col-12">
+                <button class="btn btn-primary" >사용자등록</button>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
