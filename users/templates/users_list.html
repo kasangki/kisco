@@ -34,9 +34,10 @@
                       <th>사용자레벨</th>
                     </tr>
                   </thead>
-                  <tbody class="text-dark">
+                  <tr class="text-dark">
                     {% for user in users_list %}
-                    <tr>
+
+                     <tr OnClick=location.href="{% url 'user_detail' user.user_id %}" style="cursor:pointer;">
                       <th>{{ user.user_id }}</th>
                       <td>{{ user.user_name }}</td>
                       <td>{{ user.email_addr }}</td>
@@ -79,10 +80,17 @@
                 </div>
             <div class="row">
               <div class="col-12">
-                <button class="btn btn-primary" >사용자등록</button>
+                  <button type="button" class="btn btn-primary" onclick="location.href='/users/register/'">사용자등록</button>
               </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+function detail_user(user_id) {
+    //location.href='/users/user_detail';
+    {#location.href='/users/user_detail';#}
+    {#location.href="{% url 'user_detail' pk= %}"#}
+}
+</script>
 {% endblock %}

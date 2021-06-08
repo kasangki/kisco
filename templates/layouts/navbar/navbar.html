@@ -503,13 +503,14 @@
 				<!--begin::Header-->
 				<div class="d-flex align-items-center mt-5">
 					<div class="symbol symbol-100 mr-5">
-						<div class="symbol-label" style="background-image:url({% static 'assets/media/users/150-6.jpg' %})"></div>
+{#						<div class="symbol-label" style="background-image:url({% static 'assets/media/users/150-6.jpg' %})"></div>#}
+                        <div class="symbol-label" style="background-image:url({% static '' %})"></div>
 						<i class="symbol-badge bg-success"></i>
 					</div>
-					<div class="d-flex flex-column">
-						<a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">최성규</a>
-						<div class="text-muted mt-1">제강팀/팀장</div>
 
+					<div class="d-flex flex-column">
+						<a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">{{ request.session.user_name  }}</a>
+						<div class="text-muted mt-1">{{ request.session.position_name  }}</div>
 					</div>
 				</div>
 				<!--end::Header-->
@@ -522,7 +523,12 @@
 					<!--begin::Item-->
 					<span class="navi-item mt-2">
 						<span class="navi-link">
-							<a href="#" class="btn btn-sm btn-light-primary font-weight-bolder py-3 px-6">Sign Out</a>
+{#                            <button class="btn btn-primary btn-block" onclick="location.href='/fcuser/logout/'">로그아웃</button>#}
+                            {% if request.session.user_id %}
+							    <a href="/users/logout/" class="btn btn-sm btn-light-primary font-weight-bolder py-3 px-6">Logout</a>
+                            {% else %}
+                                <a href="/users/login/" class="btn btn-sm btn-light-primary font-weight-bolder py-3 px-6">Login</a>
+                            {% endif %}
 						</span>
 					</span>
 					<!--end:Item-->

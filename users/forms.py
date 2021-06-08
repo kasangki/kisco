@@ -20,14 +20,16 @@ class LoginForm(forms.Form):
         user_id = cleaned_data.get('user_id')
         password = cleaned_data.get('password')
 
+
         if user_id and password:
             try:
-                user_id = TBUsers.objects.get(username=user_id)
+                user_id = TBUsers.objects.get(user_id=user_id)
             except TBUsers.DoesNotExist:
-                self.add_error('username', '아이디가 없습니다')
+                self.add_error('user_id', '아이디가 없습니다')
                 return
 
-            if not check_password(password, user_id.password):
+            #if not check_password(password, user_id.password):   # 암호화 나중에 처리
+            if not password == user_id.password:
                 self.add_error('password', '비밀번호를 틀렸습니다')
             else:
                 self.user_id = user_id.user_id

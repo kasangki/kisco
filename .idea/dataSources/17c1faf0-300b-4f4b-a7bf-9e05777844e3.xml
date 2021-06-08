@@ -816,7 +816,7 @@ false Zulu
 13158||-9223372036854775808|U|G
 13158||10|U|G</Grants>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>2142</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2387</IntrospectionStateNumber>
       <Current>1</Current>
       <Relations>sequence|table|25051|25053|1
 sequence|table|25276|25278|1
@@ -897,7 +897,7 @@ sequence|table|16862|16864|1
       <Comment>standard public schema</Comment>
       <StateNumber>287</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>2143</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2388</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <extension id="20" parent="4" name="plpgsql">
@@ -1139,9 +1139,9 @@ sequence|table|16862|16864|1
       <StateNumber>1203</StateNumber>
     </table>
     <table id="58" parent="19" name="tb_users">
-      <ObjectId>25295</ObjectId>
+      <ObjectId>25300</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>2141</StateNumber>
+      <StateNumber>2386</StateNumber>
     </table>
     <table id="59" parent="19" name="tb_var_info">
       <ObjectId>25053</ObjectId>
@@ -2598,70 +2598,76 @@ target_num</ColNames>
       <Position>1</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>2141</StateNumber>
+      <StateNumber>2386</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="259" parent="58" name="password">
       <Position>2</Position>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>2141</StateNumber>
+      <StateNumber>2386</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="260" parent="58" name="user_name">
       <Position>3</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>2141</StateNumber>
+      <StateNumber>2386</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="261" parent="58" name="email_addr">
       <Position>4</Position>
       <DataType>varchar(50)|0s</DataType>
-      <StateNumber>2141</StateNumber>
+      <StateNumber>2386</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="262" parent="58" name="phone_number">
+    <column id="262" parent="58" name="position_name">
       <Position>5</Position>
+      <DataType>char(50)|0s</DataType>
+      <StateNumber>2386</StateNumber>
+      <TypeId>1042</TypeId>
+    </column>
+    <column id="263" parent="58" name="phone_number">
+      <Position>6</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>2141</StateNumber>
+      <StateNumber>2386</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="263" parent="58" name="user_level">
-      <Position>6</Position>
+    <column id="264" parent="58" name="user_level">
+      <Position>7</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>2141</StateNumber>
+      <StateNumber>2386</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="264" parent="58" name="create_id">
-      <Position>7</Position>
-      <DataType>varchar(20)|0s</DataType>
-      <StateNumber>2141</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="265" parent="58" name="update_id">
+    <column id="265" parent="58" name="create_id">
       <Position>8</Position>
       <DataType>varchar(20)|0s</DataType>
-      <StateNumber>2141</StateNumber>
+      <StateNumber>2386</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="266" parent="58" name="create_dtm">
+    <column id="266" parent="58" name="update_id">
       <Position>9</Position>
-      <DataType>timestamp|0s</DataType>
-      <StateNumber>2141</StateNumber>
-      <TypeId>1114</TypeId>
+      <DataType>varchar(20)|0s</DataType>
+      <StateNumber>2386</StateNumber>
+      <TypeId>1043</TypeId>
     </column>
-    <column id="267" parent="58" name="update_dtm">
+    <column id="267" parent="58" name="create_dtm">
       <Position>10</Position>
       <DataType>timestamp|0s</DataType>
-      <StateNumber>2141</StateNumber>
+      <StateNumber>2386</StateNumber>
       <TypeId>1114</TypeId>
     </column>
-    <index id="268" parent="58" name="idx_tb_users_pk">
-      <ObjectId>25298</ObjectId>
-      <StateNumber>2141</StateNumber>
+    <column id="268" parent="58" name="update_dtm">
+      <Position>11</Position>
+      <DataType>timestamp|0s</DataType>
+      <StateNumber>2386</StateNumber>
+      <TypeId>1114</TypeId>
+    </column>
+    <index id="269" parent="58" name="idx_tb_users_pk">
+      <ObjectId>25303</ObjectId>
+      <StateNumber>2386</StateNumber>
       <ColNames>user_id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
@@ -2670,14 +2676,14 @@ target_num</ColNames>
       <CollationNames>default</CollationNames>
       <ClassIds>3126</ClassIds>
     </index>
-    <key id="269" parent="58" name="idx_tb_users_pk">
-      <ObjectId>25299</ObjectId>
-      <StateNumber>2141</StateNumber>
+    <key id="270" parent="58" name="idx_tb_users_pk">
+      <ObjectId>25304</ObjectId>
+      <StateNumber>2386</StateNumber>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>idx_tb_users_pk</UnderlyingIndexName>
     </key>
-    <column id="270" parent="59" name="id">
+    <column id="271" parent="59" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
@@ -2685,25 +2691,25 @@ target_num</ColNames>
       <DefaultExpression>nextval(&apos;tb_var_info_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
-    <column id="271" parent="59" name="target_code">
+    <column id="272" parent="59" name="target_code">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <StateNumber>906</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="272" parent="59" name="target_num">
+    <column id="273" parent="59" name="target_num">
       <Position>3</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>906</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="273" parent="59" name="var_code">
+    <column id="274" parent="59" name="var_code">
       <Position>4</Position>
       <DataType>varchar(30)|0s</DataType>
       <StateNumber>906</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="274" parent="59" name="idx_tb_var_info_pk">
+    <index id="275" parent="59" name="idx_tb_var_info_pk">
       <ObjectId>25057</ObjectId>
       <StateNumber>906</StateNumber>
       <ColNames>id</ColNames>
@@ -2713,47 +2719,47 @@ target_num</ColNames>
       <CollationIds>0</CollationIds>
       <ClassIds>1978</ClassIds>
     </index>
-    <key id="275" parent="59" name="idx_tb_var_info_pk">
+    <key id="276" parent="59" name="idx_tb_var_info_pk">
       <ObjectId>25058</ObjectId>
       <StateNumber>906</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>idx_tb_var_info_pk</UnderlyingIndexName>
     </key>
-    <column id="276" parent="60" name="var_code">
+    <column id="277" parent="60" name="var_code">
       <Position>1</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1024</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="277" parent="60" name="var_name">
+    <column id="278" parent="60" name="var_name">
       <Position>2</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1024</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="278" parent="60" name="seq">
+    <column id="279" parent="60" name="seq">
       <Position>3</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1024</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="279" parent="60" name="var_type">
+    <column id="280" parent="60" name="var_type">
       <Position>4</Position>
       <DataType>varchar(1)|0s</DataType>
       <StateNumber>1024</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="280" parent="60" name="is_ess">
+    <column id="281" parent="60" name="is_ess">
       <Position>5</Position>
       <DataType>char|0s</DataType>
       <StateNumber>1024</StateNumber>
       <TypeId>1042</TypeId>
     </column>
-    <column id="281" parent="60" name="create_dtm">
+    <column id="282" parent="60" name="create_dtm">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
@@ -2761,14 +2767,14 @@ target_num</ColNames>
       <DefaultExpression>now()</DefaultExpression>
       <TypeId>1114</TypeId>
     </column>
-    <column id="282" parent="60" name="update_dtm">
+    <column id="283" parent="60" name="update_dtm">
       <Position>7</Position>
       <DataType>timestamp|0s</DataType>
       <StateNumber>1024</StateNumber>
       <DefaultExpression>now()</DefaultExpression>
       <TypeId>1114</TypeId>
     </column>
-    <index id="283" parent="60" name="idx_tb_var_map_pk">
+    <index id="284" parent="60" name="idx_tb_var_map_pk">
       <ObjectId>25064</ObjectId>
       <StateNumber>1024</StateNumber>
       <ColNames>var_code</ColNames>
@@ -2779,7 +2785,7 @@ target_num</ColNames>
       <CollationNames>default</CollationNames>
       <ClassIds>3126</ClassIds>
     </index>
-    <key id="284" parent="60" name="idx_tb_var_map_pk">
+    <key id="285" parent="60" name="idx_tb_var_map_pk">
       <ObjectId>25065</ObjectId>
       <StateNumber>1024</StateNumber>
       <ColNames>var_code</ColNames>

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render ,redirect
 from django.views.generic import TemplateView
 import pandas as pd
 
@@ -6,8 +6,10 @@ from kisco.anaytics.db_util import DBUtil
 from kisco.models import TbSmartopSum
 from kisco.models import TbVarMap
 from kisco.models import TbModel
+from users.models import TBUsers
 
 from django.db import connection
+
 
 
 
@@ -31,6 +33,15 @@ class IndexView(TemplateView):
         # power_factor : 역률
         # total_elec_charge : 전력량
         # steel_out_rate : 회수율
+        user_id = request.session.get('user_id')
+        if request.session.get('user_id') == None:
+            return redirect('/users/login')
+
+        user_info = TBUsers.objects.get(user_id=user_id)
+        request.session['user_name'] = user_info.user_name
+        request.session['position_name'] = user_info.position_name
+
+
 
         target_value_names = ['steel_out_vol', 'total_elec_charge', 'power_factor', 'steel_out_rate']
         target_value_kor_names = ['출강량', '합계전력량', '역률', '회수율']

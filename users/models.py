@@ -6,6 +6,7 @@ class TBUsers(models.Model):
     password = models.CharField(max_length=50,verbose_name='비밀번호',blank=False)
     user_name = models.CharField(max_length=20, verbose_name='이 름',blank=False)
     email_addr = models.EmailField(max_length=50, verbose_name='이 메일',blank=True)
+    position_name = models.CharField(max_length=50, verbose_name='직책', blank=True)
     phone_number = models.CharField(max_length=20, verbose_name='전화번호',blank=False)
     user_level = models.IntegerField(default=0)
 
@@ -20,5 +21,5 @@ class TBUsers(models.Model):
     class Meta:
         managed = True
         db_table = 'tb_users'
-        verbose_name = '한국철강제강 사용자'
-        verbose_name_plural = '한국철강제강 사용자'
+        verbose_name = '한국철강 제강 사용자'
+        verbose_name_plural = '한국철강 제강 사용자'
