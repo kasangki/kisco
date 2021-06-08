@@ -816,7 +816,7 @@ false Zulu
 13158||-9223372036854775808|U|G
 13158||10|U|G</Grants>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>2387</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2729</IntrospectionStateNumber>
       <Current>1</Current>
       <Relations>sequence|table|25051|25053|1
 sequence|table|25276|25278|1
@@ -897,7 +897,7 @@ sequence|table|16862|16864|1
       <Comment>standard public schema</Comment>
       <StateNumber>287</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>2388</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2730</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <extension id="20" parent="4" name="plpgsql">
@@ -1141,7 +1141,7 @@ sequence|table|16862|16864|1
     <table id="58" parent="19" name="tb_users">
       <ObjectId>25300</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>2386</StateNumber>
+      <StateNumber>2718</StateNumber>
     </table>
     <table id="59" parent="19" name="tb_var_info">
       <ObjectId>25053</ObjectId>
@@ -2623,9 +2623,9 @@ target_num</ColNames>
     </column>
     <column id="262" parent="58" name="position_name">
       <Position>5</Position>
-      <DataType>char(50)|0s</DataType>
-      <StateNumber>2386</StateNumber>
-      <TypeId>1042</TypeId>
+      <DataType>varchar(50)|0s</DataType>
+      <StateNumber>2728</StateNumber>
+      <TypeId>1043</TypeId>
     </column>
     <column id="263" parent="58" name="phone_number">
       <Position>6</Position>
@@ -2667,7 +2667,7 @@ target_num</ColNames>
     </column>
     <index id="269" parent="58" name="idx_tb_users_pk">
       <ObjectId>25303</ObjectId>
-      <StateNumber>2386</StateNumber>
+      <StateNumber>2718</StateNumber>
       <ColNames>user_id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
