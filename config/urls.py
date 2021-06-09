@@ -20,5 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('kisco.urls')),
     path('users/',include('users.urls')),
+    path('report/',include('report.urls')),
 
 ]

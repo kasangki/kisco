@@ -1,0 +1,259 @@
+{% extends 'layouts/navbar/navbar.html' %}
+{% load static %}
+{% block content %}
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <div class="d-flex flex-column-fluid">
+        <div class="container">
+            <div class="card card-custom">
+                <div class="card-header">
+                 <h1>보고서</h1>
+             </div>
+
+            <div class="card-body">
+                     <div class="form-group row">
+                         <table class="table table-separate table-head-custom">
+                            <thead>
+                                <tr>
+                                    <td >
+                                        <div class="form-group row">
+                                            <label class="col-form-label text-right col-lg-3 col-sm-12">선택하세요</label>
+                                            <div class="col-lg-4 col-md-9 col-sm-12">
+                                                 <select id="sel_target_value" class="form-control selectpicker">
+                                                     <option value="steel_out_vol">출강량</option>
+                                                     <option value="total_elec_charge">전력량</option>
+                                                     <option value="power_factor">역률</option>
+                                                     <option value="steel_out_rate">회수율</option>
+
+                                                 </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+
+
+                                        <div class="form-group row">
+												<label class="col-form-label text-right col-lg-3 col-sm-12">조회기간</label>
+												<div class="col-lg-4 col-md-9 col-sm-12">
+													<div class='input-group' id='report_from_to'>
+														<input type='text' class="form-control is-valid" readonly="readonly" placeholder="Select date range" />
+														<div class="input-group-append">
+															<span class="input-group-text">
+																<i class="la la-calendar-check-o"></i>
+															</span>
+														</div>
+													</div>
+												</div>
+											</div>
+
+
+                                    </td>
+                                </tr>
+                            </thead>
+                         </table>
+                      </div>
+
+                     <div class="card-footer">
+                            <div class="row">
+                                 <div class="col-lg-9 ml-lg-auto">
+                                     <button type="button" class="btn btn-primary" data-toggle="popover" id="btn_search_report" onclick="searchReport();" >불러오기</button>
+                                 </div>
+                            </div>
+                      </div>
+                </div>
+
+            <div class="row mt-5">
+              <div class="col-12">
+                <!-- HTML -->
+                <div id="chartdiv"></div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<style>
+#chartdiv {
+  width: 100%;
+  height: 500px;
+}
+
+</style>
+
+<!-- Resources -->
+
+
+<script src="{% static 'assets/js/pages/features/charts/amcharts/core.js' %}"></script>
+<script src="{% static 'assets/js/pages/features/charts/amcharts/charts_report.js' %}"></script>
+<script src="{% static 'assets/js/pages/features/charts/amcharts/animated.js' %}"></script>
+
+
+
+<!-- Chart code -->
+<script>
+
+
+// 데이터 조회
+function searchReport() {
+    // 데이터
+      //setTimeout(openPreload,10)
+      //var report_start_date = $("#report_start_date").val()
+      //var report_end_date = $("#report_end_date").val()
+      var target_code = $("#sel_target_value").val();
+      var from_to = ($('#report_from_to .form-control').val());
+
+      if(from_to === '') {
+          alert('조회기간을 입력하세요.');
+          return;
+      }
+      var report_start_date = from_to.substring(0,10);
+      var report_end_date = from_to.substring(13,23);
+
+      var parameterList = {
+          report_start_date : report_start_date,
+          report_end_date : report_end_date,
+          target_code : target_code,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      }
+
+      $.ajax({
+                type: "post",
+                async: true,
+                url: "{% url 'search_report' %}",
+                dataType: "json",
+                data: parameterList,
+                success: function (response) {
+                   //alert(response.day_data_list);
+                    dayDataList = changeDataList(response.day_data_list);
+                    monthDataList = changeDataList(response.month_data_list);
+                    series1.data = monthDataList;
+                    series2.data = dayDataList;
+                }
+
+        });
+}
+
+
+function changeDataList(day_data_list) {
+    var data = [];
+    for(var i = 0; i < day_data_list.length; i++) {
+        date = day_data_list[i][0];
+        value = day_data_list[i][1];
+        data.push({
+           date: date,
+           value: value
+        })
+    }
+    return data;
+}
+
+
+
+
+
+
+var dayDataList = ''
+var monthDataList = ''
+var chart = am4core.create("chartdiv", am4charts.XYChart);
+var series1 = '';
+var series2 = '';
+
+am4core.ready(function() {
+
+// Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+// Create chart instance
+
+
+// Create daily series and related axes
+var dateAxis1 = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis1.renderer.grid.template.location = 0;
+dateAxis1.renderer.minGridDistance = 40;
+
+var valueAxis1 = chart.yAxes.push(new am4charts.ValueAxis());
+
+series1 = chart.series.push(new am4charts.ColumnSeries());
+series1.dataFields.valueY = "value";
+series1.dataFields.dateX = "date";
+series1.data = monthDataList;
+
+series1.xAxis = dateAxis1;
+series1.yAxis = valueAxis1;
+series1.tooltipText = "{dateX}: [bold]{valueY}[/]";
+series1.stroke = am4core.color("blue");
+series1.fill = am4core.color("cyan")
+
+
+
+// Create hourly series and related axes
+var dateAxis2 = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis2.renderer.grid.template.location = 0;
+dateAxis2.renderer.minGridDistance = 40;
+dateAxis2.renderer.labels.template.disabled = true;
+dateAxis2.renderer.grid.template.disabled = true;
+dateAxis2.renderer.tooltip.disabled = true;
+
+var valueAxis2 = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis2.renderer.opposite = true;
+valueAxis2.renderer.grid.template.disabled = true;
+valueAxis2.renderer.labels.template.disabled = true;
+valueAxis2.renderer.tooltip.disabled = true;
+
+series2 = chart.series.push(new am4charts.LineSeries());
+series2.dataFields.valueY = "value";
+series2.dataFields.dateX = "date";
+series2.data = monthDataList;
+series2.xAxis = dateAxis2;
+series2.yAxis = valueAxis2;
+series2.strokeWidth = 3;
+series2.tooltipText = "{dateX.formatDate('yyyy-MM-dd')}: [bold]{valueY}[/]";
+series2.fill = am4core.color("blue");
+series2.stroke = am4core.color("blue");
+
+
+// Add cursor
+chart.cursor = new am4charts.XYCursor();
+
+
+
+}); // end am4core.ready()
+
+
+
+
+// 달력
+var KTBootstrapDaterangepicker = function () {
+
+    var validationDemos = function() {
+        // input group and left alignment setup
+        $('#report_from_to').daterangepicker({
+            buttonClasses: ' btn',
+            applyClass: 'btn-primary',
+            cancelClass: 'btn-secondary'
+        }, function(start, end, label) {
+            $('#report_from_to .form-control').val( start.format('YYYY-MM-DD') + ' ~ ' + end.format('YYYY-MM-DD'));
+        });
+
+    }
+
+    return {
+        // public functions
+        init: function() {
+            validationDemos();
+        }
+    };
+}();
+
+jQuery(document).ready(function() {
+    KTBootstrapDaterangepicker.init();
+    $('#report_from_to .form-control').val( '2020-01-01 ~ 2021-01-01');
+});
+</script>
+
+
+
+{% endblock %}

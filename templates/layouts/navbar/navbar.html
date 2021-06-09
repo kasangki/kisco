@@ -104,7 +104,7 @@
 					<!--begin::Brand-->
 					<div class="brand flex-column-auto" id="kt_brand">
 						<!--begin::Logo-->
-						<a href="{% url 'index2' 1 %}" class="brand-logo">
+						<a href="{% url 'index'%}" class="brand-logo">
 							<img alt="Logo" src="{% static 'assets/media/logos/logo-8.png' %}" class="h-30px" />
 						</a>
 						<!--end::Logo-->
@@ -379,7 +379,7 @@
 								</li>
 
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
-									<a href="javascript:;" class="menu-link menu-toggle">
+									<a href="{% url 'report' %}" class="menu-link menu-toggle">
 										<span class="svg-icon menu-icon">
 											<!--begin::Svg Icon | path:assets/media/svg/icons/Shopping/Box2.svg-->
 											<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
