@@ -230,9 +230,20 @@ var global_op_num = "";
 function makeWorkDirect() {
 
     // 데이터
-      setTimeout(openPreload,10)
+      //setTimeout(openPreload,10)
+      openPreload()
       var target_value = $("#target_value").val();
       var target_code = $("#sel_target_value").val();
+      if (global_op_num === '') {
+          closePreload();
+
+          alert('불러오기를 먼저 하세요.');
+
+          return;
+
+      }
+
+
 
       var parameterList = {
           target_code : target_code,

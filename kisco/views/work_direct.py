@@ -123,7 +123,7 @@ class WorkDirectManagerView(TemplateView):
         target_code = request.POST.get('target_code')
         target_value = request.POST.get('target_value')
         op_num = request.POST.get('op_num')
-        
+
         # 예측할 데이터
         smartTopSum = TbSmartopSum.objects.filter(op_num=op_num).values()
         smart_top_sum_df = pd.DataFrame(list(smartTopSum))
