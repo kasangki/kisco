@@ -10,6 +10,7 @@ from users.models import TBUsers
 
 from django.db import connection
 
+from kisco.utils.utils import Utils
 
 
 
@@ -28,6 +29,48 @@ import simplejson as json
 
 class IndexView(TemplateView):
     def get(self, request, *args, **kwargs):
+        # 타입코드
+        # steel_out_vol : 출강량
+        # power_factor : 역률
+        # total_elec_charge : 전력량
+        # steel_out_rate : 회수율
+        user_id = request.session.get('user_id')
+        if request.session.get('user_id') == None:
+            return redirect('/users/login')
+
+        print('보고서 검색')
+        # report_start_date = request.POST.get('report_start_date', None)
+        # report_end_date = request.POST.get('report_end_date', None)
+        report_start_date = '2020-01-01'
+        report_end_date = '2021-02-28'
+        
+        db_util = DBUtil()
+        day_steel_out_vol_dict_list ,month_steel_out_vol_dict_list = db_util.get_dashboard_data(report_start_date,report_end_date,target_code='sum(steel_out_vol)')
+        day_steel_out_rate_dict_list, month_steel_out_rate_dict_list = db_util.get_dashboard_data(report_start_date, report_end_date,
+                                                                              target_code='avg(steel_out_rate)')
+        day_total_elec_charge_dict_list, month_total_elec_charge_dict_list = db_util.get_dashboard_data(report_start_date, report_end_date,
+                                                                              target_code='sum(total_elec_charge)')
+        day_power_factor_dict_list, month_power_factor_dict_list = db_util.get_dashboard_data(report_start_date, report_end_date,
+                                                                              target_code='sum(power_factor)')
+
+
+
+        
+
+        context = {
+            'day_steel_out_vol_dict_list': day_steel_out_vol_dict_list,
+            'month_steel_out_vol_dict_list': month_steel_out_vol_dict_list,
+            'day_steel_out_rate_dict_list': day_steel_out_rate_dict_list,
+            'month_steel_out_rate_dict_list': month_steel_out_rate_dict_list,
+            'day_total_elec_charge_dict_list': day_total_elec_charge_dict_list,
+            'month_total_elec_charge_dict_list': month_total_elec_charge_dict_list,
+            'day_power_factor_dict_list': day_power_factor_dict_list,
+            'month_power_factor_dict_list': month_power_factor_dict_list,
+        }
+        return render(request, 'index.html', context=context)
+
+
+    def get_old(self, request, *args, **kwargs):
         # 타입코드 
         # steel_out_vol : 출강량
         # power_factor : 역률
@@ -223,7 +266,7 @@ class IndexMainDataAna(TemplateView) :
             'model_list': model_list,
         }
 
-        return render(request, 'index.html', context=context)
+        return render(request, 'main_data_ana.html', context=context)
 
 
 

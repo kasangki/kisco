@@ -1,5 +1,5 @@
 from django.db import connection
-
+from kisco.utils.utils import Utils
 
 class DBUtil():
     def __init__(self):
@@ -176,6 +176,41 @@ class DBUtil():
             return smartop_sum_list
 
         #cursor = connection.cursor()
+
+    def get_dashboard_data(self,report_start_date, report_end_date,target_code):
+        day_query = '''
+                                select to_char(create_dtm,'YYYY-MM-DD')
+                                     , round(''' + target_code + ''') 
+                                from tb_smartop_sum_report
+                                where create_dtm>=%s and create_dtm <= %s
+                                group by to_char(create_dtm, 'YYYY-MM-DD')
+                                order by to_char(create_dtm, 'YYYY-MM-DD');
+                     '''
+        utils = Utils()
+
+        cursor = connection.cursor()
+        cursor.execute(day_query, (report_start_date, report_end_date))
+        day_data_list = cursor.fetchall()
+        day_data_dict_list = utils.change_list_to_dict(day_data_list)
+        print(day_data_dict_list)
+
+        month_query = '''
+                               select to_char(create_dtm,'YYYY-MM')
+                                     , round(''' + target_code + ''') 
+                                From tb_smartop_sum_report
+                                where create_dtm>=%s and create_dtm <= %s
+                                group by to_char(create_dtm, 'YYYY-MM')
+                                order by to_char(create_dtm, 'YYYY-MM')
+                                '''
+
+        cursor = connection.cursor()
+        cursor.execute(month_query, (report_start_date, report_end_date))
+        month_data_list = cursor.fetchall()
+
+        month_data_dict_list = utils.change_list_to_dict(month_data_list)
+        print(month_data_dict_list)
+        return day_data_dict_list,month_data_dict_list
+
 
 
 
