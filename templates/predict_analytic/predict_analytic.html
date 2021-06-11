@@ -45,9 +45,6 @@
             <div class="d-flex flex-column-fluid">
 							<!--begin::Container-->
 							<div class="container">
-
-
-
                                 <!-- 모델목록 시작-->
                                 <div class="card card-custom gutter-b">
 									<div class="card-header flex-wrap border-0 pt-6 pb-0">
@@ -55,22 +52,7 @@
 											<h3 class="card-label">모델목록( {{ target_value_name }} )
 											<span class="d-block text-muted pt-2 font-size-sm">학습된 모델목록</span></h3>
 										</div>
-										<div class="card-toolbar">
-											<!--begin::Button-->
-											<a href="#" class="btn btn-primary font-weight-bolder">
-											<span class="svg-icon svg-icon-md">
-												<!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
-												<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-													<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-														<rect x="0" y="0" width="24" height="24" />
-														<circle fill="#000000" cx="9" cy="15" r="6" />
-														<path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3" />
-													</g>
-												</svg>
-												<!--end::Svg Icon-->
-											</span>탐색추천</a>
-											<!--end::Button-->
-										</div>
+
 									</div>
 									<div class="card-body">
 										<!--begin: Datatable-->
@@ -92,16 +74,16 @@
 											<tbody>
                                             {% for model in model_list %}
 												<tr>
-													<td>1</td>
+													<td>{{ forloop.counter }}</td>
 													<td><button type="button" class="btn btn-primary" data-toggle="popover" id="btn_model_auto_start" onclick="selectModel('{{ model.target_code }}','{{ model.target_num }}','{{ model.model_name }}');" title="모델정보" data-html="true" data-content="변수목록">모델정보</button></td>
                                                     <td><a href="javascript:selectModel('{{ model.target_code }}','{{ model.target_num }}','{{ model.model_name }}');">{{ model.model_name }}</a></td>
 													<td>98.5</td>
-													<td>변수목록</td>
-													<td>변수중요도</td>
+													<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="btn_var_view" onclick="searchVarList('{{ model.target_code }}','{{ model.target_num }}');" title="변수목록" data-html="true">변수목록</button></td>
+													<td>변수중요도 </td>
 													<td>{{ model.create_dtm | date:"Y-m-d h:i"  }}</td>
 													<td>{{ model.update_dtm | date:"Y-m-d h:i" }}</td>
                                                     <td>{{ model.alg_name}}</td>
-                                                <td nowrap="nowrap"></td>
+                                                    <td nowrap="nowrap"></td>
 												</tr>
                                             {% endfor %}
 											</tbody>
@@ -109,7 +91,26 @@
 										<!--end: Datatable-->
 									</div>
                                 </div>
-
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">변수목록</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <i aria-hidden="true" class="ki ki-close"></i>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body" id = 'varInfoModal_ttt'> </div>
+                                            <div class="modal-body" id = 'varInfoModal_steel'> </div>
+                                            <div class="modal-body" id = 'varInfoModal_mat'> </div>
+                                            <div class="modal-body" id = 'varInfoModal_equip'> </div>
+                                            <div class="modal-body" id = 'varInfoModal_etc'> </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+								</div>
                                 <!-- 모델목록 끝-->
 
                                 <!--begin::Row-->
@@ -448,14 +449,84 @@
 
 
 <script>
+
 global_target_code = "";
 global_target_num = "";
+
+// 변수목록 조회
+function searchVarList(target_code,target_num) {
+
+    parameterList = {
+          target_code : target_code,
+          target_num : target_num,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+       }
+       $.ajax({
+
+                type: "post",
+                async: true,
+                url: "{% url 'search_var_info' %}",
+                dataType: "json",
+                data: parameterList,
+                success: function (response) {
+
+                    //alert(response.ttt_var_list[0][2]);
+                    var title = " TTT(시간변수) : ";
+                    var ttt_var_list = response.ttt_var_list
+                    var tttContents = makeModalContents(title,ttt_var_list);
+
+                    title = " 고철변수 : ";
+                    var steel_var_list = response.steel_var_list
+                    var steelContents = makeModalContents(title,steel_var_list);
+
+                    title = " 부자재 : ";
+                    var mat_var_list = response.mat_var_list
+                    var matContents = makeModalContents(title,mat_var_list);
+
+                    title = " 설비 : ";
+                    var equip_var_list = response.equip_var_list
+                    var equipContents = makeModalContents(title,equip_var_list);
+
+                    title = " 기타 : ";
+                    var etc_var_list = response.etc_var_list
+                    var etcContents = makeModalContents(title,etc_var_list);
+
+
+
+                    $('#varInfoModal_ttt').text(tttContents);
+                    $('#varInfoModal_steel').text(steelContents);
+                    $('#varInfoModal_mat').text(matContents);
+                    $('#varInfoModal_equip').text(equipContents);
+                    $('#varInfoModal_etc').text(etcContents);
+
+
+                    //alert(response.ttt_var_list);
+                    {#var ttt_dic_list = changeDictList(response.ttt_var_list);#}
+                    {#alert(ttt_dic_list);#}
+                    //varInfoModal
+                }
+       });
+}
+
+function makeModalContents(title,varInfoList) {
+
+    var temp_name = "";
+    var contents = title;
+    for (i = 0; i < varInfoList.length; i++) {
+        var var_name = varInfoList[i][2]
+        temp_name = temp_name + " " + var_name
+    }
+
+    contents = contents + temp_name ;
+    return contents;
+
+}
 
 function selectModel(target_code,target_num,model_name) {
 
 
        // 데이터
-       setTimeout(openPreload,30)
+       //setTimeout(openPreload,30)
        global_target_code = target_code;
        global_target_num = target_num;
 
@@ -482,7 +553,7 @@ function selectModel(target_code,target_num,model_name) {
                        // TTT 입력변수 테이블
                      if(response.ttt_var_list !== '') {
 
-                            var ttt_dic_list = chahgeDictList(response.ttt_var_list);
+                            var ttt_dic_list = changeDictList(response.ttt_var_list);
 
                             var tttVarData = {
                                 ttt_dic_list: ttt_dic_list,
@@ -502,7 +573,7 @@ function selectModel(target_code,target_num,model_name) {
 
                        // 고철 입력변수 테이블
                       if(response.steel_var_list !== '') {
-                              var steel_dic_list = chahgeDictList(response.steel_var_list);
+                              var steel_dic_list = changeDictList(response.steel_var_list);
 
                               var steelVarData = {
                                   steel_dic_list: steel_dic_list,
@@ -523,7 +594,7 @@ function selectModel(target_code,target_num,model_name) {
 
                        // 부자재 입력변수 테이블
                        if(response.mat_var_list !== '') {
-                               var mat_dic_list = chahgeDictList(response.mat_var_list);
+                               var mat_dic_list = changeDictList(response.mat_var_list);
 
                                var matVarData = {
                                    mat_dic_list: mat_dic_list,
@@ -543,7 +614,7 @@ function selectModel(target_code,target_num,model_name) {
 
                        // 설비 입력변수 테이블
                        if(response.equip_var_list !== '') {
-                               var equip_dic_list = chahgeDictList(response.equip_var_list);
+                               var equip_dic_list = changeDictList(response.equip_var_list);
 
                                var equipVarData = {
                                    equip_dic_list: equip_dic_list,
@@ -561,7 +632,7 @@ function selectModel(target_code,target_num,model_name) {
                        }
                        // 기타 입력변수 테이블
                        if(response.etc_var_list !== '') {
-                               var etc_dic_list = chahgeDictList(response.etc_var_list);
+                               var etc_dic_list = changeDictList(response.etc_var_list);
 
                                var etcVarData = {
                                    etc_dic_list: etc_dic_list,
@@ -578,12 +649,12 @@ function selectModel(target_code,target_num,model_name) {
                                etcVarTableUl.innerHTML = "";
                        }
 
-                     closePreload();
+                    // closePreload();
                 }
         });
   }
   // Dictionary 데이타 타입으로 변환
-  function chahgeDictList(inputList) {
+  function changeDictList(inputList) {
 
 
       var dic_list = []
@@ -611,7 +682,7 @@ function selectModel(target_code,target_num,model_name) {
   }
 
     // Dictionary 데이타 타입으로 변환
-  function chahgeFinalDictList(inputList) {
+  function changeFinalDictList(inputList) {
 
       var dic_list = []
       {#alert(inputList[0][0]);#}
@@ -649,6 +720,7 @@ function selectModel(target_code,target_num,model_name) {
       openPreload();
       //setSingleVarRadio();
       closePreload();
+
 
   });
 
@@ -1309,7 +1381,7 @@ function selectModel(target_code,target_num,model_name) {
 
 
                    // 시간(TTT)
-                   ttt_dic_list = chahgeFinalDictList(response.ttt_var_list);
+                   ttt_dic_list = changeFinalDictList(response.ttt_var_list);
 
                     var tttVarData = {
                         ttt_dic_list: ttt_dic_list,
@@ -1326,7 +1398,7 @@ function selectModel(target_code,target_num,model_name) {
 
 
                     // 고철종류
-                    steel_dic_list = chahgeFinalDictList(response.steel_var_list);
+                    steel_dic_list = changeFinalDictList(response.steel_var_list);
 
                     var steelVarData = {
                         steel_dic_list: steel_dic_list,
@@ -1344,7 +1416,7 @@ function selectModel(target_code,target_num,model_name) {
 
 
                     // 부원료
-                    mat_dic_list = chahgeFinalDictList(response.mat_var_list);
+                    mat_dic_list = changeFinalDictList(response.mat_var_list);
 
                     var matVarData = {
                         mat_dic_list: mat_dic_list,
@@ -1360,7 +1432,7 @@ function selectModel(target_code,target_num,model_name) {
 
 
                     // 설비
-                    equip_dic_list = chahgeFinalDictList(response.equip_var_list);
+                    equip_dic_list = changeFinalDictList(response.equip_var_list);
 
                     var equipVarData = {
                         equip_dic_list: equip_dic_list,
@@ -1375,7 +1447,7 @@ function selectModel(target_code,target_num,model_name) {
                     equipVarTableUl.innerHTML = resultHtml;
 
                     // 기타
-                    etc_dic_list = chahgeFinalDictList(response.etc_var_list);
+                    etc_dic_list = changeFinalDictList(response.etc_var_list);
 
                     var etcVarData = {
                         etc_dic_list: etc_dic_list,
@@ -1486,8 +1558,118 @@ function selectModel(target_code,target_num,model_name) {
 
 </script>
 
+<script>
+
+"use strict";
+var KTDatatablesBasicScrollable = function() {
+
+    var initTable1 = function() {
+        var table = $('#kt_datatable1');
+
+        // begin first table
+        table.DataTable({
+            scrollY: '50vh',
+            scrollX: true,
+            scrollCollapse: true,
+            columnDefs: [{
+                    targets: -1,
+                    title: '기타',
+                    orderable: false,
+					width: '100px',
+                    render: function(data, type, full, meta) {
+
+						return '\
+	                    ';
+                    },
+                },
+                {
+                    targets: 8,
+					width: '75px',
+                    render: function(data, type, full, meta) {
+                        var status = {
+                            1: {
+                                'title': 'Pending',
+                                'class': 'label-light-primary'
+                            },
+                            2: {
+                                'title': 'Delivered',
+                                'class': ' label-light-danger'
+                            },
+                            3: {
+                                'title': 'Canceled',
+                                'class': ' label-light-primary'
+                            },
+                            4: {
+                                'title': 'Success',
+                                'class': ' label-light-success'
+                            },
+                            5: {
+                                'title': 'Info',
+                                'class': ' label-light-info'
+                            },
+                            6: {
+                                'title': 'Danger',
+                                'class': ' label-light-danger'
+                            },
+                            7: {
+                                'title': 'Warning',
+                                'class': ' label-light-warning'
+                            },
+                        };
+                        if (typeof status[data] === 'undefined') {
+                            return data;
+                        }
+                        return '<span class="label label-lg font-weight-bold' + status[data].class + ' label-inline">' + status[data].title + '</span>';
+                    },
+                },
+                {
+                    targets: 9,
+					width: '75px',
+                    render: function(data, type, full, meta) {
+                        var status = {
+                            1: {
+                                'title': 'Online',
+                                'state': 'danger'
+                            },
+                            2: {
+                                'title': 'Retail',
+                                'state': 'primary'
+                            },
+                            3: {
+                                'title': 'Direct',
+                                'state': 'success'
+                            },
+                        };
+                        if (typeof status[data] === 'undefined') {
+                            return data;
+                        }
+                        return '<span class="label label-' + status[data].state + ' label-dot mr-2"></span>' +
+                            '<span class="font-weight-bold text-' + status[data].state + '">' + status[data].title + '</span>';
+                    },
+                },
+            ],
+        });
+    };
 
 
 
+    return {
 
+        //main function to initiate the module
+        init: function() {
+
+            initTable1();
+            //initTable2();
+        },
+
+    };
+
+}();
+
+jQuery(document).ready(function() {
+
+    KTDatatablesBasicScrollable.init();
+});
+
+</script>
 {% endblock %}

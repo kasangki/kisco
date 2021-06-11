@@ -579,19 +579,21 @@
   function changePan(panNum) {
       globalPanNum = panNum;
       if(globalPanNum == 1) {
-          $("#row_01").show();
-          $("#row_02").show();
+          //$("#row_01").show();
+          //$("#row_02").show();
           $("#row_03").show();
           $("#row_04").show();
           $("#slider_body").show();
           $("#model_list").hide();
           $("#btn_model_auto_start").hide();
+          $("#btn_ana_start").show();
+          $("#btn_model_start").hide();   // 모델생성시작 숨기기
 
           //$("#model_list").hide();
       } else if(globalPanNum == 2) {
           $("#model_list").hide();
-          $("#row_01").hide();
-          $("#row_02").hide();
+          //$("#row_01").hide();
+          //$("#row_02").hide();
           $("#row_03").hide();
           $("#row_04").hide();
           $("#slider_body").hide();
@@ -600,8 +602,8 @@
           $("#btn_model_auto_start").show();
       } else if(globalPanNum == 3) {
           $("#model_list").show();
-          $("#row_01").hide();
-          $("#row_02").hide();
+          //$("#row_01").hide();
+          //$("#row_02").hide();
           $("#row_03").hide();
           $("#row_04").hide();
           $("#slider_body").hide();
@@ -698,7 +700,7 @@
                 success: function (response) {
                     //$('#model_list').load(location.href+'#model_list');
 
-                    model_dic_list = chahgeDictList(response.model_list);
+                    model_dic_list = changeDictList(response.model_list);
 
 
                     var modelVarData = {
@@ -720,10 +722,17 @@
 
     // 단일 변수 분석
     function goSingleAnalytics(var_name) {
+
+        var slider_start = $("#slider_start").val();
+        var slider_last =  $("#slider_last").val();
+        var target_value_code = '{{ target_value_code }}'
+
+
+        if (target_value_code === var_name) {
+            alert('선택불가입니다.');
+            return;
+        }
         openPreload();
-        slider_start = $("#slider_start").val();
-        slider_last =  $("#slider_last").val();
-        target_value_code = '{{ target_value_code }}'
 
         $.ajax({
                 type: "GET",
@@ -747,17 +756,14 @@
 
                     //location.reload();
                     $('#row').load(location.href+'#row');
-                    $("#row_01").show();
-                    $("#row_02").show();
+                    //$("#row_01").show();
+                    //$("#row_02").show();
                     $("#row_03").show();
                     $("#row_04").show();
                     $("#slider_body").show();
 
 
-                    title_01 = response.title_list[0][0] + '-' + response.title_list[0][1] + '(상관계수 : '+response.title_list[0][2] + ')'
-                    title_02 = response.title_list[1][0] + '-' + response.title_list[1][1] + '(상관계수 : '+response.title_list[1][2] + ')'
-                    title_03 = response.title_list[2][0] + '-' + response.title_list[2][1] + '(상관계수 : '+response.title_list[2][2] + ')'
-                    title_04 = response.title_list[3][0] + '-' + response.title_list[3][1] + '(상관계수 : '+response.title_list[3][2] + ')'
+
 
 
                     title_05 = response.quantile_title_list[0][0] + '-' + response.quantile_title_list[0][1] + '(상관계수 : '+response.quantile_title_list[0][2] + ')_' + response.quantile_title_list[0][4]
@@ -765,29 +771,34 @@
                     title_07 = response.quantile_title_list[2][0] + '-' + response.quantile_title_list[2][1] + '(상관계수 : '+response.quantile_title_list[2][2] + ')_' + response.quantile_title_list[2][4]
                     title_08 = response.quantile_title_list[3][0] + '-' + response.quantile_title_list[3][1] + '(상관계수 : '+response.quantile_title_list[3][2] + ')_' +response.quantile_title_list[3][4]
 
-                    $('#card-label_01').text(title_01);
-                    $('#card-label_02').text(title_02);
-                    $('#card-label_03').text(title_03);
-                    $('#card-label_04').text(title_04);
-
-
                     $('#card-label_05').text(title_05);
                     $('#card-label_07').text(title_06);
                     $('#card-label_06').text(title_07);
                     $('#card-label_08').text(title_08);
 
+                    $("#img_05").attr("src", response.quantile_img_list[0]);
+                    $("#img_07").attr("src", response.quantile_img_list[1]);
+                    $("#img_06").attr("src", response.quantile_img_list[2]);
+                    $("#img_08").attr("src", response.quantile_img_list[3]);
 
+                    // title_01 : 출강량       title_02 : 역률           title_03 : 합계전력량            title_4 : 회수율
+                    /*
+                    title_01 = response.title_list[0][0] + '-' + response.title_list[0][1] + '(상관계수 : '+response.title_list[0][2] + ')'
+                    title_02 = response.title_list[1][0] + '-' + response.title_list[1][1] + '(상관계수 : '+response.title_list[1][2] + ')'
+                    title_03 = response.title_list[2][0] + '-' + response.title_list[2][1] + '(상관계수 : '+response.title_list[2][2] + ')'
+                    title_04 = response.title_list[3][0] + '-' + response.title_list[3][1] + '(상관계수 : '+response.title_list[3][2] + ')'
 
+                    $('#card-label_01').text(title_01);
+                    $('#card-label_02').text(title_02);
+                    $('#card-label_03').text(title_03);
+                    $('#card-label_04').text(title_04);
 
                     $("#img_01").attr("src", response.img_list[0]);
                     $("#img_02").attr("src", response.img_list[1]);
                     $("#img_03").attr("src", response.img_list[2]);
                     $("#img_04").attr("src", response.img_list[3]);
+                    */
 
-                    $("#img_05").attr("src", response.quantile_img_list[0]);
-                    $("#img_07").attr("src", response.quantile_img_list[1]);
-                    $("#img_06").attr("src", response.quantile_img_list[2]);
-                    $("#img_08").attr("src", response.quantile_img_list[3]);
 
 
                 },
@@ -800,7 +811,7 @@
     }
 
 
-    function chahgeDictList(modelList) {
+    function changeDictList(modelList) {
 
 
       var dic_list = []

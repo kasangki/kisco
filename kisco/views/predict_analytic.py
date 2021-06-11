@@ -428,3 +428,7 @@ class SearchVarInfoView(TemplateView):
 
 
 
+
+
+
+

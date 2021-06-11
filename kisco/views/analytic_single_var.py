@@ -40,6 +40,7 @@ class AnalyticSingleVarView(TemplateView):
         target_value_code = request.GET.get('target_value_code')
         start_value = request.GET.get('slider_start')
         last_value = request.GET.get('slider_last')
+        print('싱글변수 분석')
 
 
         quantile_feature_columns  = [var_name,target_value_code]
@@ -57,26 +58,17 @@ class AnalyticSingleVarView(TemplateView):
         print(quantile_img_list);
         ## 사분위수 처리 끝
 
-        context = {
-            'title_list': quantile_title_list,
-            'img_list': quantile_img_list,
-            'quantile_title_list': quantile_title_list,
-            'quantile_img_list': quantile_img_list
-            # 'y_list': y_list,
-            # 'data_list' : data_list,
-            # 'result_list': result_list
-
-        }
-
-        #return HttpResponse(json.dumps(context), content_type="application/json")
-
-
-
-
+        '''
+        
         target_name = 'steel_out_vol'
         target_value_names = ['steel_out_vol', 'power_factor', 'total_elec_charge', 'steel_out_rate']
+        feature_columns = ['steel_out_vol', 'power_factor', 'total_elec_charge', 'steel_out_rate']
+        if var_name not in target_value_names:
+            feature_columns = [var_name, 'steel_out_vol', 'power_factor', 'total_elec_charge', 'steel_out_rate']
 
-        feature_columns = [var_name, 'steel_out_vol', 'power_factor', 'total_elec_charge', 'steel_out_rate']
+
+
+
         smart_top_sum = TbSmartopSum.objects.values()
         smart_top_sum_df = pd.DataFrame(list(smart_top_sum))
         smart_top_sum_df = smart_top_sum_df[feature_columns]
@@ -286,66 +278,52 @@ class AnalyticSingleVarView(TemplateView):
         title_list = []
         img_list = []
         for target_value_name in target_value_names :
-            var_x_name = var_map_df.loc[var_name].loc['var_name']
-            var_y_name = var_map_df.loc[target_value_name].loc['var_name']
+            if var_name != target_value_name :
+                var_x_name = var_map_df.loc[var_name].loc['var_name']
+                var_y_name = var_map_df.loc[target_value_name].loc['var_name']
 
-            ana_feature_columns = [var_name, target_value_name]
-            ana_df = smart_top_sum_df[ana_feature_columns]
-            osl_df = sm.add_constant(ana_df, has_constant='add')
-            '''target 변수 제외한 컬럼들을 독립변수로 선택'''
-            ana_feature_columns = list(osl_df.columns.difference([target_value_name]))
-            X = osl_df[ana_feature_columns]
-            y = osl_df[target_value_name]
-            train_x, test_x, train_y, test_y = train_test_split(X, y, train_size=0.7, test_size=0.3)
+                ana_feature_columns = [var_name, target_value_name]
+                ana_df = smart_top_sum_df[ana_feature_columns]
+                osl_df = sm.add_constant(ana_df, has_constant='add')
+                #target 변수 제외한 컬럼들을 독립변수로 선택
+                ana_feature_columns = list(osl_df.columns.difference([target_value_name]))
+                X = osl_df[ana_feature_columns]
+                y = osl_df[target_value_name]
+                train_x, test_x, train_y, test_y = train_test_split(X, y, train_size=0.7, test_size=0.3)
 
-            # Train the MLR / 회귀모델적합
-            model = sm.OLS(train_y, train_x)
-            fitted_full_model = model.fit()
-            coef = fitted_full_model.params[var_name]
-            const = fitted_full_model.params['const']
+                # Train the MLR / 회귀모델적합
+                model = sm.OLS(train_y, train_x)
+                fitted_full_model = model.fit()
+                coef = fitted_full_model.params[var_name]
+                const = fitted_full_model.params['const']
 
-            x_list = list(smart_top_sum_df[var_name])
-            y_list = list(smart_top_sum_df[target_value_name])
-
-
-            #self.save_fig(x_list,y_list,var_name,target_value_name,coef,const)
-
-            #for i in range(len(x_list)):
-            for i in range(1000):
-                plt.plot(x_list[i], y_list[i], '.', color='blue')
-                y = x_list[i]*coef + const
-                plt.plot(x_list[i], y, '.', color='red')
-
-            plt.ylabel(var_y_name, size=10)
-            plt.xlabel(var_x_name, size=10)
-            img_name = './static/img/'+var_name+ '_'+target_value_name+'.png'
-            img_list.append(img_name)
-
-            plt.savefig(img_name)
-            plt.cla()
-            plt.rc('font', family='Malgun Gothic')
-            plt.rcParams["figure.figsize"] = (5.2, 4)
-            title = [var_x_name,var_y_name,round(coef,4),const]
-            title_list.append(title)
+                x_list = list(smart_top_sum_df[var_name])
+                y_list = list(smart_top_sum_df[target_value_name])
 
 
+                #self.save_fig(x_list,y_list,var_name,target_value_name,coef,const)
 
+                #for i in range(len(x_list)):
+                for i in range(1000):
+                    plt.plot(x_list[i], y_list[i], '.', color='blue')
+                    y = x_list[i]*coef + const
+                    plt.plot(x_list[i], y, '.', color='red')
 
-        # data_list = []
-        # result_list = []
-        # for i in range(len(x_list)):
-        #     temp = [x_list[i],y_list[i]]
-        #     temp_reslut = [x_list[i], yy_list[i]]
-        #     data_list.append(temp)
-        #     result_list.append(temp_reslut)
-        # data_list = data_list[:300]
-        # result_list = result_list[:300]
+                plt.ylabel(var_y_name, size=10)
+                plt.xlabel(var_x_name, size=10)
+                img_name = './static/img/'+var_name+ '_'+target_value_name+'.png'
+                img_list.append(img_name)
 
-
-
+                plt.savefig(img_name)
+                plt.cla()
+                plt.rc('font', family='Malgun Gothic')
+                plt.rcParams["figure.figsize"] = (5.2, 4)
+                title = [var_x_name,var_y_name,round(coef,4),const]
+                title_list.append(title)
+       '''
         context = {
-           'title_list': title_list,
-           'img_list' : img_list ,
+           #'title_list': title_list,
+           #'img_list' : img_list ,
            'quantile_title_list' : quantile_title_list,
            'quantile_img_list' : quantile_img_list
            # 'y_list': y_list,
