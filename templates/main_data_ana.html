@@ -747,6 +747,13 @@
                 success: function (response) {
 
                     //alert(response.data_list)
+
+                    if(response.is_success === 'no') {
+                        alert('데이터부족 분석불가입니다.')
+                        closePreload();
+                        return ;
+                    }
+                    //if(response.is_sucess == 'no')
                     console.log(response)
                     KTApexChartsDemo.init(response.data_list,response.result_list);
                     //$('#berthDataListDiv').html(response);

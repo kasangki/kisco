@@ -121,12 +121,13 @@ class SmartOperateReport():
         print('경험적 탐색 테스트 = ', predict_ex_test)
 
         max_index = numpy.argmax(predict_ex_test)
+        self.y_final_result_sr = self.kisco_source_df.loc[max_index]
         #max_index = predict_ex_test.index(max_value)
         print('경험적 탐색 테스트 최대값 = ', max(predict_ex_test))
         print('경험적 탐색 테스트 최소값 = ', min(predict_ex_test))
         print('경험적 탐색 테스트 최종결과 = ',self.experience_search_df.loc[max_index])
         print('원천데이터 탐색 테스트 최종결과 = ', self.kisco_df.loc[max_index].to_dict())
-        self.y_final_result_sr = self.kisco_source_df.loc[max_index]
+
         print('원천데이터 탐색 테스트 최종결과 = ', self.kisco_source_df.loc[max_index].to_dict())
 
 

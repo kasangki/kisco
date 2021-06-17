@@ -52,7 +52,17 @@ class AnalyticSingleVarView(TemplateView):
         # 사분위수 분석을 위한 데이터
         quantile_analytics = QuantileAnalytics()
         quantile_target_name = target_value_code
-        quantile_analytics.get_quantile_analytics(var_name,quantile_target_name,quantile_sum_df)
+        try :
+            quantile_analytics.get_quantile_analytics(var_name,quantile_target_name,quantile_sum_df)
+        except :
+            print('예외발생')
+            context = {
+                'is_success': 'no'
+            }
+            return HttpResponse(json.dumps(context), content_type="application/json")
+
+
+
         quantile_img_list = quantile_analytics.quantile_img_list
         quantile_title_list = quantile_analytics.quantile_title_list
         print(quantile_img_list);
@@ -325,7 +335,8 @@ class AnalyticSingleVarView(TemplateView):
            #'title_list': title_list,
            #'img_list' : img_list ,
            'quantile_title_list' : quantile_title_list,
-           'quantile_img_list' : quantile_img_list
+           'quantile_img_list' : quantile_img_list,
+           'is_success': 'yes'
            # 'y_list': y_list,
            # 'data_list' : data_list,
            # 'result_list': result_list

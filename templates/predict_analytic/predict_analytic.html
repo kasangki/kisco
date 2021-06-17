@@ -75,7 +75,7 @@
                                             {% for model in model_list %}
 												<tr>
 													<td>{{ forloop.counter }}</td>
-													<td><button type="button" class="btn btn-primary" data-toggle="popover" id="btn_model_auto_start" onclick="selectModel('{{ model.target_code }}','{{ model.target_num }}','{{ model.model_name }}');" title="모델정보" data-html="true" data-content="변수목록">모델정보</button></td>
+													<td><button type="button" class="btn btn-primary" data-toggle="popover" id="btn_model_auto_start" onclick="selectModel('{{ model.target_code }}','{{ model.target_num }}','{{ model.model_name }}');" >모델정보</button></td>
                                                     <td><a href="javascript:selectModel('{{ model.target_code }}','{{ model.target_num }}','{{ model.model_name }}');">{{ model.model_name }}</a></td>
 													<td>98.5</td>
 													<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="btn_var_view" onclick="searchVarList('{{ model.target_code }}','{{ model.target_num }}');" title="변수목록" data-html="true">변수목록</button></td>
